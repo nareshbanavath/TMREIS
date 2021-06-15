@@ -5,7 +5,13 @@
 //  Created by naresh banavath on 28/05/21.
 //
 enum CoreDataEntity : String {
-  case Schools_Entity
+    case Schools_Entity
+    case HeadOfc_Entity
+    case RLC_Entity
+    case DMWO_Entity
+    case Colleges_Entity
+    case DistrictAdmin_Entity
+    case VigilanceTeam_Entity
 }
 import Foundation
 import CoreData
@@ -48,12 +54,33 @@ class CoreDataManager
     switch entityName {
     case .Schools_Entity:
       print("schools")
-      
       let schools = Schools_Entity(context: context)
       schools.strData = statStr
       saveContext()
-    default:
-      print("default")
+    case .HeadOfc_Entity:
+        let schools = HeadOfc_Entity(context: context)
+        schools.strData = statStr
+        saveContext()
+    case .RLC_Entity:
+        let schools = RLC_Entity(context: context)
+        schools.strData = statStr
+        saveContext()
+    case .DMWO_Entity:
+        let schools = DMWO_Entity(context: context)
+        schools.strData = statStr
+        saveContext()
+    case .Colleges_Entity:
+        let schools = Colleges_Entity(context: context)
+        schools.strData = statStr
+        saveContext()
+    case .DistrictAdmin_Entity:
+        let schools = DistrictAdmin_Entity(context: context)
+        schools.strData = statStr
+        saveContext()
+    case .VigilanceTeam_Entity:
+        let schools = VigilanceTeam_Entity(context: context)
+        schools.strData = statStr
+        saveContext()
     }
 //    let ptmsMaster = PTMSMaster(entity : entity , insertInto : context)
 //    ptmsMaster.taskStatuses = statStr
@@ -137,16 +164,41 @@ class CoreDataManager
                 guard let fetchResult = try context.fetch(fetchRequest) as? [NSManagedObject] else {return nil}
                // print(fetchResult.count)
                   guard fetchResult.count > 0 else {return nil}
-                let first = fetchResult.first!
+                guard let last = fetchResult.last else {return nil}
                 var data  : Data!
-                switch first {
+                switch last {
                 case is Schools_Entity:
                   let schoolCasted = fetchResult as? [Schools_Entity]
                   guard let schoolData = (schoolCasted?.first!.strData?.data(using: .utf8)) else {return nil}
                   data = schoolData
-                  
+                case is HeadOfc_Entity:
+                    let schoolCasted = fetchResult as? [HeadOfc_Entity]
+                    guard let schoolData = (schoolCasted?.first!.strData?.data(using: .utf8)) else {return nil}
+                    data = schoolData
+                case is RLC_Entity:
+                    let schoolCasted = fetchResult as? [RLC_Entity]
+                    guard let schoolData = (schoolCasted?.first!.strData?.data(using: .utf8)) else {return nil}
+                    data = schoolData
+                case is DMWO_Entity:
+                    let schoolCasted = fetchResult as? [DMWO_Entity]
+                    guard let schoolData = (schoolCasted?.first!.strData?.data(using: .utf8)) else {return nil}
+                    data = schoolData
+                case is Colleges_Entity:
+                    let schoolCasted = fetchResult as? [Colleges_Entity]
+                    guard let schoolData = (schoolCasted?.first!.strData?.data(using: .utf8)) else {return nil}
+                    data = schoolData
+                case is DistrictAdmin_Entity:
+                    let schoolCasted = fetchResult as? [DistrictAdmin_Entity]
+                    guard let schoolData = (schoolCasted?.first!.strData?.data(using: .utf8)) else {return nil}
+                    data = schoolData
+                case is VigilanceTeam_Entity:
+                    let schoolCasted = fetchResult as? [VigilanceTeam_Entity]
+                    guard let schoolData = (schoolCasted?.first!.strData?.data(using: .utf8)) else {return nil}
+                    data = schoolData
+                    
+            
                 default:
-                  break;
+                    return nil
                 }
              
 

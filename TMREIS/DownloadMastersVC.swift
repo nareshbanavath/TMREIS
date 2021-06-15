@@ -8,6 +8,16 @@
 import UIKit
 
 class DownloadMastersVC: UIViewController {
+    @IBOutlet var dashContainerViews: [UIView]!
+    {
+        didSet{
+            dashContainerViews.forEach { (view) in
+                view.layer.cornerRadius = view.bounds.height / 2
+                view.backgroundColor = .systemGray5
+            }
+        }
+    }
+    
   @IBOutlet weak var districtAdmicBtn: UIButton!
   
   @IBOutlet weak var collegesBtn: UIButton!
@@ -15,7 +25,9 @@ class DownloadMastersVC: UIViewController {
   @IBOutlet weak var dwcBtn: UIButton!
   @IBOutlet weak var recBtn: UIButton!
   @IBOutlet weak var headOfficeDwdBtn: UIButton!
-  override func viewDidLoad() {
+  @IBOutlet weak var vigilanceDwdBtn: UIButton!
+    
+    override func viewDidLoad() {
     super.viewDidLoad()
     title = "Download Masters"
     setupBackButton()
@@ -25,46 +37,64 @@ class DownloadMastersVC: UIViewController {
 
    func setupUI()
    {
-    let dwBtns = [headOfficeDwdBtn , recBtn , dwcBtn , schoolsBtn ,collegesBtn , districtAdmicBtn]
-    let entities : [CoreDataEntity] = [.Schools_Entity]
-    for entity in entities
+    let dwBtns = [headOfficeDwdBtn , recBtn , dwcBtn , schoolsBtn ,collegesBtn , districtAdmicBtn , vigilanceDwdBtn ]
+    let entities : [CoreDataEntity] =  [.HeadOfc_Entity,.RLC_Entity,.DMWO_Entity,.Schools_Entity,.Colleges_Entity,.DistrictAdmin_Entity,.VigilanceTeam_Entity]
+    for (index ,entity) in entities.enumerated()
     {
       if CoreDataManager.manager.getEntityData(type: ContactDetailsStruct.self, entityName: entity) != nil
       {
-        
+        dwBtns[index]?.setTitle("Re Download", for: UIControl.State())
+        dwBtns[index]?.setTitleColor(UIColor.systemOrange, for: UIControl.State())
+      }else{
+        dwBtns[index]?.setTitle("Download", for: UIControl.State())
       }
     }
-    
-    
-    
-    if let data = CoreDataManager.manager.getEntityData(type: ContactDetailsStruct.self, entityName: .Schools_Entity)
-    {
-      schoolsBtn.setTitle("Re Download", for: .normal)
-    }
-    else
-    {
-      schoolsBtn.setTitle("Download", for: .normal)
-    }
+//
+//
+//
+//    if CoreDataManager.manager.getEntityData(type: ContactDetailsStruct.self, entityName: .Schools_Entity) != nil
+//    {
+//      schoolsBtn.setTitle("Re Download", for: .normal)
+//      schoolsBtn.setTitleColor(.systemOrange, for: .normal)
+//    }
+//    else
+//    {
+//      schoolsBtn.setTitle("Download", for: .normal)
+//    }
    }
   @IBAction func downloadBtnClicked(_ sender: UIButton) {
     print(sender.tag)
     switch sender.tag
     {
-    case 1 : break
+    case 1 :
       //Head Office Clicked
+        debugPrint("Head Office Taped")
+        getContactDetails(schoolTypeId: "2", entityName: .HeadOfc_Entity)
     
-    case 2 : break
-      // REC clicked
-    case 3 : break
+    case 2 :
+      // RLC clicked
+        debugPrint("RLC Taped")
+        getContactDetails(schoolTypeId: "3", entityName: .RLC_Entity)
+    case 3 :
       //DWC Clicked
+        debugPrint("DWC Taped")
+        getContactDetails(schoolTypeId: "4", entityName: .DMWO_Entity)
     case 4 :
       //Schools Clicked
-      print("school Taped")
+        debugPrint("School tapped")
       getContactDetails(schoolTypeId: "1", entityName: .Schools_Entity)
-    case 5 : break
+    case 5 :
       //Colleges Clicked
-    case 6 : break
+        debugPrint("Colleges Taped")
+        getContactDetails(schoolTypeId: "5", entityName: .Colleges_Entity)
+    case 6 :
       //District Admin Clicked
+        debugPrint("district Admin Taped")
+        getContactDetails(schoolTypeId: "7", entityName: .DistrictAdmin_Entity)
+    case 7 : 
+      //Vigiliance
+        debugPrint("Vigiliance Taped")
+        getContactDetails(schoolTypeId: "6", entityName: .VigilanceTeam_Entity)
     default :
       break
       
@@ -91,8 +121,12 @@ class DownloadMastersVC: UIViewController {
                     //store in coredata
                     CoreDataManager.manager.saveEntityData(data: contactDetails, entityName: entityName)
                   //  print(CoreDataManager.manager.getEntityData(type: ContactDetailsStruct.self, entityName: .Schools_Entity)!)
-  
-                  }
+                   }else {
+                    self?.showAlert(message: "No Records Found") {
+                         // self?.backButtonPressed()
+                      }
+                   }
+            self?.setupUI()
           case .failure(let err):
               print(err)
               DispatchQueue.main.async {

@@ -7,16 +7,17 @@
 
 import UIKit
 
-class OfficerVC: UIViewController {
+class OfficerVC: UIViewController , UITextFieldDelegate{
   @IBOutlet weak var mobileNumberTF: UITextField!
   override func viewDidLoad() {
     super.viewDidLoad()
     
     self.navigationController?.isNavigationBarHidden = true
+    mobileNumberTF.delegate = self
   }
   
   @IBAction func loginbtnClick(_ sender: Any) {
-    if  loginValidationswithmobileNo(){
+    if loginValidationswithmobileNo(){
       UserDefaultVars.userType = "O"
       self.OfficerLoginWS()
     }
@@ -70,6 +71,17 @@ class OfficerVC: UIViewController {
     guard mobileNumberTF.text?.trim().count == 10 else {self.showAlert(message: "Please enter valid mobile number");return false}
     return true
   }
+    
+  //MARK:- TextField Delegate
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let maxLength = 10
+        let currentString: NSString = (textField.text ?? "") as NSString
+        let newString: NSString =
+            currentString.replacingCharacters(in: range, with: string) as NSString
+        return newString.length <= maxLength
+        
+    }
+    
 }
 
 

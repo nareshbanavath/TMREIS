@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20E241" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="HeadOffice_Entity" representedClassName="HeadOffice_Entity" syncable="YES" codeGenerationType="class">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20C69" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Colleges_Entity" representedClassName="Colleges_Entity" syncable="YES" codeGenerationType="class">
+        <attribute name="strData" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="DistrictAdmin_Entity" representedClassName="DistrictAdmin_Entity" syncable="YES" codeGenerationType="class">
+        <attribute name="strData" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="DMWO_Entity" representedClassName="DMWO_Entity" syncable="YES" codeGenerationType="class">
+        <attribute name="strData" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="HeadOfc_Entity" representedClassName="HeadOfc_Entity" syncable="YES" codeGenerationType="class">
+        <attribute name="strData" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="RLC_Entity" representedClassName="RLC_Entity" syncable="YES" codeGenerationType="class">
         <attribute name="strData" optional="YES" attributeType="String"/>
     </entity>
     <entity name="Schools_Entity" representedClassName="Schools_Entity" syncable="YES" codeGenerationType="class">
         <attribute name="strData" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="VigilanceTeam_Entity" representedClassName="VigilanceTeam_Entity" syncable="YES" codeGenerationType="class">
+        <attribute name="strData" optional="YES" attributeType="String"/>
+    </entity>
     <elements>
-        <element name="HeadOffice_Entity" positionX="-63" positionY="-18" width="128" height="44"/>
+        <element name="HeadOfc_Entity" positionX="-63" positionY="-18" width="128" height="44"/>
         <element name="Schools_Entity" positionX="-63" positionY="-18" width="128" height="44"/>
+        <element name="RLC_Entity" positionX="-63" positionY="-9" width="128" height="44"/>
+        <element name="DMWO_Entity" positionX="-54" positionY="0" width="128" height="44"/>
+        <element name="Colleges_Entity" positionX="-36" positionY="9" width="128" height="44"/>
+        <element name="DistrictAdmin_Entity" positionX="-18" positionY="27" width="128" height="44"/>
+        <element name="VigilanceTeam_Entity" positionX="0" positionY="45" width="128" height="44"/>
     </elements>
 </model>

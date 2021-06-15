@@ -32,7 +32,7 @@ func baseUrl1() -> String {
     } else if ENV == STAG { // staging
         return   ""
     } else if ENV == DEMO { // Testing
-        return "http://uat2.cgg.gov.in/tmreis/api/web/"
+        return "http://uat9.cgg.gov.in/tmreis/api/web/"
     } else if ENV == DEV { // Development
         return ""
     } else { // Local Server

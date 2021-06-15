@@ -19,7 +19,9 @@ class SinglecontactDetailsVC: UIViewController {
   @IBOutlet weak var phoneNumberlb: UILabel!
   
   @IBOutlet weak var mailIdLb: UILabel!
-  
+    @IBOutlet weak var editBtn: UIButton!
+    @IBOutlet weak var deleteBtn: UIButton!
+    
   
   
   
@@ -50,12 +52,24 @@ class SinglecontactDetailsVC: UIViewController {
   }
   
   @IBAction func callBtnClicked(_ sender: UIButton) {
+    if let phoneNumber = contactDetails?.mobileNo
+    {
+        self.callToNumber(phoneNo: phoneNumber)
+    }
   }
   
   @IBAction func smsBtnClicked(_ sender: UIButton) {
+    if let phoneNumber = contactDetails?.mobileNo
+    {
+        self.smsToNumber(phoneNo: phoneNumber)
+    }
   }
   
   @IBAction func whatsAppClicked(_ sender: UIButton) {
+    if let phoneNumber = contactDetails?.mobileNo
+    {
+        self.openWhatsApp(phoneNo: phoneNumber)
+    }
   }
   
   
