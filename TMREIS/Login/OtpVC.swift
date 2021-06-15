@@ -13,7 +13,7 @@ class OtpVC: UIViewController {
     @IBOutlet weak var mobilenoLb: UILabel!
     var otp:String?
     var mobileNumber:String?
-    var model:LoginModel?
+    var model:LoginStruct?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
@@ -45,19 +45,19 @@ class OtpVC: UIViewController {
         guard let mobileNumberIs = mobileNumber?.AESEncryption() else {return}
 
     guard Reachability.isConnectedToNetwork() else {self.showAlert(message: noInternet);return}
-        NetworkRequest.makeRequest(type: LoginModel.self, urlRequest: Router.loginWithMobileNo(mobileNumber: mobileNumberIs , deviceId: UserDefaultVars.deviceID ?? "", IMEI: UserDefaultVars.deviceID ?? "", fcmToken: UserDefaultVars.fcmToken ?? "", deviceType: "IOS"), completion: { [weak self](result) in
+      NetworkRequest.makeRequest(type: LoginStruct.self, urlRequest: Router.loginWithMobileNo(usertype: "C", mobileNumber: mobileNumberIs , deviceId: UserDefaultVars.deviceID ?? "", IMEI: UserDefaultVars.deviceID ?? "", fcmToken: UserDefaultVars.loginData?.data?.fcmtoken ?? "", deviceType: "IOS"), completion: { [weak self](result) in
                switch result{
                case  .success(let data):
                    self?.model = data
                    let statuscode = data.statusCode
-                   let mpin = data.data.mpin
-                let userName = data.data.userName
+                let mpin = data.data?.mpin
+                let userName = data.data?.userName
                    UserDefaults.standard.set(userName, forKey:"userName")
                    if statuscode == 200 && mpin == "00" {
-                        self?.showAlert(message: data.statusMessage)
-                        self?.otp = data.data.otpMobile
+                    self?.showAlert(message: data.statusMessage ?? serverNotResponding)
+                    self?.otp = data.data?.otpMobile
                    } else{
-                    self?.showAlert(message: data.statusMessage)
+                    self?.showAlert(message: data.statusMessage ?? serverNotResponding)
                 }
                case .failure(let err):
                    print(err)

@@ -7,11 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		040B328A266CEF290084660A /* FilterContactVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040B3289266CEF290084660A /* FilterContactVC.swift */; };
+		04419B1F2668D21B008F83F3 /* UIViewController + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04419B1E2668D21B008F83F3 /* UIViewController + Extension.swift */; };
+		04485463265FB56D00514546 /* String + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04485462265FB56D00514546 /* String + Extension.swift */; };
+		0448546826609EB900514546 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0448546726609EB900514546 /* CoreDataManager.swift */; };
+		0448546B2660F38A00514546 /* DownloadMastersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0448546A2660F38A00514546 /* DownloadMastersVC.swift */; };
+		044854742660F87200514546 /* TMREISDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 044854722660F87200514546 /* TMREISDataModel.xcdatamodeld */; };
+		04CC883226562F7F00856D28 /* HomeTBCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CC883126562F7F00856D28 /* HomeTBCell.swift */; };
+		04EA36E62669FA5A007355EB /* DashboardVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EA36E52669FA5A007355EB /* DashboardVC.swift */; };
 		505FB2BFAD5B4EC544BDC7B1 /* Pods_TMREIS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FB32CBE2B570F2318019D36 /* Pods_TMREIS.framework */; };
 		652219462636DF54006B8533 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652219452636DF54006B8533 /* AppDelegate.swift */; };
 		652219482636DF54006B8533 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652219472636DF54006B8533 /* SceneDelegate.swift */; };
-		6522194A2636DF54006B8533 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652219492636DF54006B8533 /* ViewController.swift */; };
-		6522194D2636DF54006B8533 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6522194B2636DF54006B8533 /* Main.storyboard */; };
 		6522194F2636DF54006B8533 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6522194E2636DF54006B8533 /* Assets.xcassets */; };
 		652219522636DF54006B8533 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 652219502636DF54006B8533 /* LaunchScreen.storyboard */; };
 		652B92272637D1F700DD5DB0 /* SigninSwipeupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652B92262637D1F700DD5DB0 /* SigninSwipeupVC.swift */; };
@@ -44,13 +50,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		040B3289266CEF290084660A /* FilterContactVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterContactVC.swift; sourceTree = "<group>"; };
+		04419B1E2668D21B008F83F3 /* UIViewController + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + Extension.swift"; sourceTree = "<group>"; };
+		04485462265FB56D00514546 /* String + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + Extension.swift"; sourceTree = "<group>"; };
+		0448546726609EB900514546 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		0448546A2660F38A00514546 /* DownloadMastersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadMastersVC.swift; sourceTree = "<group>"; };
+		044854732660F87200514546 /* TMREISDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TMREISDataModel.xcdatamodel; sourceTree = "<group>"; };
+		04CC883126562F7F00856D28 /* HomeTBCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTBCell.swift; sourceTree = "<group>"; };
+		04EA36E52669FA5A007355EB /* DashboardVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardVC.swift; sourceTree = "<group>"; };
 		34B21B2AA50351B6D8885914 /* Pods-TMREIS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TMREIS.release.xcconfig"; path = "Target Support Files/Pods-TMREIS/Pods-TMREIS.release.xcconfig"; sourceTree = "<group>"; };
 		3FB32CBE2B570F2318019D36 /* Pods_TMREIS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TMREIS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		652219422636DF54006B8533 /* TMREIS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TMREIS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		652219452636DF54006B8533 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		652219472636DF54006B8533 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		652219492636DF54006B8533 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		6522194C2636DF54006B8533 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6522194E2636DF54006B8533 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		652219512636DF54006B8533 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		652219532636DF54006B8533 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -96,6 +108,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04485461265FB55200514546 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				04485462265FB56D00514546 /* String + Extension.swift */,
+				04419B1E2668D21B008F83F3 /* UIViewController + Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		157148E0C6685BB466DCAA1E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -125,6 +146,7 @@
 		652219442636DF54006B8533 /* TMREIS */ = {
 			isa = PBXGroup;
 			children = (
+				04485461265FB55200514546 /* Extensions */,
 				6545CB3B263AB61A00DDECAE /* OfficerDashboard */,
 				652B92832637F9F600DD5DB0 /* CitizenDashboard */,
 				652B925B2637D99F00DD5DB0 /* NetworkManager */,
@@ -132,11 +154,12 @@
 				652B92252637D1DD00DD5DB0 /* Login */,
 				652219452636DF54006B8533 /* AppDelegate.swift */,
 				652219472636DF54006B8533 /* SceneDelegate.swift */,
-				652219492636DF54006B8533 /* ViewController.swift */,
-				6522194B2636DF54006B8533 /* Main.storyboard */,
 				6522194E2636DF54006B8533 /* Assets.xcassets */,
 				652219502636DF54006B8533 /* LaunchScreen.storyboard */,
 				652219532636DF54006B8533 /* Info.plist */,
+				0448546726609EB900514546 /* CoreDataManager.swift */,
+				0448546A2660F38A00514546 /* DownloadMastersVC.swift */,
+				044854722660F87200514546 /* TMREISDataModel.xcdatamodeld */,
 			);
 			path = TMREIS;
 			sourceTree = "<group>";
@@ -199,6 +222,9 @@
 				BE3C3F1A26403AD6004DC1B8 /* AddmemberVC.swift */,
 				BE3C3F1D26403AF4004DC1B8 /* BroadcastVC.swift */,
 				BE51771F26429C01003B4816 /* SinglecontactDetailsVC.swift */,
+				04CC883126562F7F00856D28 /* HomeTBCell.swift */,
+				04EA36E52669FA5A007355EB /* DashboardVC.swift */,
+				040B3289266CEF290084660A /* FilterContactVC.swift */,
 			);
 			path = OfficerDashboard;
 			sourceTree = "<group>";
@@ -275,7 +301,6 @@
 				652B92852637FA1100DD5DB0 /* Dashboard.storyboard in Resources */,
 				652219522636DF54006B8533 /* LaunchScreen.storyboard in Resources */,
 				6522194F2636DF54006B8533 /* Assets.xcassets in Resources */,
-				6522194D2636DF54006B8533 /* Main.storyboard in Resources */,
 				6545CB3D263AB63800DDECAE /* Officer.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -332,13 +357,18 @@
 				652B926C2637DD4700DD5DB0 /* Router.swift in Sources */,
 				BE3C3F1B26403AD6004DC1B8 /* AddmemberVC.swift in Sources */,
 				BE51772026429C01003B4816 /* SinglecontactDetailsVC.swift in Sources */,
+				04485463265FB56D00514546 /* String + Extension.swift in Sources */,
+				04EA36E62669FA5A007355EB /* DashboardVC.swift in Sources */,
 				6545CB40263AB6F600DDECAE /* HomeVC.swift in Sources */,
+				044854742660F87200514546 /* TMREISDataModel.xcdatamodeld in Sources */,
 				652B92302637D5A500DD5DB0 /* Constants.swift in Sources */,
-				6522194A2636DF54006B8533 /* ViewController.swift in Sources */,
 				652B92752637E71200DD5DB0 /* OfficerVC.swift in Sources */,
 				652B925D2637D9BC00DD5DB0 /* Networkrequest.swift in Sources */,
 				652B929B2638221900DD5DB0 /* OTPTextField.swift in Sources */,
+				040B328A266CEF290084660A /* FilterContactVC.swift in Sources */,
+				04419B1F2668D21B008F83F3 /* UIViewController + Extension.swift in Sources */,
 				652219462636DF54006B8533 /* AppDelegate.swift in Sources */,
+				04CC883226562F7F00856D28 /* HomeTBCell.swift in Sources */,
 				652B929E26382C5E00DD5DB0 /* CitizenDashboardFormVC.swift in Sources */,
 				652B926F2637DED100DD5DB0 /* Reachability.swift in Sources */,
 				652B92522637D67000DD5DB0 /* Stroryboard.swift in Sources */,
@@ -346,6 +376,7 @@
 				652B92272637D1F700DD5DB0 /* SigninSwipeupVC.swift in Sources */,
 				652219482636DF54006B8533 /* SceneDelegate.swift in Sources */,
 				652B92882637FA3F00DD5DB0 /* CitizenDashboardVC.swift in Sources */,
+				0448546B2660F38A00514546 /* DownloadMastersVC.swift in Sources */,
 				BE3C3F1E26403AF4004DC1B8 /* BroadcastVC.swift in Sources */,
 				652B9298263821A900DD5DB0 /* OTPStackView.swift in Sources */,
 				BE51A56D263E9CB4004C26AD /* MenuCell.swift in Sources */,
@@ -353,6 +384,7 @@
 				652B929526380B9900DD5DB0 /* UpdateMpinVC.swift in Sources */,
 				652B929226380B8600DD5DB0 /* SetMpinVC.swift in Sources */,
 				BE51A574263EA727004C26AD /* ContactsCell.swift in Sources */,
+				0448546826609EB900514546 /* CoreDataManager.swift in Sources */,
 				652B92722637E6FF00DD5DB0 /* CitizenVC.swift in Sources */,
 				BE16FDAC263D2A5D00654713 /* SplashVC.swift in Sources */,
 				BE51A570263EA490004C26AD /* NotificationsVC.swift in Sources */,
@@ -362,14 +394,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		6522194B2636DF54006B8533 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6522194C2636DF54006B8533 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		652219502636DF54006B8533 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -561,6 +585,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		044854722660F87200514546 /* TMREISDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				044854732660F87200514546 /* TMREISDataModel.xcdatamodel */,
+			);
+			currentVersion = 044854732660F87200514546 /* TMREISDataModel.xcdatamodel */;
+			path = TMREISDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 6522193A2636DF53006B8533 /* Project object */;
 }

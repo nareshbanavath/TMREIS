@@ -51,56 +51,52 @@ class SetMpinVC: UIViewController {
         let vc = storyboards.Login.instance.instantiateViewController(withIdentifier: "UpdateMpinVC") as! UpdateMpinVC
         self.navigationController?.pushViewController(vc, animated: true)
     }
-//    func GenerateMpinWS() {
-   // guard Reachability.isConnectedToNetwork() else {self.showFailureAlert(message: noInternet);return}
-//        NetworkRequest.makeRequest(type:Mpinmodel.self, urlRequest: Router.genearteMpin(userName: UserDefaultVars.username, mpin: mpinStackView.getOTP()), completion: { [weak self](result) in
-//            switch result{
-//            case  .success(let data):
-//                self?.model = data
-//                let statusMsg = data.statusMessage
-//                // let mpin = data.mPin
-//                //  print(self?.model)
-//                //  print(data)
-//                if statusMsg == "Your MPin set/generated successfully" || data.statusCode == 200 {
-//                    if let resMpin = data.mPin
-//                    {
-//                        UserDefaults.standard.set(resMpin, forKey:"mpin")
-//                    }
-//
-//                    let vc = self?.storyboard?.instantiateViewController(withIdentifier: "WelcomeMPINViewController") as! WelcomeMPINViewController
-//                    self?.navigationController?.pushViewController(vc, animated: true)
-//
-//                }  else if data.statusCode == 401 {
-//                    self?.showFailureAlert(message: "Session Expired , Please login again!",
-//                    okCompletion: {
+    func GenerateMpinWS() {
+    guard Reachability.isConnectedToNetwork() else {self.showAlert(message: noInternet);return}
+      NetworkRequest.makeRequest(type:Mpinmodel.self, urlRequest: Router.genearteMpin(userName: UserDefaultVars.loginData?.data?.userName ?? "", mpin: mpinStackView.getOTP()), completion: { [weak self](result) in
+            switch result{
+            case  .success(let data):
+               // self?.model = data
+                let statusMsg = data.statusMessage
+                // let mpin = data.mPin
+                //  print(self?.model)
+                //  print(data)
+                if statusMsg == "Your MPin set/generated successfully" || data.statusCode == 200 {
+                    if let resMpin = data.mPin
+                    {
+                        UserDefaults.standard.set(resMpin, forKey:"mpin")
+                    }
+
+                    let vc = self?.storyboard?.instantiateViewController(withIdentifier: "UpdateMpinVC") as! UpdateMpinVC
+                    self?.navigationController?.pushViewController(vc, animated: true)
+
+                }  else if data.statusCode == 401 {
+                    self?.showFailureAlert(message: "Session Expired , Please login again!",
+                    okCompletion: {
 //                        // resetDefaults()
 //                        let vc = storyboards.Main.instance.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
 //                        let navCOntroller = UINavigationController(rootViewController: vc)
 //                        navCOntroller.navigationBar.isHidden = true
 //                        self?.view.window?.rootViewController = navCOntroller
 //                        self?.view.window?.becomeKey()
-//                    })
-//                }
-//                    else {
-//                    self?.showFailureAlert(message: data.statusMessage ?? serverNotResponding)
-//                }
-//            case .failure(let err):
-//                print(err)
-//                self?.showFailureAlert(message: serverNotResponding)
-//            }
-//
-//        })
-//
-//    }
+                    })
+                }
+                    else {
+                    self?.showFailureAlert(message: data.statusMessage ?? serverNotResponding)
+                }
+            case .failure(let err):
+                print(err)
+                self?.showFailureAlert(message: serverNotResponding)
+            }
+
+        })
+
+    }
     func isDataValid()->Bool {
-        if mpinStackView.getOTP().count < 4 {
-            self.showAlert(message:"Please enter 4-Digit MPIN")
-            return false
-        } else if confirmMpinStackView.getOTP().count < 4 {
-            self.showAlert(message:"Please Confirm 4 digit MPIN")
-            return false
+      guard mpinStackView.getOTP().count >= 4 else { self.showAlert(message:"Please enter 4-Digit MPIN");return false}
+      guard confirmMpinStackView.getOTP().count >= 4 else {self.showAlert(message:"Please Confirm 4 digit MPIN");return false
         }
-        else if mpinStackView.getOTP() != confirmMpinStackView.getOTP()
+      guard mpinStackView.getOTP() == confirmMpinStackView.getOTP() else
         {
             self.showAlert(message: "MPIN and Confirm MPIN not matched, Please Try again")
             return false
@@ -109,4 +105,18 @@ class SetMpinVC: UIViewController {
         return true
     }
     
+}
+struct Mpinmodel : Codable {
+    let employeeinfo : String?
+    let mPin : String?
+    let statusMessage : String?
+    let statusCode : Int?
+
+    enum CodingKeys: String, CodingKey {
+
+        case employeeinfo = "employeeinfo"
+        case mPin = "mPin"
+        case statusMessage = "statusMessage"
+        case statusCode = "statusCode"
+    }
 }

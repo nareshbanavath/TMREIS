@@ -54,17 +54,19 @@ class UpdateMpinVC: UIViewController {
     func validateMpinWS(){
        let mpin = self.mpinstackView.getOTP().AESEncryption()
        guard Reachability.isConnectedToNetwork() else {self.showAlert(message: noInternet);return}
-        NetworkRequest.makeRequest(type: mpinValidation.self, urlRequest: Router.validateMpin(userId: UserDefaultVars.userid ?? "", mpin: mpin ?? "", fcmToken: UserDefaultVars.fcmToken ?? "")) { [weak self](result) in
+      let userID = String(UserDefaultVars.loginData?.data?.userID ?? 0)
+      NetworkRequest.makeRequest(type: mpinValidation.self, urlRequest: Router.validateMpin(userId: userID , mpin: mpin ?? "", fcmToken: UserDefaultVars.loginData?.data?.fcmtoken ?? "")) { [weak self](result) in
 
             switch result{
             case .success(let data):
                // self?.mpinmodel = data
                 print(data)
+              UserDefaultVars.RolesArray = data.data.role
                  let statusCode = data.statusCode
                 switch statusCode {
                 case 200:
                     UserDefaultVars.RolesArray = data.data.role
-                    if UserDefaultVars.isCitizen == true {
+                    if UserDefaultVars.userType == "C" { // Citezen
                         let vc = storyboards.Dashboard.instance.instantiateViewController(withIdentifier: "CitizenDashboardVC") as! CitizenDashboardVC
                         self?.navigationController?.pushViewController(vc, animated: true)
                 } else {

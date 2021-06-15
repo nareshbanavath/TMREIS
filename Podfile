@@ -11,8 +11,9 @@ target 'TMREIS' do
   pod 'SwipeMenuViewController'
   pod 'SideMenuSwift'
   pod 'IQKeyboardManagerSwift'
-  pod 'SDWebImage' 
+  #pod 'SDWebImage' 
   pod 'Floaty', '~> 4.2.0'
+  pod 'DropDown'
 
 
 

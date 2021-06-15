@@ -8,22 +8,55 @@
 import UIKit
 
 class SinglecontactDetailsVC: UIViewController {
-    var contactDetails:ContactDetailsStruct.Contact?
+  
+  @IBOutlet weak var employeeName: UILabel!
+  @IBOutlet weak var designationLb: UILabel!
+  
+  @IBOutlet weak var officeLb: UILabel!
+  
+  @IBOutlet weak var locationLb: UILabel!
+  
+  @IBOutlet weak var phoneNumberlb: UILabel!
+  
+  @IBOutlet weak var mailIdLb: UILabel!
+  
+  
+  
+  
+  var contactDetails:ContactDetailsStruct.Contact?
     override func viewDidLoad() {
         super.viewDidLoad()
-
+      employeeName.text = contactDetails?.empName
+      designationLb.text = contactDetails?.empDesignation
+      officeLb.text = contactDetails?.schoolTypeName
+      locationLb.text = contactDetails?.district
+      phoneNumberlb.text  = contactDetails?.mobileNo
+      mailIdLb.text = contactDetails?.emailID
+      
         // Do any additional setup after loading the view.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+  
+  @IBAction func closeBtnClicked(_ sender: UIButton) {
+    self.dismiss(animated: true, completion: nil)
+  }
+  
+  @IBAction func editBtnClicked(_ sender: UIButton) {
+  }
+  
+  @IBAction func deleteBtnClicked(_ sender: UIButton) {
+  }
+  
+  @IBAction func mailBtnClicked(_ sender: UIButton) {
+  }
+  
+  @IBAction func callBtnClicked(_ sender: UIButton) {
+  }
+  
+  @IBAction func smsBtnClicked(_ sender: UIButton) {
+  }
+  
+  @IBAction func whatsAppClicked(_ sender: UIButton) {
+  }
+  
+  
 }

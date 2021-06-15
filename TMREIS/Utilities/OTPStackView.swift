@@ -32,10 +32,10 @@ class OTPStackView: UIStackView {
     var isSecureTextEntry = true
     //Colors
 //    let inactiveFieldBorderColor = UIColor(white: 1, alpha: 0.3)
-    let inactiveFieldBorderColor = UIColor.clear
+  let inactiveFieldBorderColor = UIColor.black
   //  let textBackgroundColor = getThemeColor()
    
-    let activeFieldBorderColor = UIColor.clear
+  let activeFieldBorderColor = UIColor(named: "Logogreen")
     var remainingStrStack: [String] = []
     
     required init(coder: NSCoder) {
@@ -89,7 +89,7 @@ class OTPStackView: UIStackView {
         textField.isSecureTextEntry = isSecureTextEntry
         textField.layer.cornerRadius = 5
         textField.layer.borderWidth = 2
-        textField.layer.borderColor = inactiveFieldBorderColor.cgColor
+      textField.layer.borderColor = inactiveFieldBorderColor.cgColor
         textField.keyboardType = .numberPad
         textField.autocorrectionType = .yes
         textField.textContentType = .none
@@ -144,15 +144,15 @@ extension OTPStackView: UITextFieldDelegate {
         
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if showsWarningColor {
-            setAllFieldColor(color: inactiveFieldBorderColor)
+          setAllFieldColor(color: inactiveFieldBorderColor)
             showsWarningColor = false
         }
-        textField.layer.borderColor = activeFieldBorderColor.cgColor
+      textField.layer.borderColor = activeFieldBorderColor?.cgColor
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         checkForValidity()
-        textField.layer.borderColor = inactiveFieldBorderColor.cgColor
+      textField.layer.borderColor = inactiveFieldBorderColor.cgColor
     }
     
     //switches between OTPTextfields

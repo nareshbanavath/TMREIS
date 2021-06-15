@@ -6,15 +6,6 @@
 //
 
 import Foundation
-//
-//  Router.swift
-//  Virtuo
-//
-//  Created by IOSuser3 on 19/08/20.
-//  Copyright © 2020 CGG. All rights reserved.
-//
-
-import Foundation
 import Alamofire
 import UIKit
 
@@ -65,141 +56,152 @@ func getVersion() -> String
 
 enum Router:URLRequestConvertible{
   //  case login(username : String , password : String, deviceId: String, IMEI: String,fcmToken: String ,deviceType:String)
-    case versionCheck
-    case loginWithMobileNo(mobileNumber : String,deviceId: String, IMEI: String, fcmToken: String,deviceType: String)
-    case validateMpin(userId:String, mpin:String , fcmToken:String)
-    case getContactDetails
-   // case genearteMpin(userName: String, mpin:String)
+  case versionCheck
+  case genearteMpin(userName: String, mpin:String)
+  case loginWithMobileNo(usertype : String ,mobileNumber : String,deviceId: String, IMEI: String, fcmToken: String,deviceType: String)
+  case validateMpin(userId:String, mpin:String , fcmToken:String)
+  case getContactDetails(schoolTypeId : String)
+  // case genearteMpin(userName: String, mpin:String)
   //  case forgotMpin(userName:String, mpin:String)
-    
-    
-    var method:HTTPMethod{
-        switch self {
-        //loginWithUserName
-//        case .login :
-//            return .post
-        //loginWithMobileNumber
-        case .loginWithMobileNo  :
-            return .get
-        //GenerateMpin
-//        case .genearteMpin:
-//            return .get
-//        // forgotempin
-//        case .forgotMpin:
-//            return .get
-        //version check
-        case .versionCheck:
-            return .get
-        case .validateMpin:
-            return .get
-        case .getContactDetails:
-            return .get
-        }
+  
+  
+  var method:HTTPMethod{
+    switch self {
+    //loginWithUserName
+    //        case .login :
+    //            return .post
+    //loginWithMobileNumber
+    case .loginWithMobileNo , .genearteMpin :
+      return .get
+    //GenerateMpin
+    //        case .genearteMpin:
+    //            return .get
+    //        // forgotempin
+    //        case .forgotMpin:
+    //            return .get
+    //version check
+    case .versionCheck:
+      return .get
+    case .validateMpin:
+      return .post
+    case .getContactDetails:
+      return .get
     }
-    var path:String {
-        switch self {
-//        //Login
-//        case .login:
-//            return "web/userVerification"
-        //loginWithMobileNumber
-        case .loginWithMobileNo:
-            return "userVerification"
-        // generatempin
-//        case .genearteMpin:
-//            return "updatingMpin/webApp"
-//        // forgotempin
-//        case .forgotMpin:
-//            return "forgotMpin/webApp"
-        case .versionCheck:
-            return "api/web/getCurrentAppVersion"
-        case .validateMpin:
-            return "mpinVerification"
-        case .getContactDetails:
-            return "api/web/getStaffContactDetails"
-        }
+  }
+  var path:String {
+    switch self {
+    case .genearteMpin:
+        return "updatingMpin/webApp"
+    case .loginWithMobileNo:
+      return "userVerification"
+    // generatempin
+    //        case .genearteMpin:
+    //            return "updatingMpin/webApp"
+    //        // forgotempin
+    //        case .forgotMpin:
+    //            return "forgotMpin/webApp"
+    case .versionCheck:
+      return "api/web/getCurrentAppVersion"
+    case .validateMpin:
+      return "mpinVerification"
+    case .getContactDetails:
+      return "getStaffContactDetails"
     }
-    func asURLRequest() throws -> URLRequest {
-        let url = try baseUrl.asURL()
-        var urlRequest = URLRequest(url: url.appendingPathComponent(path))
+  }
+  func asURLRequest() throws -> URLRequest {
+    let url = try baseUrl.asURL()
+    var urlRequest = URLRequest(url: url.appendingPathComponent(path))
+    urlRequest.httpMethod = method.rawValue
+    urlRequest.timeoutInterval = TimeInterval(urlRequestTimeOutInterval)
+    switch self {
+    //Login
+    //        case .login (let username , let password , let deviceId , let IMEI,let fcmToken, let deviceType):
+    //            let pathString = path
+    //            urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
+    //            urlRequest.setValue(username, forHTTPHeaderField: "userName")
+    //            urlRequest.setValue(password, forHTTPHeaderField: "password")
+    //            urlRequest.setValue(deviceId, forHTTPHeaderField: "deviceId")
+    //            urlRequest.setValue(IMEI, forHTTPHeaderField: "IMEI")
+    //            urlRequest.setValue(fcmToken, forHTTPHeaderField: "fcmToken")
+    //            urlRequest.setValue(deviceType, forHTTPHeaderField: "deviceType")
+    //            urlRequest.httpMethod = method.rawValue
+    //            urlRequest = try JSONEncoding.default.encode(urlRequest)
+    //            print(urlRequest)
+    //loginWithMobileNumber
+    case .genearteMpin(let userName,let mpin):
+        let pathString = path
+        urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
+        urlRequest.setValue(userName, forHTTPHeaderField: "userName")
+        urlRequest.setValue(mpin, forHTTPHeaderField: "mpin")
         urlRequest.httpMethod = method.rawValue
-        urlRequest.timeoutInterval = TimeInterval(urlRequestTimeOutInterval)
-        switch self {
-        //Login
-//        case .login (let username , let password , let deviceId , let IMEI,let fcmToken, let deviceType):
-//            let pathString = path
-//            urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
-//            urlRequest.setValue(username, forHTTPHeaderField: "userName")
-//            urlRequest.setValue(password, forHTTPHeaderField: "password")
-//            urlRequest.setValue(deviceId, forHTTPHeaderField: "deviceId")
-//            urlRequest.setValue(IMEI, forHTTPHeaderField: "IMEI")
-//            urlRequest.setValue(fcmToken, forHTTPHeaderField: "fcmToken")
-//            urlRequest.setValue(deviceType, forHTTPHeaderField: "deviceType")
-//            urlRequest.httpMethod = method.rawValue
-//            urlRequest = try JSONEncoding.default.encode(urlRequest)
-//            print(urlRequest)
-        //loginWithMobileNumber
-        case .loginWithMobileNo (let mobileNumber ,  let deviceId , let IMEI,let fcmToken, let deviceType):
-            let pathString = path
-            urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
-            urlRequest.setValue(mobileNumber, forHTTPHeaderField: "mobileNumber")
-            urlRequest.setValue(deviceId, forHTTPHeaderField: "deviceId")
-            urlRequest.setValue(IMEI, forHTTPHeaderField: "IMEI")
-            urlRequest.setValue(fcmToken, forHTTPHeaderField: "fcmToken")
-            urlRequest.setValue(deviceType, forHTTPHeaderField: "deviceType")
-            urlRequest.httpMethod = method.rawValue
-            urlRequest = try JSONEncoding.default.encode(urlRequest)
-            print(urlRequest)
-        case .validateMpin(let userId, let mpin, let fcmToken) :
-            let pathString = path
-            urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
-            urlRequest.httpMethod = method.rawValue
-            guard let token = UserDefaults.standard.value(forKey: "token") as? String else {fatalError("token not availabel")}
-              print("token :- \(token)")
-            urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
-            urlRequest.setValue(userId, forHTTPHeaderField:"userId")
-            urlRequest.setValue(mpin, forHTTPHeaderField:"mpin")
-            urlRequest.setValue(fcmToken, forHTTPHeaderField: "fcmToken")
-            urlRequest.setValue("IOS", forHTTPHeaderField: "deviceType")
-            urlRequest = try JSONEncoding.default.encode(urlRequest)
-            print(urlRequest)
-            
-        //generatempin
-//        case .genearteMpin(let userName,let mpin):
-//            let pathString = path
-//            urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
-//            urlRequest.setValue(userName, forHTTPHeaderField: "userName")
-//            urlRequest.setValue(mpin, forHTTPHeaderField: "mpin")
-//            urlRequest.httpMethod = method.rawValue
-//            urlRequest = try JSONEncoding.default.encode(urlRequest)
-//           // print(urlRequest)
-//        // forgotempin
-//        case .forgotMpin(let userName,let mpin):
-//            let pathString = path
-//            urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
-//            urlRequest.setValue(userName, forHTTPHeaderField: "userName")
-//            urlRequest.setValue(mpin, forHTTPHeaderField: "mpin")
-//            urlRequest.httpMethod = method.rawValue
-//            urlRequest = try JSONEncoding.default.encode(urlRequest)
-//           // print(urlRequest)
-        
-        case .versionCheck:
-            let pathString = path
-            urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
-            urlRequest.httpMethod = method.rawValue
-//            guard let token = UserDefaults.standard.value(forKey: "token") as? String else {fatalError("token not availabel")}
-//            //print("token :- \(token)")
-//            urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
-            urlRequest = try JSONEncoding.default.encode(urlRequest)
-            
-            //Officer
-        case .getContactDetails:
-            let pathString = path
-            urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
-            urlRequest.httpMethod = method.rawValue
-            urlRequest = try JSONEncoding.default.encode(urlRequest)
-        }
-        return urlRequest
+        urlRequest = try JSONEncoding.default.encode(urlRequest)
+    case .loginWithMobileNo (let userType,let mobileNumber ,  let deviceId , let IMEI,let fcmToken, let deviceType):
+      let pathString = path
+      urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
+      urlRequest.setValue(userType, forHTTPHeaderField: "usertype")
+      urlRequest.setValue(mobileNumber, forHTTPHeaderField: "mobileNumber")
+      urlRequest.setValue(deviceId, forHTTPHeaderField: "deviceId")
+      urlRequest.setValue(IMEI, forHTTPHeaderField: "IMEI")
+      urlRequest.setValue(fcmToken, forHTTPHeaderField: "fcmToken")
+      urlRequest.setValue(deviceType, forHTTPHeaderField: "deviceType")
+      urlRequest.httpMethod = method.rawValue
+      urlRequest = try JSONEncoding.default.encode(urlRequest)
+      print(urlRequest)
+    case .validateMpin(let userId, let mpin, let fcmToken) :
+      let pathString = path
+      urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
+      urlRequest.httpMethod = method.rawValue
+      guard let token = UserDefaultVars.loginData?.data?.token else {fatalError("token not availabel")}
+      print("token :- \(token)")
+      urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
+      urlRequest.setValue(userId, forHTTPHeaderField:"userId")
+      urlRequest.setValue(mpin, forHTTPHeaderField:"mpin")
+      urlRequest.setValue(fcmToken, forHTTPHeaderField: "fcmToken")
+      urlRequest.setValue("IOS", forHTTPHeaderField: "deviceType")
+      urlRequest = try JSONEncoding.default.encode(urlRequest)
+      print(urlRequest)
+      
+    //generatempin
+    //        case .genearteMpin(let userName,let mpin):
+    //            let pathString = path
+    //            urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
+    //            urlRequest.setValue(userName, forHTTPHeaderField: "userName")
+    //            urlRequest.setValue(mpin, forHTTPHeaderField: "mpin")
+    //            urlRequest.httpMethod = method.rawValue
+    //            urlRequest = try JSONEncoding.default.encode(urlRequest)
+    //           // print(urlRequest)
+    //        // forgotempin
+    //        case .forgotMpin(let userName,let mpin):
+    //            let pathString = path
+    //            urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
+    //            urlRequest.setValue(userName, forHTTPHeaderField: "userName")
+    //            urlRequest.setValue(mpin, forHTTPHeaderField: "mpin")
+    //            urlRequest.httpMethod = method.rawValue
+    //            urlRequest = try JSONEncoding.default.encode(urlRequest)
+    //           // print(urlRequest)
+    
+    case .versionCheck:
+      let pathString = path
+      urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
+      urlRequest.httpMethod = method.rawValue
+      //            guard let token = UserDefaults.standard.value(forKey: "token") as? String else {fatalError("token not availabel")}
+      //            //print("token :- \(token)")
+      //            urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
+      urlRequest = try JSONEncoding.default.encode(urlRequest)
+      
+    //Officer
+    case .getContactDetails(let schoolTypeId):
+      let pathString = path
+      urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
+      urlRequest.httpMethod = method.rawValue
+      guard let token = UserDefaultVars.loginData?.data?.token else {fatalError("token not availabel")}
+      print("token :- \(token)")
+      urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
+      urlRequest.setValue(schoolTypeId, forHTTPHeaderField:"schoolTypeId")
+      urlRequest = try JSONEncoding.default.encode(urlRequest)
     }
+    return urlRequest
+  }
 }
 extension URL {
     
