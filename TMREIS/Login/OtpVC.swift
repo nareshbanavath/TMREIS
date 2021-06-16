@@ -28,7 +28,7 @@ class OtpVC: UIViewController {
         if self.otpTF.text?.count == 6
         {
             if(self.otp == otpTF.text){
-                //print (otpstackView.getOTP())
+                //debugPrint (otpstackView.getOTP())
 
                 let vc = storyboards.Login.instance.instantiateViewController(withIdentifier: "SetMpinVC") as! SetMpinVC
                 self.navigationController?.pushViewController(vc, animated: true)
@@ -41,7 +41,7 @@ class OtpVC: UIViewController {
     }
     //MARK:- Service Calls
     func LoginWSwithUserName() {
-       // print(UserDefaultVars.username , password)
+       // debugPrint(UserDefaultVars.username , password)
         guard let mobileNumberIs = mobileNumber?.AESEncryption() else {return}
 
     guard Reachability.isConnectedToNetwork() else {self.showAlert(message: noInternet);return}
@@ -60,7 +60,7 @@ class OtpVC: UIViewController {
                     self?.showAlert(message: data.statusMessage ?? serverNotResponding)
                 }
                case .failure(let err):
-                   print(err)
+                   debugPrint(err)
                    self?.showAlert(message: serverNotResponding)
 
                }

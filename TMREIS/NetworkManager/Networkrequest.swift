@@ -37,7 +37,7 @@ class NetworkRequest
             DispatchQueue.main.async {
                 self.hideLoading()
             }
-            print(response)
+           // print(response)
           //  print(try! JSONSerialization.jsonObject(with: response.data!, options: .allowFragments))
             guard let data = response.data, response.error == nil else {
 

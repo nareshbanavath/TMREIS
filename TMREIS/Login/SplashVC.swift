@@ -10,7 +10,7 @@ import UIKit
 class SplashVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        //  print("helllo")
+        //  debugPrint("helllo")
        // self.versionCheck()
         let vc = storyboards.Login.instance.instantiateViewController(withIdentifier: "SigninSwipeupVC") as! SigninSwipeupVC
         self.navigationController?.pushViewController(vc, animated: true)
@@ -24,7 +24,7 @@ func versionCheck() {
            // self?.versionmodel = data
             let statusMsg = data.statusCode
             if statusMsg == 200 {
-               // print(data)
+               // debugPrint(data)
                 guard let serverVersion = data.data?.versionNo else {return}
                 guard let lastUpdateddate = data.data?.lastupdatedDate else {return}
                 UserDefaults.standard.set(serverVersion,forKey: "serverVersion")
@@ -35,7 +35,7 @@ func versionCheck() {
                 let localVersion = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
                 guard let floatLocValue = Float(localVersion) else {return}
                 guard let floatServValue = Float(serverVersion.prefix(3)) else {return}
-                print(floatServValue , floatLocValue)
+                debugPrint(floatServValue , floatLocValue)
                 if floatLocValue > floatServValue || floatLocValue == floatServValue {
                 if UserDefaults.standard.object(forKey: "mpin") != nil{
                        if UserDefaults.standard.object(forKey: "mpin") as! String == "00"
@@ -72,7 +72,7 @@ func versionCheck() {
                 
             }
         case .failure(let err):
-            print(err)
+            debugPrint(err)
             DispatchQueue.main.async {
                 self?.showAlert(message: serverNotResponding)
                 //code to be executed on main thread

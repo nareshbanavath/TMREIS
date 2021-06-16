@@ -31,7 +31,7 @@ class CitizenDashboardVC: UIViewController {
 
     }
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
-        // print("Hello World")
+        // debugPrint("Hello World")
         let vc = storyboards.Dashboard.instance.instantiateViewController(withIdentifier: "CitizenDashboardFormVC") as! CitizenDashboardFormVC
         self.navigationController?.pushViewController(vc, animated: true)
       }

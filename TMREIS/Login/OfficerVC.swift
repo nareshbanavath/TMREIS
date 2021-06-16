@@ -55,7 +55,7 @@ class OfficerVC: UIViewController , UITextFieldDelegate{
         }
         
       case .failure(let err):
-        print(err)
+        debugPrint(err)
         self?.showAlert(message: serverNotResponding)
         
       }

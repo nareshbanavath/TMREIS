@@ -36,7 +36,7 @@ class FilterContactVC: UIViewController {
     dropDown.show()
     dropDown.selectionAction = {[unowned self](index , item) in
       dropDown.hide()
-      print(item)
+      debugPrint(item)
       self.completion?(.designation , item)
       self.dismiss(animated: true, completion: nil)
     }
@@ -49,7 +49,7 @@ class FilterContactVC: UIViewController {
       dropDown.hide()
       self.completion?(.districts , item)
       self.dismiss(animated: true, completion: nil)
-      print(item)
+      debugPrint(item)
     }
   }
   @IBAction func clearFilterBtnClicked(_ sender: UIButton) {

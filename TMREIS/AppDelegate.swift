@@ -58,13 +58,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //{
 //    
 //    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-//        print("fcm token :- \(fcmToken)")
+//        debugPrint("fcm token :- \(fcmToken)")
 //        guard let fcmToken = fcmToken else { UserDefaults.standard.setValue(" ", forKey: "fcmToken");return}
 //        UserDefaults.standard.setValue(fcmToken, forKey: "fcmToken")
 //    }
 //    
 ////    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
-////        print(remoteMessage)
+////        debugPrint(remoteMessage)
 ////    }
 //    
 //    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {

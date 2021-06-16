@@ -62,7 +62,7 @@ class CitizenVC: UIViewController {
         }
         
       case .failure(let err):
-        print(err)
+        debugPrint(err)
         self?.showAlert(message: serverNotResponding)
         
       }

@@ -39,7 +39,7 @@ class HomeVC: UIViewController  {
     tableView.delegate = self
     tableView.dataSource = self
     self.filteredContactArray = contactsArray
-    //  print(filteredContactArray)
+    //  debugPrint(filteredContactArray)
 
     tableView.reloadData()
     // self.addFilterButton()
@@ -140,7 +140,7 @@ class HomeVC: UIViewController  {
 //      let vc = storyboards.Officer.instance.instantiateViewController(withIdentifier: "BroadcastVC") as! BroadcastVC
 //      self.navigationController?.pushViewController(vc, animated: true)//
 //      //            self.tableViewDataSource = self.reports?.filter { $0.pendingApprove == "1"}
-//      //            // print(self.tableViewDataSource?.count)
+//      //            // debugPrint(self.tableViewDataSource?.count)
 //      //            self.tableView.reloadData()
 //    })
 //
@@ -164,9 +164,9 @@ class HomeVC: UIViewController  {
 //        item.buttonColor = .systemPink
 //
 //      case .none:
-//        print("")
+//        debugPrint("")
 //      case .some(_):
-//        print("")
+//        debugPrint("")
 //      }
 //    }
 //    self.view.addSubview(floaty)

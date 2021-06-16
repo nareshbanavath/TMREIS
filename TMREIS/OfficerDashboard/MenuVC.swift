@@ -32,7 +32,7 @@ class MenuVC: UIViewController {
             [TBLViewItem(labelName: "Home", iconName: "tmreis_logo", storyBoardName: "Officer", vcName: "HomeVC"),
              TBLViewItem(labelName: "Notifications", iconName: "comment", storyBoardName: "Officer", vcName: "NotificationsVC"),
              TBLViewItem(labelName: "Download Masters", iconName: "tmreis_logo", storyBoardName: "Officer", vcName: "DownloadMastersVC"),
-             TBLViewItem(labelName: "Add contact", iconName: "addmember", storyBoardName: "Officer", vcName: "DownloadMastersVC"),
+             TBLViewItem(labelName: "Add contact", iconName: "addmember", storyBoardName: "Officer", vcName: "AddmemberVC"),
              TBLViewItem(labelName: "Logout", iconName: "tmreis_logo", storyBoardName: "Officer", vcName: "HomeVC"),
              TBLViewItem(labelName: "Exit", iconName: "tmreis_logo", storyBoardName: "Officer", vcName: "HomeVC")]
              
@@ -56,7 +56,7 @@ extension MenuVC : UITableViewDelegate , UITableViewDataSource{
         return 40
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       // print(menuArray.count)
+       // debugPrint(menuArray.count)
         return menuArray[section].count
 
 }
@@ -123,7 +123,7 @@ extension MenuVC : UITableViewDelegate , UITableViewDataSource{
 extension MenuVC : SFSafariViewControllerDelegate, SideMenuControllerDelegate
 {
     func safariViewController(_ controller: SFSafariViewController, didCompleteInitialLoad didLoadSuccessfully: Bool) {
-        // print(didLoadSuccessfully)
+        // debugPrint(didLoadSuccessfully)
     }
     func sideMenuControllerWillRevealMenu(_ sideMenuController: SideMenuController) {
        // self.bgImgView.setupBackgroundImage()

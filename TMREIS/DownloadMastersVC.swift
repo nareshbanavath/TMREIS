@@ -12,7 +12,7 @@ class DownloadMastersVC: UIViewController {
     {
         didSet{
             dashContainerViews.forEach { (view) in
-                view.layer.cornerRadius = view.bounds.height / 2
+                view.layer.cornerRadius = view.frame.width / 2
                 view.backgroundColor = .systemGray5
             }
         }
@@ -63,7 +63,7 @@ class DownloadMastersVC: UIViewController {
 //    }
    }
   @IBAction func downloadBtnClicked(_ sender: UIButton) {
-    print(sender.tag)
+    debugPrint(sender.tag)
     switch sender.tag
     {
     case 1 :
@@ -120,7 +120,7 @@ class DownloadMastersVC: UIViewController {
                    if (!(data.isEmpty)){
                     //store in coredata
                     CoreDataManager.manager.saveEntityData(data: contactDetails, entityName: entityName)
-                  //  print(CoreDataManager.manager.getEntityData(type: ContactDetailsStruct.self, entityName: .Schools_Entity)!)
+                  //  debugPrint(CoreDataManager.manager.getEntityData(type: ContactDetailsStruct.self, entityName: .Schools_Entity)!)
                    }else {
                     self?.showAlert(message: "No Records Found") {
                          // self?.backButtonPressed()
@@ -128,7 +128,7 @@ class DownloadMastersVC: UIViewController {
                    }
             self?.setupUI()
           case .failure(let err):
-              print(err)
+              debugPrint(err)
               DispatchQueue.main.async {
                 self?.showAlert(message: err.localizedDescription )
               }

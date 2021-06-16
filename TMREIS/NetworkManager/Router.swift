@@ -61,17 +61,23 @@ enum Router:URLRequestConvertible{
   case loginWithMobileNo(usertype : String ,mobileNumber : String,deviceId: String, IMEI: String, fcmToken: String,deviceType: String)
   case validateMpin(userId:String, mpin:String , fcmToken:String)
   case getContactDetails(schoolTypeId : String)
+  case getDesignationMasterDetails
+  case getOfficeLocationDetails
+  case addEmpContact(parameters : Parameters)
+  case updateEmpContact(parameters : Parameters)
   // case genearteMpin(userName: String, mpin:String)
   //  case forgotMpin(userName:String, mpin:String)
   
   
   var method:HTTPMethod{
     switch self {
+    case .addEmpContact , .updateEmpContact:
+        return .post
     //loginWithUserName
     //        case .login :
     //            return .post
     //loginWithMobileNumber
-    case .loginWithMobileNo , .genearteMpin :
+    case .loginWithMobileNo , .genearteMpin , .getDesignationMasterDetails , .getOfficeLocationDetails:
       return .get
     //GenerateMpin
     //        case .genearteMpin:
@@ -88,26 +94,34 @@ enum Router:URLRequestConvertible{
       return .get
     }
   }
-  var path:String {
-    switch self {
-    case .genearteMpin:
-        return "updatingMpin/webApp"
-    case .loginWithMobileNo:
-      return "userVerification"
-    // generatempin
-    //        case .genearteMpin:
-    //            return "updatingMpin/webApp"
-    //        // forgotempin
-    //        case .forgotMpin:
-    //            return "forgotMpin/webApp"
-    case .versionCheck:
-      return "api/web/getCurrentAppVersion"
-    case .validateMpin:
-      return "mpinVerification"
-    case .getContactDetails:
-      return "getStaffContactDetails"
+    var path:String {
+        switch self {
+        case .addEmpContact:
+            return "addEmpContact"
+        case .updateEmpContact:
+            return "updateEmpContact"
+        case .getDesignationMasterDetails:
+            return "getDesignationMasterDetails"
+        case .getOfficeLocationDetails:
+            return "getOfficeLocationDetails"
+        case .genearteMpin:
+            return "updatingMpin/webApp"
+        case .loginWithMobileNo:
+            return "userVerification"
+        // generatempin
+        //        case .genearteMpin:
+        //            return "updatingMpin/webApp"
+        //        // forgotempin
+        //        case .forgotMpin:
+        //            return "forgotMpin/webApp"
+        case .versionCheck:
+            return "api/web/getCurrentAppVersion"
+        case .validateMpin:
+            return "mpinVerification"
+        case .getContactDetails:
+            return "getStaffContactDetails"
+        }
     }
-  }
   func asURLRequest() throws -> URLRequest {
     let url = try baseUrl.asURL()
     var urlRequest = URLRequest(url: url.appendingPathComponent(path))
@@ -126,7 +140,7 @@ enum Router:URLRequestConvertible{
     //            urlRequest.setValue(deviceType, forHTTPHeaderField: "deviceType")
     //            urlRequest.httpMethod = method.rawValue
     //            urlRequest = try JSONEncoding.default.encode(urlRequest)
-    //            print(urlRequest)
+    //            debugPrint(urlRequest)
     //loginWithMobileNumber
     case .genearteMpin(let userName,let mpin):
         let pathString = path
@@ -146,20 +160,20 @@ enum Router:URLRequestConvertible{
       urlRequest.setValue(deviceType, forHTTPHeaderField: "deviceType")
       urlRequest.httpMethod = method.rawValue
       urlRequest = try JSONEncoding.default.encode(urlRequest)
-      print(urlRequest)
+      debugPrint(urlRequest)
     case .validateMpin(let userId, let mpin, let fcmToken) :
       let pathString = path
       urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
       urlRequest.httpMethod = method.rawValue
       guard let token = UserDefaultVars.loginData?.data?.token else {fatalError("token not availabel")}
-      print("token :- \(token)")
+      debugPrint("token :- \(token)")
       urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
       urlRequest.setValue(userId, forHTTPHeaderField:"userId")
       urlRequest.setValue(mpin, forHTTPHeaderField:"mpin")
       urlRequest.setValue(fcmToken, forHTTPHeaderField: "fcmToken")
       urlRequest.setValue("IOS", forHTTPHeaderField: "deviceType")
       urlRequest = try JSONEncoding.default.encode(urlRequest)
-      print(urlRequest)
+      debugPrint(urlRequest)
       
     //generatempin
     //        case .genearteMpin(let userName,let mpin):
@@ -169,7 +183,7 @@ enum Router:URLRequestConvertible{
     //            urlRequest.setValue(mpin, forHTTPHeaderField: "mpin")
     //            urlRequest.httpMethod = method.rawValue
     //            urlRequest = try JSONEncoding.default.encode(urlRequest)
-    //           // print(urlRequest)
+    //           // debugPrint(urlRequest)
     //        // forgotempin
     //        case .forgotMpin(let userName,let mpin):
     //            let pathString = path
@@ -178,14 +192,14 @@ enum Router:URLRequestConvertible{
     //            urlRequest.setValue(mpin, forHTTPHeaderField: "mpin")
     //            urlRequest.httpMethod = method.rawValue
     //            urlRequest = try JSONEncoding.default.encode(urlRequest)
-    //           // print(urlRequest)
+    //           // debugPrint(urlRequest)
     
     case .versionCheck:
       let pathString = path
       urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
       urlRequest.httpMethod = method.rawValue
       //            guard let token = UserDefaults.standard.value(forKey: "token") as? String else {fatalError("token not availabel")}
-      //            //print("token :- \(token)")
+      //            //debugPrint("token :- \(token)")
       //            urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
       urlRequest = try JSONEncoding.default.encode(urlRequest)
       
@@ -195,10 +209,34 @@ enum Router:URLRequestConvertible{
       urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
       urlRequest.httpMethod = method.rawValue
       guard let token = UserDefaultVars.loginData?.data?.token else {fatalError("token not availabel")}
-      print("token :- \(token)")
+      debugPrint("token :- \(token)")
       urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
       urlRequest.setValue(schoolTypeId, forHTTPHeaderField:"schoolTypeId")
       urlRequest = try JSONEncoding.default.encode(urlRequest)
+    case .getDesignationMasterDetails , .getOfficeLocationDetails:
+      let pathString = path
+      urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
+      urlRequest.httpMethod = method.rawValue
+      guard let token = UserDefaultVars.loginData?.data?.token else {fatalError("token not availabel")}
+      debugPrint("token :- \(token)")
+      urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
+      urlRequest = try JSONEncoding.default.encode(urlRequest)
+        
+        
+    case .addEmpContact(let parameters):
+        let pathString = path
+        urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
+        urlRequest.httpMethod = method.rawValue
+        guard let token = UserDefaultVars.loginData?.data?.token else {fatalError("token not availabel")}
+        urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
+        urlRequest = try JSONEncoding.default.encode(urlRequest, with: parameters)
+    case .updateEmpContact(let parameters):
+        let pathString = path
+        urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
+        urlRequest.httpMethod = method.rawValue
+        guard let token = UserDefaultVars.loginData?.data?.token else {fatalError("token not availabel")}
+        urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
+        urlRequest = try JSONEncoding.default.encode(urlRequest, with: parameters)
     }
     return urlRequest
   }

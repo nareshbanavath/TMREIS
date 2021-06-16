@@ -613,7 +613,7 @@ open class SideMenuController: UIViewController {
             #if DEBUG
             if animatorFromDelegate == nil {
                 // swiftlint:disable:next line_length
-                print("[SideMenu] `setContentViewController` is called with animated while the delegate method return nil, fall back to the fade animation.")
+                debugPrint("[SideMenu] `setContentViewController` is called with animated while the delegate method return nil, fall back to the fade animation.")
             }
             #endif
 

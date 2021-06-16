@@ -53,7 +53,7 @@ class CoreDataManager
 //    let entity = NSEntityDescription.entity(forEntityName: entityName.rawValue, in: context)!
     switch entityName {
     case .Schools_Entity:
-      print("schools")
+      debugPrint("schools")
       let schools = Schools_Entity(context: context)
       schools.strData = statStr
       saveContext()
@@ -88,7 +88,7 @@ class CoreDataManager
     do{
       try context.save()
     }catch let err{
-      print(err)
+      debugPrint(err)
     }
   }
     
@@ -106,9 +106,9 @@ class CoreDataManager
 //            guard let ofcjsonStruct = try? JSONDecoder().decode(OfficeCoordinatesStruct.self, from: ofcjsonData) , let workjsonStruct = try? JSONDecoder().decode(WorkAreaDataStruct.self, from: workjsonDat) else {fatalError()}
 //            return (ofcjsonStruct , workjsonStruct)
 //
-//           // print(jsonStruct)
+//           // debugPrint(jsonStruct)
 //        }catch let err{
-//            print(err)
+//            debugPrint(err)
 //        }
 //        return nil
 //    }
@@ -131,7 +131,7 @@ class CoreDataManager
 //          do{
 //              try context.save()
 //          }catch let err{
-//              print(err)
+//              debugPrint(err)
 //          }
 //      }
 //      func getAssignedCatTaskData() -> (AssignedProjects , TaskstatusData , ProjectCatSubcatData )?
@@ -148,9 +148,9 @@ class CoreDataManager
 //              guard let assignedjsonStruct = try? JSONDecoder().decode(AssignedProjects.self, from: assignedjsonData) , let taskjsonStruct = try? JSONDecoder().decode(TaskstatusData.self, from: taskjsondata), let categoryjsonStruct = try? JSONDecoder().decode(ProjectCatSubcatData.self, from: categoryjsonData) else {fatalError()}
 //              return (assignedjsonStruct , taskjsonStruct , categoryjsonStruct)
 //
-//             // print(jsonStruct)
+//             // debugPrint(jsonStruct)
 //          }catch let err{
-//              print(err)
+//              debugPrint(err)
 //          }
 //          return nil
 //      }
@@ -162,7 +162,7 @@ class CoreDataManager
   
               do {
                 guard let fetchResult = try context.fetch(fetchRequest) as? [NSManagedObject] else {return nil}
-               // print(fetchResult.count)
+               // debugPrint(fetchResult.count)
                   guard fetchResult.count > 0 else {return nil}
                 guard let last = fetchResult.last else {return nil}
                 var data  : Data!
@@ -205,9 +205,9 @@ class CoreDataManager
 
                   guard let taskStatusData = try? JSONDecoder().decode(T.self, from: data) else {fatalError()}
                   return taskStatusData
-                 // print(jsonStruct)
+                 // debugPrint(jsonStruct)
               }catch let err{
-                  print(err)
+                  debugPrint(err)
                 //return nil
               }
               return nil

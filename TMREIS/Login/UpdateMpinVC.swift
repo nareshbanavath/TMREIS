@@ -36,7 +36,7 @@ class UpdateMpinVC: UIViewController {
     
     @IBAction func mpinValidateBtnClick(_ sender: Any) {
         self.validateMpinWS()
-      //  print(UserDefaultVars.isCitizen)
+      //  debugPrint(UserDefaultVars.isCitizen)
 //
 //        if UserDefaultVars.isCitizen == true {
 //            self.validateMpinWS()
@@ -60,7 +60,7 @@ class UpdateMpinVC: UIViewController {
             switch result{
             case .success(let data):
                // self?.mpinmodel = data
-                print(data)
+                debugPrint(data)
               UserDefaultVars.RolesArray = data.data.role
                  let statusCode = data.statusCode
                 switch statusCode {
@@ -76,7 +76,7 @@ class UpdateMpinVC: UIViewController {
                     self?.view.window?.makeKeyAndVisible()
                 }
                 case 201:
-                    //  print("worklog not submitted")
+                    //  debugPrint("worklog not submitted")
                     self?.showAlert(message: data.statusMessage )
                 case 401:
                     self?.showAlert(message: "Session Expired , Please login again!", completion: {
@@ -89,13 +89,13 @@ class UpdateMpinVC: UIViewController {
                     })
 
                 default:
-                    print("default")
+                    debugPrint("default")
                     self?.showAlert(message: serverNotResponding)
 
                 }
-            // print(attendanceInfo)
+            // debugPrint(attendanceInfo)
             case .failure(let _err):
-                print(_err)
+                debugPrint(_err)
                 self?.showAlert(message: serverNotResponding)
             }
         }
@@ -107,7 +107,7 @@ class UpdateMpinVC: UIViewController {
 //            case  .success(let data):
 //                self?.model = data
 //                let statusCode = data.statusCode
-//                print(data)
+//                debugPrint(data)
 //                if statusCode == 200 {
 //                    let refreshAlert = UIAlertController(title: "Virtuo", message:data.statusMessage ?? "", preferredStyle: UIAlertController.Style.alert)
 //
@@ -133,7 +133,7 @@ class UpdateMpinVC: UIViewController {
 //                    self?.showFailureAlert(message:data.statusMessage ?? serverNotResponding)
 //              }
 //            case .failure(let _err):
-//                 print(_err)
+//                 debugPrint(_err)
 //                self?.showFailureAlert(message: "server not responding")
 //            }
 //

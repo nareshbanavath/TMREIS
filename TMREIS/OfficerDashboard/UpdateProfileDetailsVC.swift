@@ -1,21 +1,21 @@
 //
-//  AddmemberVC.swift
+//  UpdateProfileDetailsVC.swift
 //  TMREIS
 //
-//  Created by Haritej on 03/05/21.
+//  Created by deep chandan on 16/06/21.
 //
 
 import UIKit
 import DropDown
 
-class AddmemberVC: UIViewController {
+class UpdateProfileDetailsVC: UIViewController {
 
+    @IBOutlet weak var profileImgView: ImagePickeredView!
+    @IBOutlet weak var txt_Name: UITextField!
     @IBOutlet weak var txt_EmployeeId: UITextField!
-    @IBOutlet weak var txt_LastName: UITextField!
-    @IBOutlet weak var txt_FirstName: UITextField!
-    @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var txt_MobileNumber: UITextField!
     @IBOutlet weak var txt_Email: UITextField!
+    
     @IBOutlet weak var btn_Gender: UIButton!
     @IBOutlet weak var btn_Designation: UIButton!
     @IBOutlet weak var btn_Office: UIButton!
@@ -27,24 +27,13 @@ class AddmemberVC: UIViewController {
     var designationId : String?
     var officeLoCId : String?
     lazy var dropDown = DropDown()
-    //MARK:- Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.isNavigationBarHidden = false
-        self.title = "Add Contact"
         getDesignationOfficeDetails()
-        
-        setupBackButton()
+        // Do any additional setup after loading the view.
     }
-    override func viewWillAppear(_ animated: Bool) {
-        mainView.layer.cornerRadius = 5
-        mainView.layer.borderWidth = 0.5
-        mainView.layer.borderColor = UIColor(named: "Logogreen")?.cgColor
-    }
-    override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = true
+    
 
-    }
     //MARK:- Service Calls
     func getDesignationOfficeDetails()
     {
@@ -135,12 +124,12 @@ class AddmemberVC: UIViewController {
         }
     }
     
-    @IBAction func addMemberBtnAction(_ sender: UIButton) {
+    @IBAction func updateBtnAction(_ sender: UIButton) {
       //  guard validation() else {return}
         let parameters : [String : Any] = [
-            "employeeName": txt_FirstName.text ?? "",
+            "employeeName": txt_Name.text ?? "",
             "fathername": "",
-            "employeeSurName": txt_LastName.text ?? "",
+            "employeeSurName": "",
             "mothername": "",
             "employeeEmail":txt_Email.text ?? "",
             "gender":btn_Gender.currentTitle == "Male" ? "M" : "F",
@@ -176,8 +165,7 @@ class AddmemberVC: UIViewController {
     }
     func validation() -> Bool
     {
-        guard txt_FirstName.text?.trim().count != 0 else {self.showAlert(message: "Please Enter FirstName");return false}
-        guard txt_LastName.text?.trim().count != 0 else {self.showAlert(message: "Please Enter LastName");return false}
+        guard txt_Name.text?.trim().count != 0 else {self.showAlert(message: "Please Enter FirstName");return false}
         guard txt_EmployeeId.text?.trim().count != 0 else {self.showAlert(message: "Please Enter Employee Id");return false}
         guard txt_MobileNumber.text?.trim().count != 0 else {self.showAlert(message: "Please Enter MobileNumber");return false}
         guard txt_Email.text?.trim().count != 0 else {self.showAlert(message: "Please Enter Email");return false}
@@ -187,96 +175,6 @@ class AddmemberVC: UIViewController {
         guard btn_Office.currentTitle != "Select" else {self.showAlert(message: "Please Select Office");return false}
         return true
     }
-}
 
-
-
-///
-// MARK: - OfficeDetailsStruct
-struct OfficeLocationsDetailsStruct: Codable {
-    let success: Bool?
-    let statusMessage: String?
-    let statusCode: Int?
-    let data: [Datum]?
- 
-
-    enum CodingKeys: String, CodingKey {
-        case success
-        case statusMessage = "status_Message"
-        case statusCode = "status_Code"
-        case data
-    }
-    // MARK: - Datum
-    struct Datum: Codable {
-        let officeType: String?
-        let address, schoolID, schoolName, officeTypeID: String?
-        let email: String?
-        let phoneno: String?
-
-        enum CodingKeys: String, CodingKey {
-            case officeType = "office_type"
-            case address
-            case schoolID = "school_id"
-            case schoolName = "school_name"
-            case officeTypeID = "office_type_id"
-            case email, phoneno
-        }
-    }
-    //
-    //
-    //
-    //enum OfficeType: String, Codable {
-    //    case college = "College"
-    //    case dmwo = "DMWO"
-    //    case headOffice = "Head Office"
-    //    case rlc = "RLC"
-    //    case school = "School"
-    //    case vigilance = "Vigilance"
-    //}
-    //
-    //enum Phoneno: String, Codable {
-    //    case empty = " "
-    //}
-}
-
-
-
-// MARK: - DesignationMasterStruct
-struct DesignationMasterStruct: Codable {
-    let success: Bool?
-    let statusMessage: String?
-    let statusCode: Int?
-    let data: [Datum]?
-  
-
-    enum CodingKeys: String, CodingKey {
-        case success
-        case statusMessage = "status_Message"
-        case statusCode = "status_Code"
-        case data
-    }
-    
-    // MARK: - Datum
-    struct Datum: Codable {
-        let desgName, desgID: String
-
-        enum CodingKeys: String, CodingKey {
-            case desgName = "desg_name"
-            case desgID = "desg_id"
-        }
-    }
-}
-
-struct AddEmpContactStruct : Codable {
-    let success: Bool?
-    let statusMessage: String?
-    let statusCode: Int?
-    
-    enum CodingKeys: String, CodingKey {
-        case success
-        case statusMessage = "status_Message"
-        case statusCode = "status_Code"
-
-    }
     
 }

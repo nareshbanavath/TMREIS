@@ -59,8 +59,8 @@ class SetMpinVC: UIViewController {
                // self?.model = data
                 let statusMsg = data.statusMessage
                 // let mpin = data.mPin
-                //  print(self?.model)
-                //  print(data)
+                //  debugPrint(self?.model)
+                //  debugPrint(data)
                 if statusMsg == "Your MPin set/generated successfully" || data.statusCode == 200 {
                     if let resMpin = data.mPin
                     {
@@ -85,7 +85,7 @@ class SetMpinVC: UIViewController {
                     self?.showFailureAlert(message: data.statusMessage ?? serverNotResponding)
                 }
             case .failure(let err):
-                print(err)
+                debugPrint(err)
                 self?.showFailureAlert(message: serverNotResponding)
             }
 
