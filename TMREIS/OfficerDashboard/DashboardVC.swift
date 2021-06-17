@@ -86,6 +86,10 @@ class DashboardVC: UIViewController {
     //MARK:- IBAction Btns
     
     @IBAction func EditBtnClicked(_ sender: UIButton) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "UpdateProfileDetailsVC") as! UpdateProfileDetailsVC
+        let currentusrData = UserDefaultVars.loginData?.data
+        vc.isCurrentUser = true
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     func addmenuBtn()
     {

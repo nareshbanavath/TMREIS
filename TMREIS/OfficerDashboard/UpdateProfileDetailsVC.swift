@@ -23,13 +23,67 @@ class UpdateProfileDetailsVC: UIViewController {
     @IBOutlet weak var btn_BloodGroup: UIButton!
     var designationArray : [DesignationMasterStruct.Datum] = []
     var officeLocArray : [OfficeLocationsDetailsStruct.Datum] = []
-    
+    var isCurrentUser : Bool = false
+    var contactDetail : ContactDetailsStruct.Contact?
     var designationId : String?
     var officeLoCId : String?
+    var updateID : Int!
     lazy var dropDown = DropDown()
     override func viewDidLoad() {
         super.viewDidLoad()
-        getDesignationOfficeDetails()
+        title = "Update Profile Details"
+        setupBackButton()
+       
+        if isCurrentUser
+        {
+            profileImgView.superview?.isHidden = false
+            btn_Designation.isEnabled = false
+            btn_Office.isEnabled = false
+            btn_Designation.setTitleColor(UIColor.gray, for: UIControl.State())
+            btn_Office.setTitleColor(UIColor.gray, for: UIControl.State())
+            
+            let currentUsrData = UserDefaultVars.loginData?.data
+          //  print(currentUsrData)
+            if let photoPath = currentUsrData?.photopath , photoPath != ""
+            {
+                profileImgView.image = photoPath.convertBase64StringToImage()
+            }
+           
+            txt_Name.text = currentUsrData?.employeeName
+            txt_EmployeeId.text = currentUsrData?.employeeID
+            txt_MobileNumber.text = currentUsrData?.mobileNumber
+            txt_Email.text = currentUsrData?.emailid
+            let bloodGroup = currentUsrData?.bloodgroup == "" || currentUsrData?.bloodgroup == nil ? "Select" : currentUsrData?.bloodgroup
+            let gender = currentUsrData?.gender == "" || currentUsrData?.gender == nil ? "Select" : currentUsrData?.gender
+            btn_BloodGroup.setTitle(bloodGroup , for: UIControl.State())
+            btn_Gender.setTitle(gender == "M" ? "Male" : "Female", for: UIControl.State())
+            btn_Designation.setTitle(currentUsrData?.designation, for: UIControl.State())
+            btn_Office.setTitle(currentUsrData?.location, for: UIControl.State())
+        }
+        else
+        {
+            getDesignationOfficeDetails()
+            profileImgView.superview?.isHidden = true
+            btn_Designation.isEnabled = true
+            btn_Office.isEnabled = true
+            btn_Designation.setTitleColor(UIColor.black, for: UIControl.State())
+            btn_Office.setTitleColor(UIColor.black, for: UIControl.State())
+            
+          //  profileImgView.image = contactDetail?.photopath?.convertBase64StringToImage()
+            txt_Name.text = contactDetail?.empName
+            txt_EmployeeId.text = contactDetail?.empID
+            txt_MobileNumber.text = contactDetail?.mobileNo
+            txt_Email.text = contactDetail?.emailID
+            btn_BloodGroup.setTitle(contactDetail?.bloodGroup == "" ? "Select" : contactDetail?.bloodGroup , for: UIControl.State())
+            btn_Gender.setTitle(contactDetail?.gender == "" ? "Select" : contactDetail?.gender, for: UIControl.State())
+            btn_Designation.setTitle(contactDetail?.empDesignation, for: UIControl.State())
+            btn_Office.setTitle(contactDetail?.schoolName, for: UIControl.State())
+            
+         
+
+        }
+
+        
         // Do any additional setup after loading the view.
     }
     
@@ -104,7 +158,9 @@ class UpdateProfileDetailsVC: UIViewController {
         dropDown.selectionAction = { [unowned self](index : Int , item : String) in
             debugPrint(item)
             sender.setTitle(item, for: UIControl.State())
+            if index != 0{
             self.designationId = designationArray[index - 1].desgID
+            }
             
             dropDown.hide()
         }
@@ -119,18 +175,19 @@ class UpdateProfileDetailsVC: UIViewController {
         dropDown.selectionAction = { [unowned self](index : Int , item : String) in
             debugPrint(item)
             sender.setTitle(item, for: UIControl.State())
+            if index != 0{
             self.officeLoCId = officeLocArray[index - 1].schoolID
+            }
             dropDown.hide()
         }
     }
     
     @IBAction func updateBtnAction(_ sender: UIButton) {
-      //  guard validation() else {return}
+        guard validation() else {return}
+        updateID = Int(txt_EmployeeId.text ?? "")
+        let photoPath = isCurrentUser == true ? profileImgView.image?.convertImageToBase64String() ?? "" : ""
         let parameters : [String : Any] = [
             "employeeName": txt_Name.text ?? "",
-            "fathername": "",
-            "employeeSurName": "",
-            "mothername": "",
             "employeeEmail":txt_Email.text ?? "",
             "gender":btn_Gender.currentTitle == "Male" ? "M" : "F",
             "phoneNumber":txt_MobileNumber.text ?? "",
@@ -142,12 +199,12 @@ class UpdateProfileDetailsVC: UIViewController {
                 "id": Int(officeLoCId ?? "0")!
             ],
             "bloodgroup": btn_BloodGroup.currentTitle ?? "",
-            "photo":"",
-            "id":NSNull(),
+            "photo": photoPath,
+            "id":updateID ?? NSNull(),
             "employeeId":txt_EmployeeId.text ?? ""
             ]
         print(parameters)
-        NetworkRequest.makeRequest(type: AddEmpContactStruct.self, urlRequest: Router.addEmpContact(parameters: parameters)) { [weak self](result) in
+        NetworkRequest.makeRequest(type: LoginStruct.self, urlRequest: Router.updateEmpContact(parameters: parameters)) { [weak self](result) in
             guard let self = self else {return}
             switch result
             {

@@ -129,6 +129,7 @@ func setupBackButton()
     btn1.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
     self.navigationController?.navigationBar.barTintColor = UIColor.init(red: 68/255, green: 153/255, blue: 102/255, alpha: 1)
     self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+    self.navigationController?.navigationBar.isTranslucent = false
 
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: btn1)
   //  setupNavigationColor()

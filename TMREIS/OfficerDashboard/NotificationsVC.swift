@@ -12,6 +12,7 @@ class NotificationsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Notifications"
+        setupBackButton()
     }
     
 

@@ -13,10 +13,10 @@ extension String
   }
 }
 extension String {
-    func convertBase64StringToImage() -> UIImage {
+    func convertBase64StringToImage() -> UIImage? {
         let imageData = Data.init(base64Encoded: self, options: .ignoreUnknownCharacters)
         let image = UIImage(data: imageData!)
-        return image!
+        return image
     }
 
 }

@@ -65,6 +65,7 @@ enum Router:URLRequestConvertible{
   case getOfficeLocationDetails
   case addEmpContact(parameters : Parameters)
   case updateEmpContact(parameters : Parameters)
+  case getNotifications(strDate : String , endDate : String)
   // case genearteMpin(userName: String, mpin:String)
   //  case forgotMpin(userName:String, mpin:String)
   
@@ -77,7 +78,7 @@ enum Router:URLRequestConvertible{
     //        case .login :
     //            return .post
     //loginWithMobileNumber
-    case .loginWithMobileNo , .genearteMpin , .getDesignationMasterDetails , .getOfficeLocationDetails:
+    case .loginWithMobileNo , .genearteMpin , .getDesignationMasterDetails , .getOfficeLocationDetails , .getNotifications:
       return .get
     //GenerateMpin
     //        case .genearteMpin:
@@ -96,6 +97,8 @@ enum Router:URLRequestConvertible{
   }
     var path:String {
         switch self {
+        case .getNotifications:
+            return "getNotificationDetails"
         case .addEmpContact:
             return "addEmpContact"
         case .updateEmpContact:
@@ -142,6 +145,16 @@ enum Router:URLRequestConvertible{
     //            urlRequest = try JSONEncoding.default.encode(urlRequest)
     //            debugPrint(urlRequest)
     //loginWithMobileNumber
+    case .getNotifications(let strDate, let endDate):
+        let pathString = path
+        urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
+        guard let token = UserDefaultVars.loginData?.data?.token else {fatalError("token not availabel")}
+        debugPrint("token :- \(token)")
+        urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
+        urlRequest.setValue(strDate, forHTTPHeaderField: "startDate")
+        urlRequest.setValue(endDate, forHTTPHeaderField: "endDate")
+        urlRequest.httpMethod = method.rawValue
+        urlRequest = try JSONEncoding.default.encode(urlRequest)
     case .genearteMpin(let userName,let mpin):
         let pathString = path
         urlRequest = URLRequest(url: url.appendingPathComponent(pathString))

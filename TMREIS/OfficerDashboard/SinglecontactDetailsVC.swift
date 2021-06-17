@@ -28,13 +28,18 @@ class SinglecontactDetailsVC: UIViewController {
   var contactDetails:ContactDetailsStruct.Contact?
     override func viewDidLoad() {
         super.viewDidLoad()
-      employeeName.text = contactDetails?.empName
-      designationLb.text = contactDetails?.empDesignation
-      officeLb.text = contactDetails?.schoolTypeName
-      locationLb.text = contactDetails?.district
-      phoneNumberlb.text  = contactDetails?.mobileNo
-      mailIdLb.text = contactDetails?.emailID
-      
+        employeeName.text = contactDetails?.empName
+        designationLb.text = contactDetails?.empDesignation
+        officeLb.text = contactDetails?.schoolTypeName
+        locationLb.text = contactDetails?.district
+        phoneNumberlb.text  = contactDetails?.mobileNo
+        mailIdLb.text = contactDetails?.emailID
+        
+        if UserDefaultVars.loginData?.data?.userType != "A" //Admin
+        {
+            deleteBtn.isHidden = true
+            editBtn.isHidden = true
+        }
         // Do any additional setup after loading the view.
     }
   
@@ -43,6 +48,14 @@ class SinglecontactDetailsVC: UIViewController {
   }
   
   @IBAction func editBtnClicked(_ sender: UIButton) {
+    let vc = self.storyboard?.instantiateViewController(withIdentifier: "UpdateProfileDetailsVC") as! UpdateProfileDetailsVC
+    vc.isCurrentUser = false
+    vc.contactDetail = contactDetails
+    let navVc = UINavigationController(rootViewController: vc)
+    self.view.window?.rootViewController = navVc
+    self.view.window?.becomeKey()
+    self.view.window?.makeKeyAndVisible()
+    
   }
   
   @IBAction func deleteBtnClicked(_ sender: UIButton) {
