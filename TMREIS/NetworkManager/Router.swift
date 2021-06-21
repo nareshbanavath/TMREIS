@@ -65,14 +65,16 @@ enum Router:URLRequestConvertible{
   case getOfficeLocationDetails
   case addEmpContact(parameters : Parameters)
   case updateEmpContact(parameters : Parameters)
+  case deleteEmpContact(empId : String , userId : String)
   case getNotifications(strDate : String , endDate : String)
+  case sendNotification(parameters : Parameters)
   // case genearteMpin(userName: String, mpin:String)
   //  case forgotMpin(userName:String, mpin:String)
   
   
   var method:HTTPMethod{
     switch self {
-    case .addEmpContact , .updateEmpContact:
+    case .addEmpContact , .updateEmpContact , .deleteEmpContact ,.sendNotification:
         return .post
     //loginWithUserName
     //        case .login :
@@ -97,12 +99,16 @@ enum Router:URLRequestConvertible{
   }
     var path:String {
         switch self {
+        case .sendNotification:
+            return "sendingNotification"
         case .getNotifications:
             return "getNotificationDetails"
         case .addEmpContact:
             return "addEmpContact"
         case .updateEmpContact:
             return "updateEmpContact"
+        case .deleteEmpContact:
+            return "deleteEmpContact"
         case .getDesignationMasterDetails:
             return "getDesignationMasterDetails"
         case .getOfficeLocationDetails:
@@ -153,11 +159,19 @@ enum Router:URLRequestConvertible{
         urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
         urlRequest.setValue(strDate, forHTTPHeaderField: "startDate")
         urlRequest.setValue(endDate, forHTTPHeaderField: "endDate")
+        
+        guard let userType = UserDefaultVars.loginData?.data?.userType , let empId = UserDefaultVars.loginData?.data?.empID else {fatalError()}
+        urlRequest.setValue(userType, forHTTPHeaderField: "userType")
+        urlRequest.setValue(String(empId), forHTTPHeaderField: "empId")
+        
         urlRequest.httpMethod = method.rawValue
         urlRequest = try JSONEncoding.default.encode(urlRequest)
     case .genearteMpin(let userName,let mpin):
         let pathString = path
         urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
+        guard let token = UserDefaultVars.loginData?.data?.token else {fatalError("token not availabel")}
+       // debugPrint("token :- \(token)")
+        urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
         urlRequest.setValue(userName, forHTTPHeaderField: "userName")
         urlRequest.setValue(mpin, forHTTPHeaderField: "mpin")
         urlRequest.httpMethod = method.rawValue
@@ -187,16 +201,6 @@ enum Router:URLRequestConvertible{
       urlRequest.setValue("IOS", forHTTPHeaderField: "deviceType")
       urlRequest = try JSONEncoding.default.encode(urlRequest)
       debugPrint(urlRequest)
-      
-    //generatempin
-    //        case .genearteMpin(let userName,let mpin):
-    //            let pathString = path
-    //            urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
-    //            urlRequest.setValue(userName, forHTTPHeaderField: "userName")
-    //            urlRequest.setValue(mpin, forHTTPHeaderField: "mpin")
-    //            urlRequest.httpMethod = method.rawValue
-    //            urlRequest = try JSONEncoding.default.encode(urlRequest)
-    //           // debugPrint(urlRequest)
     //        // forgotempin
     //        case .forgotMpin(let userName,let mpin):
     //            let pathString = path
@@ -211,9 +215,6 @@ enum Router:URLRequestConvertible{
       let pathString = path
       urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
       urlRequest.httpMethod = method.rawValue
-      //            guard let token = UserDefaults.standard.value(forKey: "token") as? String else {fatalError("token not availabel")}
-      //            //debugPrint("token :- \(token)")
-      //            urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
       urlRequest = try JSONEncoding.default.encode(urlRequest)
       
     //Officer
@@ -236,20 +237,31 @@ enum Router:URLRequestConvertible{
       urlRequest = try JSONEncoding.default.encode(urlRequest)
         
         
-    case .addEmpContact(let parameters):
+    case .addEmpContact(let parameters) , .updateEmpContact(let parameters) ,.sendNotification(let parameters):
         let pathString = path
         urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
         urlRequest.httpMethod = method.rawValue
         guard let token = UserDefaultVars.loginData?.data?.token else {fatalError("token not availabel")}
         urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
         urlRequest = try JSONEncoding.default.encode(urlRequest, with: parameters)
-    case .updateEmpContact(let parameters):
-        let pathString = path
-        urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
-        urlRequest.httpMethod = method.rawValue
-        guard let token = UserDefaultVars.loginData?.data?.token else {fatalError("token not availabel")}
-        urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
-        urlRequest = try JSONEncoding.default.encode(urlRequest, with: parameters)
+//    case .updateEmpContact(let parameters):
+//        let pathString = path
+//        urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
+//        urlRequest.httpMethod = method.rawValue
+//        guard let token = UserDefaultVars.loginData?.data?.token else {fatalError("token not availabel")}
+//        urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
+//        urlRequest = try JSONEncoding.default.encode(urlRequest, with: parameters)
+    case .deleteEmpContact(let empId, let userId):
+      let pathString = path
+      urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
+      urlRequest.httpMethod = method.rawValue
+      guard let token = UserDefaultVars.loginData?.data?.token else {fatalError("token not availabel")}
+      debugPrint("token :- \(token)")
+      urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
+      urlRequest.setValue(userId, forHTTPHeaderField:"userId")
+      urlRequest.setValue(empId, forHTTPHeaderField:"empId")
+      urlRequest.setValue(userId, forHTTPHeaderField: "userId")
+      urlRequest = try JSONEncoding.default.encode(urlRequest)
     }
     return urlRequest
   }

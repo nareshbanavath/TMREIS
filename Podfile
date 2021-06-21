@@ -14,6 +14,10 @@ target 'TMREIS' do
   #pod 'SDWebImage' 
   pod 'Floaty', '~> 4.2.0'
   pod 'DropDown'
+  pod 'Firebase/Messaging'
+  pod 'Firebase/Crashlytics'
+  pod 'Firebase/Analytics'
+  pod 'GrowingTextView'
 
 
 

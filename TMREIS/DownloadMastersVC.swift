@@ -152,7 +152,7 @@ struct ContactDetailsStruct: Codable {
     }
     // MARK: - Datum
     struct Contact: Codable , Hashable {
-    
+      let uuid = UUID()
       let emailID, empID, gender, empName: String?
       let mobileNo: String?
       let schoolName: String?
@@ -180,5 +180,13 @@ struct ContactDetailsStruct: Codable {
           case schoolTypeID = "school_type_id"
           case erstDistName = "erst_dist_name"
       }
+        static func == (lhs: Contact, rhs: Contact) -> Bool {
+              return lhs.uuid == rhs.uuid
+          }
+
+          func hash(into hasher: inout Hasher) {
+              hasher.combine(uuid)
+          }
+        
     }
 }

@@ -11,6 +11,7 @@ class ImagePickeredView: UIImageView , UIImagePickerControllerDelegate , UINavig
     weak var parentViewController : UIViewController?
     var isImagePicked : Bool = false
 //    var imagePickeredDelegate : ImagePickeredViewDelegate?
+ 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         let tapGuesture = UITapGestureRecognizer()
@@ -24,6 +25,7 @@ class ImagePickeredView: UIImageView , UIImagePickerControllerDelegate , UINavig
 
     @objc func handleClickOnImageview(_ sender : Any)
     {
+        debugPrint("handle imageView clicke")
          openActionSheet(options: ["Take a Photo", "Choose from Gallery"], imagePicker: UIImagePickerController())
     }
     

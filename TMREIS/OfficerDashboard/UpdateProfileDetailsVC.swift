@@ -11,6 +11,11 @@ import DropDown
 class UpdateProfileDetailsVC: UIViewController {
 
     @IBOutlet weak var profileImgView: ImagePickeredView!
+    {
+        didSet{
+            profileImgView.parentViewController = self
+        }
+    }
     @IBOutlet weak var txt_Name: UITextField!
     @IBOutlet weak var txt_EmployeeId: UITextField!
     @IBOutlet weak var txt_MobileNumber: UITextField!
@@ -33,7 +38,8 @@ class UpdateProfileDetailsVC: UIViewController {
         super.viewDidLoad()
         title = "Update Profile Details"
         setupBackButton()
-       
+        getDesignationOfficeDetails()
+        
         if isCurrentUser
         {
             profileImgView.superview?.isHidden = false
@@ -50,19 +56,21 @@ class UpdateProfileDetailsVC: UIViewController {
             }
            
             txt_Name.text = currentUsrData?.employeeName
-            txt_EmployeeId.text = currentUsrData?.employeeID
+            if let empId = currentUsrData?.empID
+            {
+                txt_EmployeeId.text = String(empId)
+            }
             txt_MobileNumber.text = currentUsrData?.mobileNumber
             txt_Email.text = currentUsrData?.emailid
             let bloodGroup = currentUsrData?.bloodgroup == "" || currentUsrData?.bloodgroup == nil ? "Select" : currentUsrData?.bloodgroup
             let gender = currentUsrData?.gender == "" || currentUsrData?.gender == nil ? "Select" : currentUsrData?.gender
             btn_BloodGroup.setTitle(bloodGroup , for: UIControl.State())
-            btn_Gender.setTitle(gender == "M" ? "Male" : "Female", for: UIControl.State())
+            btn_Gender.setTitle(gender == "Select" ? "Select" : (gender == "M" ? "Male" : "Female"), for: UIControl.State())
             btn_Designation.setTitle(currentUsrData?.designation, for: UIControl.State())
             btn_Office.setTitle(currentUsrData?.location, for: UIControl.State())
         }
         else
         {
-            getDesignationOfficeDetails()
             profileImgView.superview?.isHidden = true
             btn_Designation.isEnabled = true
             btn_Office.isEnabled = true
@@ -74,8 +82,9 @@ class UpdateProfileDetailsVC: UIViewController {
             txt_EmployeeId.text = contactDetail?.empID
             txt_MobileNumber.text = contactDetail?.mobileNo
             txt_Email.text = contactDetail?.emailID
+            let gender = contactDetail?.gender == "" || contactDetail?.gender == nil ? "Select" : contactDetail?.gender
             btn_BloodGroup.setTitle(contactDetail?.bloodGroup == "" ? "Select" : contactDetail?.bloodGroup , for: UIControl.State())
-            btn_Gender.setTitle(contactDetail?.gender == "" ? "Select" : contactDetail?.gender, for: UIControl.State())
+            btn_Gender.setTitle(gender == "Select" ? "Select" : (gender == "M" ? "Male" : "Female"), for: UIControl.State())
             btn_Designation.setTitle(contactDetail?.empDesignation, for: UIControl.State())
             btn_Office.setTitle(contactDetail?.schoolName, for: UIControl.State())
             
@@ -87,7 +96,26 @@ class UpdateProfileDetailsVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-
+    func settingOfficeDesignationIDs()
+    {
+        guard btn_Office.currentTitle != "Select" , btn_Designation.currentTitle != "Select" else {return}
+        let office = btn_Office.currentTitle
+        let designation = btn_Designation.currentTitle
+       
+        officeLocArray.forEach { (ofcLoc) in
+            if ofcLoc.schoolName == office
+            {
+                self.officeLoCId = ofcLoc.schoolID
+            }
+        }
+        designationArray.forEach { (desg) in
+            if desg.desgName == designation
+            {
+                self.designationId = desg.desgID
+            }
+        }
+       
+    }
     //MARK:- Service Calls
     func getDesignationOfficeDetails()
     {
@@ -122,6 +150,7 @@ class UpdateProfileDetailsVC: UIViewController {
         
         dispatchGroup.notify(queue: .main){
             print("All Tasks Finished")
+            self.settingOfficeDesignationIDs()
         }
     }
     
@@ -184,7 +213,13 @@ class UpdateProfileDetailsVC: UIViewController {
     
     @IBAction func updateBtnAction(_ sender: UIButton) {
         guard validation() else {return}
-        updateID = Int(txt_EmployeeId.text ?? "")
+        if isCurrentUser
+        {
+            updateID = UserDefaultVars.loginData?.data?.empID
+        }
+        else {
+            updateID = Int(contactDetail?.empID ?? "0")
+        }
         let photoPath = isCurrentUser == true ? profileImgView.image?.convertImageToBase64String() ?? "" : ""
         let parameters : [String : Any] = [
             "employeeName": txt_Name.text ?? "",
@@ -194,23 +229,28 @@ class UpdateProfileDetailsVC: UIViewController {
             "designation": [
                 "id": Int(designationId ?? "0")!
             ],
-
+            
             "officeMaster": [
                 "id": Int(officeLoCId ?? "0")!
             ],
-            "bloodgroup": btn_BloodGroup.currentTitle ?? "",
-            "photo": photoPath,
+            "bloodGroup": btn_BloodGroup.currentTitle ?? "",
+            "photopath": photoPath,
             "id":updateID ?? NSNull(),
             "employeeId":txt_EmployeeId.text ?? ""
-            ]
-        print(parameters)
+        ]
+       // print(parameters)
         NetworkRequest.makeRequest(type: LoginStruct.self, urlRequest: Router.updateEmpContact(parameters: parameters)) { [weak self](result) in
             guard let self = self else {return}
             switch result
             {
             case .success(let data):
+                guard data.statusCode == 200 else {
+                    self.showAlert(message: data.statusMessage ?? serverNotResponding);return
+                }
+                UserDefaultVars.loginData = data
                 self.showAlert(message: data.statusMessage ?? serverNotResponding)
                 {
+                    
                     self.backButtonPressed()
                 }
             case .failure(let err):

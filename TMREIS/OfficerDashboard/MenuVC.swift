@@ -33,6 +33,7 @@ class MenuVC: UIViewController {
              TBLViewItem(labelName: "Notifications", iconName: "comment", storyBoardName: "Officer", vcName: "NotificationsVC"),
              TBLViewItem(labelName: "Download Masters", iconName: "tmreis_logo", storyBoardName: "Officer", vcName: "DownloadMastersVC"),
              TBLViewItem(labelName: "Add contact", iconName: "addmember", storyBoardName: "Officer", vcName: "AddmemberVC"),
+             TBLViewItem(labelName: "Broadcast", iconName: "addmember", storyBoardName: "Officer", vcName: "BroadcastVC"),
              TBLViewItem(labelName: "Logout", iconName: "tmreis_logo", storyBoardName: "Officer", vcName: "HomeVC"),
              TBLViewItem(labelName: "Exit", iconName: "tmreis_logo", storyBoardName: "Officer", vcName: "HomeVC")]
              

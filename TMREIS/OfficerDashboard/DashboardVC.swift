@@ -39,7 +39,7 @@ class DashboardVC: UIViewController {
         nameLb.text = UserDefaultVars.loginData?.data?.employeeName
         designationLb.text = UserDefaultVars.loginData?.data?.designation
         placeLb.text = UserDefaultVars.loginData?.data?.location
-        if let photoStr = UserDefaultVars.loginData?.data?.photopath
+        if let photoStr = UserDefaultVars.loginData?.data?.photopath , photoStr != ""
         {
             profileImgView.image = photoStr.convertBase64StringToImage()
         }

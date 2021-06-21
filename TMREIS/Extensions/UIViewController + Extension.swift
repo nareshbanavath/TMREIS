@@ -55,3 +55,25 @@ extension Sequence where Element: Hashable {
         return filter { set.insert($0).inserted }
     }
 }
+extension UITableView {
+    
+    func setEmptyMessage(_ message: String , textColor : UIColor = .darkGray , fontSize : Int = 15) {
+        let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height))
+        messageLabel.text = message
+        messageLabel.textColor = textColor
+        messageLabel.numberOfLines = 0
+        messageLabel.textAlignment = .center
+        messageLabel.font = UIFont(name: "TrebuchetMS", size: CGFloat(fontSize))
+        messageLabel.sizeToFit()
+        
+        
+        self.backgroundView = messageLabel
+        self.separatorStyle = .none
+    }
+    
+    func restore() {
+        self.backgroundView = nil
+        self.separatorStyle = .singleLine
+    }
+    
+}

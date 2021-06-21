@@ -13,6 +13,7 @@ struct UserDefaultVars {
     static var userType = "O"
     static var deviceID = UIDevice.current.identifierForVendor?.uuidString
     static var loginData : LoginStruct?
+    static var fcmToken = ""
     
 }
 let serverNotResponding = "Server Not Responding"
@@ -25,6 +26,18 @@ extension UIViewController {
             completion?()
         }
         alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    func showAlertOkCancel(message: String , completion : (()->())? = nil)
+    {
+        let alert = UIAlertController(title: "TMRIES", message:message, preferredStyle: UIAlertController.Style.alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            completion?()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
+        alert.addAction(cancelAction)
+        alert.addAction(okAction)
+       
         self.present(alert, animated: true, completion: nil)
     }
     

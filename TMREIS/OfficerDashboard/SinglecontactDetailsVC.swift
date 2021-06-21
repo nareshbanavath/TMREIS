@@ -59,6 +59,23 @@ class SinglecontactDetailsVC: UIViewController {
   }
   
   @IBAction func deleteBtnClicked(_ sender: UIButton) {
+    print(contactDetails?.empID , contactDetails?.userID)
+    let empId = contactDetails?.empID ; let userId = contactDetails?.userID
+    guard Reachability.isConnectedToNetwork() else {self.showAlert(message: noInternet);return}
+    NetworkRequest.makeRequest(type: DeleteContactStruct.self, urlRequest: Router.deleteEmpContact(empId: empId ?? "", userId: userId ?? "")) { [weak self](result) in
+        guard let self = self else {return}
+        switch result
+        {
+        case .success(let data):
+            guard data.statusCode == 200 else {self.showAlert(message: data.statusMessage ?? serverNotResponding);return}
+            self.showAlert(message: data.statusMessage ?? "Status Message is nil") {
+                self.dismiss(animated: true, completion: nil)
+            }
+        case .failure(let err):
+            self.showAlert(message: err.localizedDescription)
+        }
+    }
+    
   }
   
   @IBAction func mailBtnClicked(_ sender: UIButton) {
@@ -86,4 +103,16 @@ class SinglecontactDetailsVC: UIViewController {
   }
   
   
+}
+struct DeleteContactStruct : Codable {
+    let success: Bool?
+    let statusMessage: String?
+    let statusCode: Int?
+    
+    enum CodingKeys: String, CodingKey {
+        case success
+        case statusMessage = "status_Message"
+        case statusCode = "status_Code"
+
+    }
 }

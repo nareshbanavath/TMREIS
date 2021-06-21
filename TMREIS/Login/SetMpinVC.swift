@@ -44,12 +44,9 @@ class SetMpinVC: UIViewController {
     }
     @IBAction func proceddBtnClick(_ sender: Any) {
         
-//            if isDataValid(){
-//                self.GenerateMpinWS()
-//            }
-        
-        let vc = storyboards.Login.instance.instantiateViewController(withIdentifier: "UpdateMpinVC") as! UpdateMpinVC
-        self.navigationController?.pushViewController(vc, animated: true)
+            if isDataValid(){
+                self.GenerateMpinWS()
+            }
     }
     func GenerateMpinWS() {
     guard Reachability.isConnectedToNetwork() else {self.showAlert(message: noInternet);return}
@@ -62,11 +59,7 @@ class SetMpinVC: UIViewController {
                 //  debugPrint(self?.model)
                 //  debugPrint(data)
                 if statusMsg == "Your MPin set/generated successfully" || data.statusCode == 200 {
-                    if let resMpin = data.mPin
-                    {
-                        UserDefaults.standard.set(resMpin, forKey:"mpin")
-                    }
-
+                    
                     let vc = self?.storyboard?.instantiateViewController(withIdentifier: "UpdateMpinVC") as! UpdateMpinVC
                     self?.navigationController?.pushViewController(vc, animated: true)
 

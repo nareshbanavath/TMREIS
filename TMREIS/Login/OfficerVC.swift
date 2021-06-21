@@ -9,11 +9,17 @@ import UIKit
 
 class OfficerVC: UIViewController , UITextFieldDelegate{
   @IBOutlet weak var mobileNumberTF: UITextField!
+  {
+    didSet{
+        mobileNumberTF.keyboardType = .phonePad
+        mobileNumberTF.delegate = self
+    }
+  }
   override func viewDidLoad() {
     super.viewDidLoad()
     
     self.navigationController?.isNavigationBarHidden = true
-    mobileNumberTF.delegate = self
+
   }
   
   @IBAction func loginbtnClick(_ sender: Any) {
@@ -26,7 +32,7 @@ class OfficerVC: UIViewController , UITextFieldDelegate{
   func OfficerLoginWS(){
     let username = mobileNumberTF.text?.AESEncryption()
     guard Reachability.isConnectedToNetwork() else {self.showAlert(message: noInternet);return}
-    NetworkRequest.makeRequest(type: LoginStruct.self, urlRequest: Router.loginWithMobileNo(usertype : "O",mobileNumber: username ?? "", deviceId: UserDefaultVars.deviceID ?? "", IMEI: UserDefaultVars.deviceID ?? "",fcmToken: UserDefaultVars.loginData?.data?.fcmtoken ?? "" , deviceType: "IOS"), completion: { [weak self](result) in
+    NetworkRequest.makeRequest(type: LoginStruct.self, urlRequest: Router.loginWithMobileNo(usertype : "O",mobileNumber: username ?? "", deviceId: UserDefaultVars.deviceID ?? "", IMEI: UserDefaultVars.deviceID ?? "",fcmToken: UserDefaultVars.fcmToken , deviceType: "IOS"), completion: { [weak self](result) in
       switch result{
       case  .success(let data):
         // resetDefaults()

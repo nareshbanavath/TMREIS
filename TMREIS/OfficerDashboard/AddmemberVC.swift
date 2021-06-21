@@ -152,8 +152,8 @@ class AddmemberVC: UIViewController {
             "officeMaster": [
                 "id": Int(officeLoCId ?? "0")!
             ],
-            "bloodgroup": btn_BloodGroup.currentTitle ?? "",
-            "photo":"",
+            "bloodGroup": btn_BloodGroup.currentTitle ?? "",
+            "photopath":"",
             "id":NSNull(),
             "employeeId":txt_EmployeeId.text ?? ""
             ]
@@ -278,5 +278,4 @@ struct AddEmpContactStruct : Codable {
         case statusCode = "status_Code"
 
     }
-    
 }

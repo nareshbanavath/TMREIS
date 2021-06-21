@@ -43,6 +43,8 @@
 		65668955267A0C7C0052240F /* UpdateProfileDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65668954267A0C7C0052240F /* UpdateProfileDetailsVC.swift */; };
 		6566897A267A10530052240F /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65668979267A10530052240F /* CustomImageView.swift */; };
 		65955264267B4AA60033598A /* DatePickeredTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65955263267B4AA60033598A /* DatePickeredTextField.swift */; };
+		65955267267C6E3C0033598A /* NotificationsTBCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65955266267C6E3C0033598A /* NotificationsTBCell.swift */; };
+		6595526A267DE0780033598A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 65955269267DE0780033598A /* GoogleService-Info.plist */; };
 		BE16FDAC263D2A5D00654713 /* SplashVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE16FDAB263D2A5D00654713 /* SplashVC.swift */; };
 		BE3C3F1B26403AD6004DC1B8 /* AddmemberVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3C3F1A26403AD6004DC1B8 /* AddmemberVC.swift */; };
 		BE3C3F1E26403AF4004DC1B8 /* BroadcastVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3C3F1D26403AF4004DC1B8 /* BroadcastVC.swift */; };
@@ -92,6 +94,9 @@
 		65668954267A0C7C0052240F /* UpdateProfileDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileDetailsVC.swift; sourceTree = "<group>"; };
 		65668979267A10530052240F /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		65955263267B4AA60033598A /* DatePickeredTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickeredTextField.swift; sourceTree = "<group>"; };
+		65955266267C6E3C0033598A /* NotificationsTBCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsTBCell.swift; sourceTree = "<group>"; };
+		65955269267DE0780033598A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		65955283267DE1AB0033598A /* TMREIS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TMREIS.entitlements; sourceTree = "<group>"; };
 		BE16FDAB263D2A5D00654713 /* SplashVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashVC.swift; sourceTree = "<group>"; };
 		BE3C3F1A26403AD6004DC1B8 /* AddmemberVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddmemberVC.swift; sourceTree = "<group>"; };
 		BE3C3F1D26403AF4004DC1B8 /* BroadcastVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastVC.swift; sourceTree = "<group>"; };
@@ -153,6 +158,7 @@
 		652219442636DF54006B8533 /* TMREIS */ = {
 			isa = PBXGroup;
 			children = (
+				65955283267DE1AB0033598A /* TMREIS.entitlements */,
 				04485461265FB55200514546 /* Extensions */,
 				6545CB3B263AB61A00DDECAE /* OfficerDashboard */,
 				652B92832637F9F600DD5DB0 /* CitizenDashboard */,
@@ -164,6 +170,7 @@
 				6522194E2636DF54006B8533 /* Assets.xcassets */,
 				652219502636DF54006B8533 /* LaunchScreen.storyboard */,
 				652219532636DF54006B8533 /* Info.plist */,
+				65955269267DE0780033598A /* GoogleService-Info.plist */,
 				0448546726609EB900514546 /* CoreDataManager.swift */,
 				0448546A2660F38A00514546 /* DownloadMastersVC.swift */,
 				044854722660F87200514546 /* TMREISDataModel.xcdatamodeld */,
@@ -234,6 +241,7 @@
 				04EA36E52669FA5A007355EB /* DashboardVC.swift */,
 				040B3289266CEF290084660A /* FilterContactVC.swift */,
 				65668954267A0C7C0052240F /* UpdateProfileDetailsVC.swift */,
+				65955266267C6E3C0033598A /* NotificationsTBCell.swift */,
 			);
 			path = OfficerDashboard;
 			sourceTree = "<group>";
@@ -311,6 +319,7 @@
 				652219522636DF54006B8533 /* LaunchScreen.storyboard in Resources */,
 				6522194F2636DF54006B8533 /* Assets.xcassets in Resources */,
 				6545CB3D263AB63800DDECAE /* Officer.storyboard in Resources */,
+				6595526A267DE0780033598A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,6 +408,7 @@
 				0448546826609EB900514546 /* CoreDataManager.swift in Sources */,
 				652B92722637E6FF00DD5DB0 /* CitizenVC.swift in Sources */,
 				BE16FDAC263D2A5D00654713 /* SplashVC.swift in Sources */,
+				65955267267C6E3C0033598A /* NotificationsTBCell.swift in Sources */,
 				BE51A570263EA490004C26AD /* NotificationsVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -539,6 +549,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TMREIS/TMREIS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RH6LF4GV53;
 				INFOPLIST_FILE = TMREIS/Info.plist;
@@ -560,6 +571,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TMREIS/TMREIS.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RH6LF4GV53;
 				INFOPLIST_FILE = TMREIS/Info.plist;

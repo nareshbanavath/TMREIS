@@ -6,15 +6,20 @@
 //
 
 import UIKit
+protocol DatePickeredTextFieldDelegate : class {
+    func didDoneBtnTapped(date : String , textField : UITextField)
+}
 class DatePickeredTextField : UITextField
 {
     let datePicker = UIDatePicker()
-
+    var pickerDelegate : DatePickeredTextFieldDelegate?
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        setupDatePicker()
+        setupIcon()
     }
     func setupDatePicker()
     {
@@ -27,11 +32,23 @@ class DatePickeredTextField : UITextField
         inputView = datePicker
         
         let toolBar = UIToolbar()
+        toolBar.sizeToFit()
         let cancelBtn = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelBtnClicked))
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneBtn = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneBtnClicked))
-        toolBar.items = [cancelBtn , flexibleSpace , doneBtn]
+        toolBar.setItems([cancelBtn , flexibleSpace , doneBtn], animated: true)
         inputAccessoryView = toolBar
+    }
+    func setupIcon()
+    {
+        let iconImageView = UIImageView(image: UIImage.init(systemName: "calendar"))
+        iconImageView.tintColor = .black
+        let iconContainerView = UIView(frame: CGRect(x: 10, y: 0, width: 30, height: 30))
+        iconContainerView.addSubview(iconImageView)
+       // iconContainerView.backgroundColor = .red
+        iconImageView.frame = CGRect(x: 5, y: 5, width: 20, height: 20)
+        self.leftViewMode = .always
+        self.leftView = iconContainerView
     }
     @objc func cancelBtnClicked()
     {
@@ -39,8 +56,14 @@ class DatePickeredTextField : UITextField
     }
     @objc func doneBtnClicked()
     {
-        debugPrint(datePicker.date)
-        
+      //  debugPrint(datePicker.date)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let dateTxt = formatter.string(from: datePicker.date)
+        self.text = dateTxt
+        pickerDelegate?.didDoneBtnTapped(date: dateTxt, textField: self)
         self.resignFirstResponder()
     }
 }
+
+
