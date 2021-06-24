@@ -19,6 +19,11 @@ class UpdateProfileDetailsVC: UIViewController {
     @IBOutlet weak var txt_Name: UITextField!
     @IBOutlet weak var txt_EmployeeId: UITextField!
     @IBOutlet weak var txt_MobileNumber: UITextField!
+    {
+        didSet{
+            txt_MobileNumber.delegate = self
+        }
+    }
     @IBOutlet weak var txt_Email: UITextField!
     
     @IBOutlet weak var btn_Gender: UIButton!
@@ -34,6 +39,7 @@ class UpdateProfileDetailsVC: UIViewController {
     var officeLoCId : String?
     var updateID : Int!
     lazy var dropDown = DropDown()
+    var photoPath = ""
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Update Profile Details"
@@ -53,6 +59,10 @@ class UpdateProfileDetailsVC: UIViewController {
             if let photoPath = currentUsrData?.photopath , photoPath != ""
             {
                 profileImgView.image = photoPath.convertBase64StringToImage()
+                self.photoPath = photoPath
+            }
+            else{
+                photoPath = ""
             }
            
             txt_Name.text = currentUsrData?.employeeName
@@ -162,8 +172,8 @@ class UpdateProfileDetailsVC: UIViewController {
         dropDown.anchorView = sender
         dropDown.show()
         dropDown.selectionAction = { [unowned self](index : Int , item : String) in
-            debugPrint(item)
-            sender.setTitle(item, for: UIControl.State())
+           // debugPrint(item)
+            sender.setTitle("  \(item)", for: UIControl.State())
             dropDown.hide()
         }
     }
@@ -174,7 +184,7 @@ class UpdateProfileDetailsVC: UIViewController {
         dropDown.show()
         dropDown.selectionAction = { [unowned self](index : Int , item : String) in
             debugPrint(item)
-            sender.setTitle(item, for: UIControl.State())
+            sender.setTitle("  \(item)", for: UIControl.State())
             dropDown.hide()
         }
     }
@@ -186,7 +196,7 @@ class UpdateProfileDetailsVC: UIViewController {
         dropDown.show()
         dropDown.selectionAction = { [unowned self](index : Int , item : String) in
             debugPrint(item)
-            sender.setTitle(item, for: UIControl.State())
+            sender.setTitle("  \(item)", for: UIControl.State())
             if index != 0{
             self.designationId = designationArray[index - 1].desgID
             }
@@ -203,7 +213,7 @@ class UpdateProfileDetailsVC: UIViewController {
         dropDown.show()
         dropDown.selectionAction = { [unowned self](index : Int , item : String) in
             debugPrint(item)
-            sender.setTitle(item, for: UIControl.State())
+            sender.setTitle("  \(item)", for: UIControl.State())
             if index != 0{
             self.officeLoCId = officeLocArray[index - 1].schoolID
             }
@@ -220,7 +230,6 @@ class UpdateProfileDetailsVC: UIViewController {
         else {
             updateID = Int(contactDetail?.empID ?? "0")
         }
-        let photoPath = isCurrentUser == true ? profileImgView.image?.convertImageToBase64String() ?? "" : ""
         let parameters : [String : Any] = [
             "employeeName": txt_Name.text ?? "",
             "employeeEmail":txt_Email.text ?? "",
@@ -234,7 +243,7 @@ class UpdateProfileDetailsVC: UIViewController {
                 "id": Int(officeLoCId ?? "0")!
             ],
             "bloodGroup": btn_BloodGroup.currentTitle ?? "",
-            "photopath": photoPath,
+            "photopath": self.photoPath,
             "id":updateID ?? NSNull(),
             "employeeId":txt_EmployeeId.text ?? ""
         ]
@@ -247,10 +256,11 @@ class UpdateProfileDetailsVC: UIViewController {
                 guard data.statusCode == 200 else {
                     self.showAlert(message: data.statusMessage ?? serverNotResponding);return
                 }
+            
                 UserDefaultVars.loginData = data
                 self.showAlert(message: data.statusMessage ?? serverNotResponding)
                 {
-                    
+                 
                     self.backButtonPressed()
                 }
             case .failure(let err):
@@ -262,16 +272,30 @@ class UpdateProfileDetailsVC: UIViewController {
     }
     func validation() -> Bool
     {
-        guard txt_Name.text?.trim().count != 0 else {self.showAlert(message: "Please Enter FirstName");return false}
+        guard txt_Name.text?.trim().count != 0 else {self.showAlert(message: "Please Enter Name");return false}
         guard txt_EmployeeId.text?.trim().count != 0 else {self.showAlert(message: "Please Enter Employee Id");return false}
         guard txt_MobileNumber.text?.trim().count != 0 else {self.showAlert(message: "Please Enter MobileNumber");return false}
         guard txt_Email.text?.trim().count != 0 else {self.showAlert(message: "Please Enter Email");return false}
-        guard btn_BloodGroup.currentTitle != "Select" else {self.showAlert(message: "Please Select Blood Group");return false}
-        guard btn_Gender.currentTitle != "Select" else {self.showAlert(message: "Please Select Gender");return false}
-        guard btn_Designation.currentTitle != "Select" else {self.showAlert(message: "Please Select Designation");return false}
-        guard btn_Office.currentTitle != "Select" else {self.showAlert(message: "Please Select Office");return false}
+        guard self.isValidEmail(emailStr: txt_Email.text!) else {self.showAlert(message: "Please Enter Valid Email");return false}
+        guard btn_BloodGroup.currentTitle?.trim() != "Select" else {self.showAlert(message: "Please Select Blood Group");return false}
+        guard btn_Gender.currentTitle?.trim() != "Select" else {self.showAlert(message: "Please Select Gender");return false}
+        guard btn_Designation.currentTitle?.trim() != "Select" else {self.showAlert(message: "Please Select Designation");return false}
+        guard btn_Office.currentTitle?.trim() != "Select" else {self.showAlert(message: "Please Select Office");return false}
         return true
     }
 
     
+}
+extension UpdateProfileDetailsVC : UITextFieldDelegate
+{
+    
+  //MARK:- TextField Delegate
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let maxLength = 10
+        let currentString: NSString = (textField.text ?? "") as NSString
+        let newString: NSString =
+            currentString.replacingCharacters(in: range, with: string) as NSString
+        return newString.length <= maxLength
+        
+    }
 }

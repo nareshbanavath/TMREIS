@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Floaty
 class DashboardVC: UIViewController {
     
     //MARK:- Properties
@@ -36,14 +36,8 @@ class DashboardVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addmenuBtn()
-        nameLb.text = UserDefaultVars.loginData?.data?.employeeName
-        designationLb.text = UserDefaultVars.loginData?.data?.designation
-        placeLb.text = UserDefaultVars.loginData?.data?.location
-        if let photoStr = UserDefaultVars.loginData?.data?.photopath , photoStr != ""
-        {
-            profileImgView.image = photoStr.convertBase64StringToImage()
-        }
-        
+       
+       
         dashBViews.forEach { (view) in
             view.layer.cornerRadius = 7
         }
@@ -81,6 +75,19 @@ class DashboardVC: UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
         self.navigationController?.navigationBar.isTranslucent = false
         // self.view.backgroundColor = .blue
+        
+        nameLb.text = UserDefaultVars.loginData?.data?.employeeName
+        designationLb.text = UserDefaultVars.loginData?.data?.designation
+        placeLb.text = UserDefaultVars.loginData?.data?.location
+        if let photoStr = UserDefaultVars.loginData?.data?.photopath , photoStr != ""
+        {
+            profileImgView.image = photoStr.convertBase64StringToImage()
+        }
+        if UserDefaultVars.loginData?.data?.userType == "A"
+        {
+            addFilterButton()
+        }
+        
         
     }
     //MARK:- IBAction Btns
@@ -155,6 +162,41 @@ class DashboardVC: UIViewController {
             self.showAlert(message: "Data not available for \(dataNotAvailableMsg) Please Download") {
                 self.sideMenuController?.setContentViewController(to: navVc)
             }
+        }
+    }
+    func addFilterButton()
+    {
+
+        let floaty = Floaty()
+        floaty.buttonImage = UIImage(named: "plus")
+        floaty.itemTitleColor = .green
+        floaty.buttonColor = UIColor(named: "LogoPink") ?? UIColor.orange
+        floaty.overlayColor = UIColor.white.withAlphaComponent(0.8)
+        floaty.plusColor = .white
+        floaty.addItem("Add Contact", icon: UIImage(named: "addmember")!, handler: {[unowned self] item in
+            print("add contact clicked")
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "AddmemberVC") as! AddmemberVC
+            let navVC = UINavigationController(rootViewController: vc)
+            self.view.window?.rootViewController = navVC
+            self.view.window?.makeKeyAndVisible()
+        })
+        floaty.addItem("Broadcast", icon: UIImage(named: "broadcast")!, handler: {[unowned self]  item in
+           print("broadcastclicked")
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "BroadcastVC") as! BroadcastVC
+            let navVC = UINavigationController(rootViewController: vc)
+            self.view.window?.rootViewController = navVC
+            self.view.window?.makeKeyAndVisible()
+        })
+        self.view.addSubview(floaty)
+        floaty.items.forEach { (item) in
+            item.titleColor = UIColor.white
+            // item.titleLabel.backgroundColor = .green
+            item.titleLabel.font = UIFont.systemFont(ofSize: 14.0)
+          //  item.icon = UIImage(named: "approvedIcon")
+            item.hasShadow = false
+            item.titleLabel.textAlignment = .right
+            item.buttonColor = UIColor(named: "LogoPink")!
+
         }
     }
   

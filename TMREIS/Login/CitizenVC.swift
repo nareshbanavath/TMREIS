@@ -46,7 +46,7 @@ class CitizenVC: UIViewController  , UITextFieldDelegate {
                 switch statuscode
                 {
                 case 200 :
-                    
+                    UserDefaultVars.loginData = data
                     if data.data?.mpin == "00" //mpin not set
                     {
                         let vc = self?.storyboard?.instantiateViewController(withIdentifier: "OtpVC") as! OtpVC

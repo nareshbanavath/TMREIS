@@ -155,7 +155,7 @@ enum Router:URLRequestConvertible{
         let pathString = path
         urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
         guard let token = UserDefaultVars.loginData?.data?.token else {fatalError("token not availabel")}
-        debugPrint("token :- \(token)")
+       //debugPrint("token :- \(token)")
         urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
         urlRequest.setValue(strDate, forHTTPHeaderField: "startDate")
         urlRequest.setValue(endDate, forHTTPHeaderField: "endDate")
@@ -200,7 +200,7 @@ enum Router:URLRequestConvertible{
       urlRequest.setValue(fcmToken, forHTTPHeaderField: "fcmToken")
       urlRequest.setValue("IOS", forHTTPHeaderField: "deviceType")
       urlRequest = try JSONEncoding.default.encode(urlRequest)
-      debugPrint(urlRequest)
+     // debugPrint(urlRequest)
     //        // forgotempin
     //        case .forgotMpin(let userName,let mpin):
     //            let pathString = path
@@ -223,7 +223,7 @@ enum Router:URLRequestConvertible{
       urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
       urlRequest.httpMethod = method.rawValue
       guard let token = UserDefaultVars.loginData?.data?.token else {fatalError("token not availabel")}
-      debugPrint("token :- \(token)")
+     // debugPrint("token :- \(token)")
       urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
       urlRequest.setValue(schoolTypeId, forHTTPHeaderField:"schoolTypeId")
       urlRequest = try JSONEncoding.default.encode(urlRequest)
@@ -232,7 +232,7 @@ enum Router:URLRequestConvertible{
       urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
       urlRequest.httpMethod = method.rawValue
       guard let token = UserDefaultVars.loginData?.data?.token else {fatalError("token not availabel")}
-      debugPrint("token :- \(token)")
+     // debugPrint("token :- \(token)")
       urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
       urlRequest = try JSONEncoding.default.encode(urlRequest)
         
@@ -256,7 +256,7 @@ enum Router:URLRequestConvertible{
       urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
       urlRequest.httpMethod = method.rawValue
       guard let token = UserDefaultVars.loginData?.data?.token else {fatalError("token not availabel")}
-      debugPrint("token :- \(token)")
+    //  debugPrint("token :- \(token)")
       urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
       urlRequest.setValue(userId, forHTTPHeaderField:"userId")
       urlRequest.setValue(empId, forHTTPHeaderField:"empId")

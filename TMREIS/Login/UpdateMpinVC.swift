@@ -15,6 +15,7 @@ class UpdateMpinVC: UIViewController {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
         setupMpinStackView()
+     
     }
     func setupMpinStackView()
     {

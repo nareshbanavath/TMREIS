@@ -99,7 +99,7 @@ class HomeVC: UIViewController  {
     {
         let filterBtn = UIButton()
         filterBtn.tintColor = .white
-        filterBtn.setImage(UIImage(named: "plus"), for: .normal)
+        filterBtn.setImage(UIImage(named: "filterIcon"), for: .normal)
         filterBtn.addTarget(self, action: #selector(filterBtnClicked(_:)), for: .touchUpInside)
         let filterBarBtn = UIBarButtonItem(customView: filterBtn)
         let searchButton = UIBarButtonItem.init(barButtonSystemItem: .search, target: self, action: #selector(searchBtnClicked(_:)))
@@ -199,19 +199,21 @@ extension HomeVC : UITableViewDataSource , UITableViewDelegate
         return prepareTableViewCell(tableView: tableView, row: indexPath.row)
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard UserDefaultVars.RolesArray.contains("ROLE_ADMIN") else {return}
+        tableView.deselectRow(at: indexPath, animated: true)
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "SinglecontactDetailsVC") as! SinglecontactDetailsVC
         vc.contactDetails = filteredContactArray?[indexPath.row]
         //    vc.definesPresentationContext = false
-        vc.view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
+        vc.view.backgroundColor = UIColor.clear
         if #available(iOS 13.0, *) {
             vc.modalPresentationStyle = .automatic
         } else {
             // Fallback on earlier versions
         }
-        vc.modalTransitionStyle = .coverVertical
+        vc.modalTransitionStyle = .flipHorizontal
         present(vc, animated: true, completion: nil)
     }
+ 
+   
     
     
 }

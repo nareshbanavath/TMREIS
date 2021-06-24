@@ -41,6 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     func registerForPushNotifications() {
       //1
+        UNUserNotificationCenter.current().delegate = self
       UNUserNotificationCenter.current()
         //2
         .requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in

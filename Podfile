@@ -18,6 +18,7 @@ target 'TMREIS' do
   pod 'Firebase/Crashlytics'
   pod 'Firebase/Analytics'
   pod 'GrowingTextView'
+  pod 'Floaty'
 
 
 

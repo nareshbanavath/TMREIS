@@ -18,11 +18,17 @@ class NetworkRequest
     {
         print("url :- \(urlRequest.urlRequest?.url?.absoluteString)")
         print("headers :- \(String(describing: urlRequest.urlRequest?.allHTTPHeaderFields))")
+        
 //        print("Url:- ",urlRequest.urlRequest?.url?.absoluteString as Any)
-//        if let jsondata = try? JSONSerialization.jsonObject(with: (urlRequest.urlRequest?.httpBody)!, options: .allowFragments)
-//        {
-//            print("parameters :- ", jsondata)
-//        }
+        if urlRequest.method == .post
+        {
+            if let data = urlRequest.urlRequest?.httpBody {
+                if let jsondata = try? JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                {
+                    print("parameters :- ", jsondata)
+                }
+            }
+        }
 
 
 //        let configuration = URLSessionConfiguration.default

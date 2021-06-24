@@ -18,7 +18,13 @@ extension String {
         let image = UIImage(data: imageData!)
         return image
     }
+    var isPhoneNumber: Bool {
 
+        let PHONE_REGEX = "^[6-9][0-9]{9}$";
+           let phoneTest = NSPredicate(format: "SELF MATCHES %@", PHONE_REGEX)
+           let result =  phoneTest.evaluate(with: self)
+           return result
+    }
 }
 extension UIImage
 {

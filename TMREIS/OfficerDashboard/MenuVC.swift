@@ -10,7 +10,7 @@ import SideMenuSwift
 import SafariServices
 class MenuVC: UIViewController {
     @IBOutlet weak var tableView:UITableView!
-    var menuArray : [[TBLViewItem]] = [[]]
+    var menuArray : [TBLViewItem] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,15 +29,20 @@ class MenuVC: UIViewController {
     func setupArrayForMenuItems(){
         self.menuArray = [
             //Services
-            [TBLViewItem(labelName: "Home", iconName: "tmreis_logo", storyBoardName: "Officer", vcName: "HomeVC"),
+            TBLViewItem(labelName: "Home", iconName: "home", storyBoardName: "Officer", vcName: "HomeVC"),
              TBLViewItem(labelName: "Notifications", iconName: "comment", storyBoardName: "Officer", vcName: "NotificationsVC"),
-             TBLViewItem(labelName: "Download Masters", iconName: "tmreis_logo", storyBoardName: "Officer", vcName: "DownloadMastersVC"),
+             TBLViewItem(labelName: "Download Masters", iconName: "dataStore", storyBoardName: "Officer", vcName: "DownloadMastersVC"),
              TBLViewItem(labelName: "Add contact", iconName: "addmember", storyBoardName: "Officer", vcName: "AddmemberVC"),
-             TBLViewItem(labelName: "Broadcast", iconName: "addmember", storyBoardName: "Officer", vcName: "BroadcastVC"),
-             TBLViewItem(labelName: "Logout", iconName: "tmreis_logo", storyBoardName: "Officer", vcName: "HomeVC"),
-             TBLViewItem(labelName: "Exit", iconName: "tmreis_logo", storyBoardName: "Officer", vcName: "HomeVC")]
-             
+             TBLViewItem(labelName: "Edit Profile", iconName: "edit", storyBoardName: "Officer", vcName: "UpdateProfileDetailsVC"),
+             TBLViewItem(labelName: "Broadcast", iconName: "broadcast", storyBoardName: "Officer", vcName: "BroadcastVC"),
+             TBLViewItem(labelName: "Logout", iconName: "logout", storyBoardName: "Officer", vcName: "HomeVC")
          ]
+        if UserDefaultVars.loginData?.data?.userType != "A" || !UserDefaultVars.RolesArray.contains("ROLE_ADMIN")
+        {
+            for _ in 0..<3{
+            menuArray.remove(at: 3)
+            }
+        }
         }
     func pushViewController(item : TBLViewItem)
     {
@@ -50,21 +55,17 @@ class MenuVC: UIViewController {
 }
 //MARK:- TableView Delegate & Datasource
 extension MenuVC : UITableViewDelegate , UITableViewDataSource{
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return menuArray.count
-    }
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40
-    }
+
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        // debugPrint(menuArray.count)
-        return menuArray[section].count
+        return menuArray.count
 
 }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCell") as! MenuCell
         
-        let cellItem = menuArray[indexPath.section][indexPath.row]
+        let cellItem = menuArray[indexPath.row]
         cell.lb.text = cellItem.labelName
         cell.icon.image = UIImage(named: cellItem.iconName)
         
@@ -77,19 +78,21 @@ extension MenuVC : UITableViewDelegate , UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-       let item = menuArray[indexPath.section][indexPath.row]
-        if item.labelName == "Exit"
+       let item = menuArray[indexPath.row]
+        if item.labelName == "Edit Profile"
         {
-            self.showAlert(message: "Do you want to exit from app?", completion: {
-                       //resetDefaults()
-                       exit(0)
-                   })
+            let VC = UIStoryboard(name: item.storyBoardName, bundle: nil).instantiateViewController(withIdentifier: item.vcName) as! UpdateProfileDetailsVC
+            VC.isCurrentUser = true
+            let navController = UINavigationController(rootViewController: VC)
+            navController.navigationBar.titleTextAttributes = [NSMutableAttributedString.Key.foregroundColor : UIColor.white]
+            navController.navigationBar.isTranslucent = false
+            sideMenuController?.setContentViewController(to: navController)
         } else if item.labelName == "Logout"
         {
             self.showAlert(message: "Do you want to logout from app?", completion: {
                 self.resetDefaults()
-                let vc = storyboards.Login.instance.instantiateViewController(withIdentifier: "SigninSwipeupVC") as! SigninSwipeupVC
-                self.navigationController?.pushViewController(vc, animated: true)//
+                guard let vc = storyboards.Login.instance.instantiateInitialViewController() else {debugPrint("unable to instantiate the class");return}
+                self.view.window?.rootViewController  = vc
 //                UserDefaults.standard.set(self.serverVersion,forKey: "serverVersion")
 //                 UserDefaults.standard.set(self.lastUpdatedDate,forKey: "lastUpdateddate")
                 
@@ -101,23 +104,23 @@ extension MenuVC : UITableViewDelegate , UITableViewDataSource{
         self.sideMenuController?.hideMenu()
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 40))
-        view.backgroundColor = UIColor.gray.withAlphaComponent(0.5)
-        let label = UILabel(frame: CGRect(x: 15.0, y: 0.0, width: view.frame.size.width - 10, height: view.frame.size.height))
-        label.font = UIFont.systemFont(ofSize: 17.0, weight: .semibold)
-        label.text = menuArray[section][0].labelName
-        view.addSubview(label)
-        return view
-    }
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        if #available(iOS 13.0, *) {
-            view.backgroundColor = UIColor.systemGray6
-        } else {
-            // Fallback on earlier versions
-            view.backgroundColor = UIColor(red: 242/255, green: 242/255, blue: 247/255, alpha: 1.0)
-        }
-    }
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 40))
+//        view.backgroundColor = UIColor.gray.withAlphaComponent(0.5)
+//        let label = UILabel(frame: CGRect(x: 15.0, y: 0.0, width: view.frame.size.width - 10, height: view.frame.size.height))
+//        label.font = UIFont.systemFont(ofSize: 17.0, weight: .semibold)
+//        label.text = menuArray[section][0].labelName
+//        view.addSubview(label)
+//        return view
+//    }
+//    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+//        if #available(iOS 13.0, *) {
+//            view.backgroundColor = UIColor.systemGray6
+//        } else {
+//            // Fallback on earlier versions
+//            view.backgroundColor = UIColor(red: 242/255, green: 242/255, blue: 247/255, alpha: 1.0)
+//        }
+//    }
     
 }
 //MARK:- SideMenu & Safari Delegate

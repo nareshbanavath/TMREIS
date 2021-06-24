@@ -162,9 +162,12 @@ class BroadcastVC: UIViewController,UITextViewDelegate {
             "photopath":""
         ]
         guard Reachability.isConnectedToNetwork() else {self.showAlert(message: noInternet);return}
-        NetworkRequest.makeRequest(type: AddEmpContactStruct.self, urlRequest: Router.sendNotification(parameters: parameters)) { (result) in
+        NetworkRequest.makeRequest(type: AddEmpContactStruct.self, urlRequest: Router.sendNotification(parameters: parameters)) { [weak self](result) in
+            guard let self = self else {return}
+            self.containerViewBottomAnchor.constant = -350
             switch result
             {
+            
             case .success(let data):
                 guard data.statusCode == 200 else {self.showAlert(message: data.statusMessage ?? serverNotResponding);return}
             case .failure(let err):

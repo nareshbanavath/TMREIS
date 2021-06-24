@@ -48,6 +48,7 @@ extension UIViewController {
        // deleteAllData("PTMSMaster")
         let dictionary = defaults.dictionaryRepresentation()
         dictionary.keys.forEach { key in
+            defaults.removeObject(forKey: key)
 //            if key != UserDefaultVars.empRefID//delete all userdefault values except locationMasterData
 //            {
 //                defaults.removeObject(forKey: key)

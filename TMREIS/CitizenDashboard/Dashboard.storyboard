@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Citizen DashboardVC-->
+        <!--TMREIS-->
         <scene sceneID="Ch0-Fg-AiI">
             <objects>
                 <viewController storyboardIdentifier="CitizenDashboardVC" id="32Q-ve-UYK" customClass="CitizenDashboardVC" customModule="TMREIS" customModuleProvider="target" sceneMemberID="viewController">
@@ -18,70 +18,67 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TMREIS" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tZm-46-8OQ">
-                                <rect key="frame" x="16" y="138" width="382" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                <color key="textColor" name="LogoPink"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tmreis_logo" translatesAutoresizingMaskIntoConstraints="NO" id="5oE-98-HSN">
-                                <rect key="frame" x="107" y="224" width="200" height="120"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="Iwa-Lh-Ihx"/>
-                                    <constraint firstAttribute="height" constant="120" id="xFQ-Ig-raT"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="(Telangana Minorities Residential Educational Institutions Society)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0hy-Nd-sJp">
-                                <rect key="frame" x="16" y="174.5" width="414" height="33.5"/>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
-                                <color key="textColor" name="Logogreen"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="TN4-z3-xUV">
+                                <rect key="frame" x="20" y="168" width="374" height="174.5"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tmreis_logo" translatesAutoresizingMaskIntoConstraints="NO" id="5oE-98-HSN">
+                                        <rect key="frame" x="87" y="0.0" width="200" height="120"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="200" id="Iwa-Lh-Ihx"/>
+                                            <constraint firstAttribute="height" constant="120" id="xFQ-Ig-raT"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="(Telangana Minorities Residential Educational Institutions Society)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0hy-Nd-sJp">
+                                        <rect key="frame" x="13.5" y="136" width="347" height="38.5"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                        <color key="textColor" name="Logogreen"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bmb-SK-wb4">
-                                <rect key="frame" x="20" y="444" width="374" height="75"/>
+                                <rect key="frame" x="20" y="442.5" width="374" height="70"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="moJ-Li-Mgk">
-                                        <rect key="frame" x="316" y="26.5" width="50" height="22"/>
+                                        <rect key="frame" x="316" y="24" width="50" height="22"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="jU2-Ob-E6M"/>
                                         </constraints>
                                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" image="arrow.right" catalog="system"/>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Online submission form" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NI2-Re-4RL">
-                                        <rect key="frame" x="62" y="21" width="184" height="33"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Online Admission form for TMR Schools" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NI2-Re-4RL">
+                                        <rect key="frame" x="8" y="8" width="300" height="54"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" name="Logogreen"/>
                                 <constraints>
+                                    <constraint firstItem="moJ-Li-Mgk" firstAttribute="leading" secondItem="NI2-Re-4RL" secondAttribute="trailing" constant="8" id="0o1-Ee-sfU"/>
                                     <constraint firstItem="moJ-Li-Mgk" firstAttribute="centerY" secondItem="bmb-SK-wb4" secondAttribute="centerY" id="2rU-4v-YbM"/>
-                                    <constraint firstAttribute="height" constant="75" id="b0d-mZ-kyE"/>
+                                    <constraint firstAttribute="bottom" secondItem="NI2-Re-4RL" secondAttribute="bottom" constant="8" id="Nab-J1-BaP"/>
+                                    <constraint firstAttribute="height" constant="70" id="b0d-mZ-kyE"/>
                                     <constraint firstItem="moJ-Li-Mgk" firstAttribute="trailing" secondItem="bmb-SK-wb4" secondAttribute="trailingMargin" id="c9M-wn-441"/>
+                                    <constraint firstItem="NI2-Re-4RL" firstAttribute="leading" secondItem="bmb-SK-wb4" secondAttribute="leading" constant="8" id="f9h-Up-ctQ"/>
+                                    <constraint firstItem="NI2-Re-4RL" firstAttribute="top" secondItem="bmb-SK-wb4" secondAttribute="top" constant="8" id="nQb-gg-GDs"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="8ea-zu-MSm"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="tZm-46-8OQ" firstAttribute="top" secondItem="8ea-zu-MSm" secondAttribute="top" constant="50" id="0En-hg-y1L"/>
-                            <constraint firstItem="bmb-SK-wb4" firstAttribute="top" secondItem="5oE-98-HSN" secondAttribute="bottom" constant="100" id="2lw-Ig-23h"/>
-                            <constraint firstItem="tZm-46-8OQ" firstAttribute="leading" secondItem="8ea-zu-MSm" secondAttribute="leading" constant="16" id="DfX-d9-tsP"/>
+                            <constraint firstItem="TN4-z3-xUV" firstAttribute="top" secondItem="8ea-zu-MSm" secondAttribute="top" constant="80" id="33q-d9-oq3"/>
                             <constraint firstItem="bmb-SK-wb4" firstAttribute="leading" secondItem="8ea-zu-MSm" secondAttribute="leading" constant="20" id="HQs-ZB-yul"/>
                             <constraint firstItem="8ea-zu-MSm" firstAttribute="trailing" secondItem="bmb-SK-wb4" secondAttribute="trailing" constant="20" id="LDe-oJ-O6s"/>
-                            <constraint firstItem="0hy-Nd-sJp" firstAttribute="leading" secondItem="8ea-zu-MSm" secondAttribute="leading" constant="16" id="OVe-mU-KNu"/>
-                            <constraint firstItem="0hy-Nd-sJp" firstAttribute="trailing" secondItem="8ea-zu-MSm" secondAttribute="trailing" constant="16" id="PFb-Dd-hxq"/>
-                            <constraint firstItem="5oE-98-HSN" firstAttribute="centerX" secondItem="ECN-WC-pDm" secondAttribute="centerX" id="PRN-Jl-0WJ"/>
-                            <constraint firstItem="5oE-98-HSN" firstAttribute="top" secondItem="0hy-Nd-sJp" secondAttribute="bottom" constant="16" id="hcF-vI-Jqi"/>
-                            <constraint firstItem="8ea-zu-MSm" firstAttribute="trailing" secondItem="tZm-46-8OQ" secondAttribute="trailing" constant="16" id="kPy-kU-Bfv"/>
-                            <constraint firstItem="0hy-Nd-sJp" firstAttribute="top" secondItem="tZm-46-8OQ" secondAttribute="bottom" constant="16" id="oHx-RL-KTG"/>
+                            <constraint firstAttribute="trailing" secondItem="TN4-z3-xUV" secondAttribute="trailing" constant="20" id="Qhr-6x-mQx"/>
+                            <constraint firstItem="bmb-SK-wb4" firstAttribute="top" secondItem="TN4-z3-xUV" secondAttribute="bottom" constant="100" id="XHF-49-2VR"/>
+                            <constraint firstItem="TN4-z3-xUV" firstAttribute="leading" secondItem="ECN-WC-pDm" secondAttribute="leading" constant="20" id="wkj-XJ-kgg"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Ymr-ig-9rb"/>
+                    <navigationItem key="navigationItem" title="TMREIS" id="Ymr-ig-9rb"/>
                     <connections>
                         <outlet property="formView" destination="bmb-SK-wb4" id="c3x-n8-RW3"/>
                     </connections>
@@ -142,11 +139,8 @@
     <resources>
         <image name="arrow.right" catalog="system" width="128" height="98"/>
         <image name="tmreis_logo" width="300" height="300"/>
-        <namedColor name="LogoPink">
-            <color red="0.76078431372549016" green="0.13725490196078433" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="Logogreen">
-            <color red="0.26666666666666666" green="0.59999999999999998" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.2669999897480011" green="0.60000002384185791" blue="0.40000000596046448" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

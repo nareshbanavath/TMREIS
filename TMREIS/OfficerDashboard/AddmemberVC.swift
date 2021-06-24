@@ -9,12 +9,17 @@ import UIKit
 import DropDown
 
 class AddmemberVC: UIViewController {
-
+    
     @IBOutlet weak var txt_EmployeeId: UITextField!
     @IBOutlet weak var txt_LastName: UITextField!
     @IBOutlet weak var txt_FirstName: UITextField!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var txt_MobileNumber: UITextField!
+    {
+        didSet{
+            txt_MobileNumber.delegate = self
+        }
+    }
     @IBOutlet weak var txt_Email: UITextField!
     @IBOutlet weak var btn_Gender: UIButton!
     @IBOutlet weak var btn_Designation: UIButton!
@@ -43,7 +48,7 @@ class AddmemberVC: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
-
+        
     }
     //MARK:- Service Calls
     func getDesignationOfficeDetails()
@@ -70,7 +75,7 @@ class AddmemberVC: UIViewController {
             switch result
             {
             case .success(let data):
-               // debugPrint(data.data?.count)
+                // debugPrint(data.data?.count)
                 self?.officeLocArray = data.data ?? []
             case .failure(let err):
                 debugPrint(err.localizedDescription)
@@ -91,7 +96,8 @@ class AddmemberVC: UIViewController {
         dropDown.show()
         dropDown.selectionAction = { [unowned self](index : Int , item : String) in
             debugPrint(item)
-            sender.setTitle(item, for: UIControl.State())
+            sender.setTitle("  \(item)", for: UIControl.State())
+            
             dropDown.hide()
         }
     }
@@ -101,8 +107,9 @@ class AddmemberVC: UIViewController {
         dropDown.anchorView = sender
         dropDown.show()
         dropDown.selectionAction = { [unowned self](index : Int , item : String) in
-            debugPrint(item)
-            sender.setTitle(item, for: UIControl.State())
+         
+            sender.setTitle("  \(item)", for: UIControl.State())
+            
             dropDown.hide()
         }
     }
@@ -114,8 +121,11 @@ class AddmemberVC: UIViewController {
         dropDown.show()
         dropDown.selectionAction = { [unowned self](index : Int , item : String) in
             debugPrint(item)
-            sender.setTitle(item, for: UIControl.State())
-            self.designationId = designationArray[index - 1].desgID
+            sender.setTitle("  \(item)", for: UIControl.State())
+            if item != "Select"
+            {
+                self.designationId = designationArray[index - 1].desgID
+            }
             
             dropDown.hide()
         }
@@ -129,14 +139,17 @@ class AddmemberVC: UIViewController {
         dropDown.show()
         dropDown.selectionAction = { [unowned self](index : Int , item : String) in
             debugPrint(item)
-            sender.setTitle(item, for: UIControl.State())
-            self.officeLoCId = officeLocArray[index - 1].schoolID
+            sender.setTitle("  \(item)", for: UIControl.State())
+            if item != "Select"
+            {
+                self.officeLoCId = officeLocArray[index - 1].schoolID
+            }
             dropDown.hide()
         }
     }
     
     @IBAction func addMemberBtnAction(_ sender: UIButton) {
-      //  guard validation() else {return}
+        guard validation() else {return}
         let parameters : [String : Any] = [
             "employeeName": txt_FirstName.text ?? "",
             "fathername": "",
@@ -148,7 +161,7 @@ class AddmemberVC: UIViewController {
             "designation": [
                 "id": Int(designationId ?? "0")!
             ],
-
+            
             "officeMaster": [
                 "id": Int(officeLoCId ?? "0")!
             ],
@@ -156,7 +169,7 @@ class AddmemberVC: UIViewController {
             "photopath":"",
             "id":NSNull(),
             "employeeId":txt_EmployeeId.text ?? ""
-            ]
+        ]
         print(parameters)
         NetworkRequest.makeRequest(type: AddEmpContactStruct.self, urlRequest: Router.addEmpContact(parameters: parameters)) { [weak self](result) in
             guard let self = self else {return}
@@ -181,15 +194,28 @@ class AddmemberVC: UIViewController {
         guard txt_EmployeeId.text?.trim().count != 0 else {self.showAlert(message: "Please Enter Employee Id");return false}
         guard txt_MobileNumber.text?.trim().count != 0 else {self.showAlert(message: "Please Enter MobileNumber");return false}
         guard txt_Email.text?.trim().count != 0 else {self.showAlert(message: "Please Enter Email");return false}
-        guard btn_BloodGroup.currentTitle != "Select" else {self.showAlert(message: "Please Select Blood Group");return false}
-        guard btn_Gender.currentTitle != "Select" else {self.showAlert(message: "Please Select Gender");return false}
-        guard btn_Designation.currentTitle != "Select" else {self.showAlert(message: "Please Select Designation");return false}
-        guard btn_Office.currentTitle != "Select" else {self.showAlert(message: "Please Select Office");return false}
+        guard self.isValidEmail(emailStr: txt_Email.text!) else {self.showAlert(message: "Please Enter Valid Email");return false}
+        guard btn_BloodGroup.currentTitle?.trim() != "Select" else {self.showAlert(message: "Please Select Blood Group");return false}
+        guard btn_Gender.currentTitle?.trim() != "Select" else {self.showAlert(message: "Please Select Gender");return false}
+        guard btn_Designation.currentTitle?.trim() != "Select" else {self.showAlert(message: "Please Select Designation");return false}
+        guard btn_Office.currentTitle?.trim() != "Select" else {self.showAlert(message: "Please Select Office");return false}
         return true
     }
 }
 
-
+extension AddmemberVC : UITextFieldDelegate
+{
+    
+  //MARK:- TextField Delegate
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let maxLength = 10
+        let currentString: NSString = (textField.text ?? "") as NSString
+        let newString: NSString =
+            currentString.replacingCharacters(in: range, with: string) as NSString
+        return newString.length <= maxLength
+        
+    }
+}
 
 ///
 // MARK: - OfficeDetailsStruct
@@ -198,8 +224,8 @@ struct OfficeLocationsDetailsStruct: Codable {
     let statusMessage: String?
     let statusCode: Int?
     let data: [Datum]?
- 
-
+    
+    
     enum CodingKeys: String, CodingKey {
         case success
         case statusMessage = "status_Message"
@@ -212,7 +238,7 @@ struct OfficeLocationsDetailsStruct: Codable {
         let address, schoolID, schoolName, officeTypeID: String?
         let email: String?
         let phoneno: String?
-
+        
         enum CodingKeys: String, CodingKey {
             case officeType = "office_type"
             case address
@@ -247,8 +273,8 @@ struct DesignationMasterStruct: Codable {
     let statusMessage: String?
     let statusCode: Int?
     let data: [Datum]?
-  
-
+    
+    
     enum CodingKeys: String, CodingKey {
         case success
         case statusMessage = "status_Message"
@@ -259,7 +285,7 @@ struct DesignationMasterStruct: Codable {
     // MARK: - Datum
     struct Datum: Codable {
         let desgName, desgID: String
-
+        
         enum CodingKeys: String, CodingKey {
             case desgName = "desg_name"
             case desgID = "desg_id"
@@ -276,6 +302,6 @@ struct AddEmpContactStruct : Codable {
         case success
         case statusMessage = "status_Message"
         case statusCode = "status_Code"
-
+        
     }
 }
