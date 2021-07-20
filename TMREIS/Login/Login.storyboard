@@ -180,7 +180,7 @@
                                             <action selector="loginbtnClick:" destination="tD2-r2-arB" eventType="touchUpInside" id="CLJ-CM-NUx"/>
                                         </connections>
                                     </button>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="8074847146" borderStyle="roundedRect" placeholder="Mobile Number" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3tI-5S-9Kw">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Mobile Number" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3tI-5S-9Kw">
                                         <rect key="frame" x="8" y="8" width="398" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="UJw-bl-wrO"/>
@@ -579,31 +579,60 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tmreis_logo" translatesAutoresizingMaskIntoConstraints="NO" id="fXq-yf-LGS">
-                                <rect key="frame" x="107" y="388" width="200" height="120"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="Bfv-gN-Fcd"/>
-                                    <constraint firstAttribute="height" constant="120" id="g8d-tF-wvF"/>
-                                </constraints>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backgrounImg" translatesAutoresizingMaskIntoConstraints="NO" id="Jwb-o7-XEJ">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Telangana Minorities Residential Educational Institutions Society)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ydG-S3-ob2">
-                                <rect key="frame" x="42" y="524" width="330" height="31.5"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
-                                <color key="textColor" red="0.25098039220000001" green="0.61176470589999998" blue="0.41568627450000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fdN-dw-qxz">
+                                <rect key="frame" x="0.0" y="818" width="414" height="44"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZrT-wk-bBm">
+                                        <rect key="frame" x="359" y="7.5" width="30" height="29"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                        <state key="normal" title="Skip">
+                                            <color key="titleColor" name="Logogreen"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="skipClicked:" destination="FyE-rN-9Db" eventType="touchUpInside" id="3Qh-4t-1ea"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="neL-PG-qBo">
+                                        <rect key="frame" x="18" y="7.5" width="76" height="29"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                        <state key="normal" title="NeverShow">
+                                            <color key="titleColor" name="LogoPink"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="neverShowClicked:" destination="FyE-rN-9Db" eventType="touchUpInside" id="Dec-se-cSi"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="2aD-wU-nFr"/>
+                                    <constraint firstAttribute="trailing" secondItem="ZrT-wk-bBm" secondAttribute="trailing" constant="25" id="WqU-Cq-vmj"/>
+                                    <constraint firstItem="ZrT-wk-bBm" firstAttribute="centerY" secondItem="fdN-dw-qxz" secondAttribute="centerY" id="bfE-6I-9b7"/>
+                                    <constraint firstItem="neL-PG-qBo" firstAttribute="centerY" secondItem="fdN-dw-qxz" secondAttribute="centerY" id="fgN-Cg-uea"/>
+                                    <constraint firstItem="neL-PG-qBo" firstAttribute="leading" secondItem="fdN-dw-qxz" secondAttribute="leading" constant="18" id="yOr-Bz-iW0"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="tbJ-3o-vd3"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="ydG-S3-ob2" firstAttribute="top" secondItem="fXq-yf-LGS" secondAttribute="bottom" constant="16" id="BJh-iJ-OvJ"/>
-                            <constraint firstItem="fXq-yf-LGS" firstAttribute="centerX" secondItem="RVz-X4-7cF" secondAttribute="centerX" id="UvB-ku-n1u"/>
-                            <constraint firstItem="tbJ-3o-vd3" firstAttribute="trailing" secondItem="ydG-S3-ob2" secondAttribute="trailing" constant="42" id="gDO-37-rBa"/>
-                            <constraint firstItem="ydG-S3-ob2" firstAttribute="leading" secondItem="tbJ-3o-vd3" secondAttribute="leading" constant="42" id="klF-r5-myg"/>
-                            <constraint firstItem="fXq-yf-LGS" firstAttribute="centerY" secondItem="RVz-X4-7cF" secondAttribute="centerY" id="v3J-Zq-xg0"/>
+                            <constraint firstItem="Jwb-o7-XEJ" firstAttribute="top" secondItem="tbJ-3o-vd3" secondAttribute="top" id="Fao-sm-2d9"/>
+                            <constraint firstItem="tbJ-3o-vd3" firstAttribute="trailing" secondItem="Jwb-o7-XEJ" secondAttribute="trailing" id="Fer-UU-f1K"/>
+                            <constraint firstItem="fdN-dw-qxz" firstAttribute="leading" secondItem="tbJ-3o-vd3" secondAttribute="leading" id="IrW-9T-OJu"/>
+                            <constraint firstItem="fdN-dw-qxz" firstAttribute="bottom" secondItem="tbJ-3o-vd3" secondAttribute="bottom" id="LRu-iI-1eF"/>
+                            <constraint firstItem="Jwb-o7-XEJ" firstAttribute="leading" secondItem="tbJ-3o-vd3" secondAttribute="leading" id="eLj-9o-Lsg"/>
+                            <constraint firstItem="tbJ-3o-vd3" firstAttribute="bottom" secondItem="Jwb-o7-XEJ" secondAttribute="bottom" id="ilv-On-YaF"/>
+                            <constraint firstItem="fdN-dw-qxz" firstAttribute="trailing" secondItem="tbJ-3o-vd3" secondAttribute="trailing" id="kSD-84-xMf"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="hrk-lN-WUa"/>
+                    <connections>
+                        <outlet property="neverShowBottomAnchor" destination="LRu-iI-1eF" id="Kxj-08-Kcy"/>
+                        <outlet property="neverShowContainerView" destination="fdN-dw-qxz" id="xqO-AX-min"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5UR-NQ-b18" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -629,6 +658,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="backgrounImg" width="360" height="625"/>
         <image name="tmreis_logo" width="300" height="300"/>
         <namedColor name="LogoPink">
             <color red="0.76099997758865356" green="0.13699999451637268" blue="0.47099998593330383" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

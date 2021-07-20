@@ -36,8 +36,11 @@ class HomeVC: UIViewController  {
     var districts : [String]?
     
     //DiffableDatasource start
+    @available(iOS 13.0, *)
     typealias DataSource = UITableViewDiffableDataSource<Section ,ContactDetailsStruct.Contact>
+    @available(iOS 13.0, *)
     typealias SnapShot = NSDiffableDataSourceSnapshot<Section ,ContactDetailsStruct.Contact>
+    @available(iOS 13.0, *)
     public lazy var dataSource = makeDataSource()
     //DiffableDatasource End
     var randomColors : [UIColor] = [.systemRed , .systemBlue , .systemOrange ,.systemGreen , .systemPink]
@@ -50,7 +53,12 @@ class HomeVC: UIViewController  {
         tableView.separatorColor = .clear
         self.filteredContactArray = contactsArray
         //  debugPrint(filteredContactArray)
-        applySnapShot(array: contactsArray! , animating: false)
+        if #available(iOS 13.0, *) {
+            applySnapShot(array: contactsArray ?? [] , animating: false)
+        } else {
+            // Fallback on earlier versions
+            tableView.reloadData()
+        }
         // tableView.reloadData()
         // self.addFilterButton()
         title = "Contacts"
@@ -89,7 +97,7 @@ class HomeVC: UIViewController  {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HomeTBCell") as! HomeTBCell
         let item = filteredContactArray?[row]
         cell.empNameLb.text = item?.empName
-        cell.designation.text = item?.empDesignation
+        cell.designation.text = "\(item?.empDesignation ?? "") , \(item?.district ?? "")"
         cell.usrInitialLetterLb.text = String(item?.empName?.uppercased().prefix(1) ?? "")
         cell.usrInitialLetterLb.backgroundColor = randomColors[row % 5]
         
@@ -140,54 +148,7 @@ class HomeVC: UIViewController  {
         }
         present(vc, animated: true, completion: nil)
     }
-    //  func addPlusButton(){
-    //    let floaty = Floaty()
-    //    floaty.buttonImage = UIImage(named: "plus")
-    //    floaty.itemTitleColor = .green
-    //    floaty.buttonColor = #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)
-    //    floaty.overlayColor = UIColor.white.withAlphaComponent(0.8)
-    //    floaty.plusColor = .white
-    //    floaty.addItem("", icon: UIImage(named: "addmember")!, handler: {[unowned self] item in
-    //      let vc = storyboards.Officer.instance.instantiateViewController(withIdentifier: "AddmemberVC") as! AddmemberVC
-    //      self.navigationController?.pushViewController(vc, animated: true)//            self.tableViewDataSource = self.reports?.filter { $0.pendingApprove == "2"}
-    //      //            self.tableView.reloadData()
-    //
-    //    })
-    //    floaty.addItem("", icon: UIImage(named: "broadcast")!, handler: {[unowned self]  item in
-    //      let vc = storyboards.Officer.instance.instantiateViewController(withIdentifier: "BroadcastVC") as! BroadcastVC
-    //      self.navigationController?.pushViewController(vc, animated: true)//
-    //      //            self.tableViewDataSource = self.reports?.filter { $0.pendingApprove == "1"}
-    //      //            // debugPrint(self.tableViewDataSource?.count)
-    //      //            self.tableView.reloadData()
-    //    })
-    //
-    //    floaty.items.forEach { (item) in
-    //      switch item.icon {
-    //      case   UIImage(named: "addmember"):
-    //        item.titleColor =  .green
-    //        // item.titleLabel.backgroundColor = .green
-    //        item.titleLabel.font = UIFont.systemFont(ofSize: 14.0)
-    //        item.icon = UIImage(named: "broadcast")
-    //        item.hasShadow = false
-    //        item.titleLabel.textAlignment = .right
-    //        item.buttonColor = .systemPink
-    //      case UIImage(named: "broadcast"):
-    //        item.titleColor = UIColor.darkGray
-    //        // item.titleLabel.backgroundColor = .green
-    //        item.titleLabel.font = UIFont.systemFont(ofSize: 14.0)
-    //        item.icon = UIImage(named: "broadcast")
-    //        item.hasShadow = false
-    //        item.titleLabel.textAlignment = .right
-    //        item.buttonColor = .systemPink
-    //
-    //      case .none:
-    //        debugPrint("")
-    //      case .some(_):
-    //        debugPrint("")
-    //      }
-    //    }
-    //    self.view.addSubview(floaty)
-    //  }
+
 }
 extension HomeVC : UITableViewDataSource , UITableViewDelegate
 {
@@ -202,6 +163,12 @@ extension HomeVC : UITableViewDataSource , UITableViewDelegate
         tableView.deselectRow(at: indexPath, animated: true)
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "SinglecontactDetailsVC") as! SinglecontactDetailsVC
         vc.contactDetails = filteredContactArray?[indexPath.row]
+        vc.editBtnCompletion = {[unowned self] (flag) in
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "UpdateProfileDetailsVC") as! UpdateProfileDetailsVC
+            vc.isCurrentUser = false
+            vc.contactDetail = filteredContactArray?[indexPath.row]
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
         //    vc.definesPresentationContext = false
         vc.view.backgroundColor = UIColor.clear
         if #available(iOS 13.0, *) {
@@ -209,7 +176,7 @@ extension HomeVC : UITableViewDataSource , UITableViewDelegate
         } else {
             // Fallback on earlier versions
         }
-        vc.modalTransitionStyle = .flipHorizontal
+        vc.modalTransitionStyle = .coverVertical
         present(vc, animated: true, completion: nil)
     }
  

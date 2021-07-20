@@ -85,8 +85,8 @@ class BroadcastVC: UIViewController,UITextViewDelegate {
         }
     }
     @IBAction func submitBtnClicked(_ sender: UIButton) {
-        guard subjectTF.text?.trim() != "" else {self.showAlert(message: "Yoy can't send message without subject");return}
-        guard textView.text?.trim() != "" else {self.showAlert(message: "Yoy can't send empty message");return}
+        guard subjectTF.text?.trim() != "" else {self.showAlert(message: "You can't send message without subject");return}
+        guard textView.text?.trim() != "" else {self.showAlert(message: "You can't send empty message");return}
         containerViewBottomAnchor.constant = 8
         UIView.animate(withDuration: 0.250) {
             self.view.layoutIfNeeded()
@@ -170,6 +170,13 @@ class BroadcastVC: UIViewController,UITextViewDelegate {
             
             case .success(let data):
                 guard data.statusCode == 200 else {self.showAlert(message: data.statusMessage ?? serverNotResponding);return}
+             
+                self.showAlert(message: data.statusMessage ?? serverNotResponding){
+                    self.subjectTF.text = nil
+                    self.textView.text = nil
+                    self.view.endEditing(true)
+                    self.charCountLb.text = "0/350"
+                }
             case .failure(let err):
                 print(err.localizedDescription)
                 self.showAlert(message: err.localizedDescription)

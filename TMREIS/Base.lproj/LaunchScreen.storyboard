@@ -4,7 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,28 +17,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tmreis_logo" translatesAutoresizingMaskIntoConstraints="NO" id="f0r-lR-3QB">
-                                <rect key="frame" x="103.5" y="289.5" width="207" height="207"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="f0r-lR-3QB" secondAttribute="height" multiplier="1:1" id="Wlb-ZP-FZh"/>
-                                </constraints>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backgrounImg" translatesAutoresizingMaskIntoConstraints="NO" id="xSU-M9-sCI">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(Telangana Minorities Residential Educational Institutions Society)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vgc-y1-4QG">
-                                <rect key="frame" x="8" y="504.5" width="398" height="41"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                <color key="textColor" name="Logogreen"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
-                            <constraint firstItem="Vgc-y1-4QG" firstAttribute="top" secondItem="f0r-lR-3QB" secondAttribute="bottom" constant="8" id="39L-z5-OwC"/>
-                            <constraint firstItem="Vgc-y1-4QG" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="8" id="8Lq-a6-kTN"/>
-                            <constraint firstItem="f0r-lR-3QB" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="chO-eW-jwK"/>
-                            <constraint firstItem="f0r-lR-3QB" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="0.5" id="dwW-6A-YDO"/>
-                            <constraint firstAttribute="trailing" secondItem="Vgc-y1-4QG" secondAttribute="trailing" constant="8" id="fLs-zW-5u4"/>
-                            <constraint firstItem="f0r-lR-3QB" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" constant="-60" id="kpD-MS-pgs"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="xSU-M9-sCI" secondAttribute="trailing" id="6WO-BX-Oi0"/>
+                            <constraint firstItem="xSU-M9-sCI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="NPI-YG-M5m"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="xSU-M9-sCI" secondAttribute="bottom" id="NcE-Rr-7RT"/>
+                            <constraint firstItem="xSU-M9-sCI" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="mVF-Rn-3E7"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -49,10 +37,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="tmreis_logo" width="300" height="300"/>
-        <namedColor name="Logogreen">
-            <color red="0.2669999897480011" green="0.60000002384185791" blue="0.40000000596046448" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
+        <image name="backgrounImg" width="360" height="625"/>
         <systemColor name="systemGray6Color">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

@@ -127,13 +127,13 @@ class DashboardVC: UIViewController {
     @objc func schoolsViewClicked(_ gesture : UITapGestureRecognizer)
     {
         debugPrint("schoolsViewClicked")
-        navigateToContactVc(dataNotAvailableMsg: "Schools", entity: .Schools_Entity)
+        navigateToSchoolCollegeVC(dataNotAvailableMsg: "Schools", entity: .Schools_Entity)
         
     }
     @objc func collegesViewClicked(_ gesture : UITapGestureRecognizer)
     {
         debugPrint("collegesViewClicked")
-        navigateToContactVc(dataNotAvailableMsg: "Colleges", entity: .Colleges_Entity)
+        navigateToSchoolCollegeVC(dataNotAvailableMsg: "Colleges", entity: .Colleges_Entity)
     }
     @objc func distAdminViewClicked(_ gesture : UITapGestureRecognizer)
     {
@@ -154,6 +154,21 @@ class DashboardVC: UIViewController {
         if let contactData = CoreDataManager.manager.getEntityData(type: ContactDetailsStruct.self, entityName: entity)
         {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
+            vc.contactsArray = contactData.data
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "DownloadMastersVC") as! DownloadMastersVC
+            let navVc = UINavigationController(rootViewController: vc)
+            self.showAlert(message: "Data not available for \(dataNotAvailableMsg) Please Download") {
+                self.sideMenuController?.setContentViewController(to: navVc)
+            }
+        }
+    }
+    func navigateToSchoolCollegeVC(dataNotAvailableMsg : String ,entity : CoreDataEntity){
+        if let contactData = CoreDataManager.manager.getEntityData(type: ContactDetailsStruct.self, entityName: entity)
+        {
+           // print(contactData)
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "SchoolCollegeVC") as! SchoolCollegeVC
             vc.contactsArray = contactData.data
             self.navigationController?.pushViewController(vc, animated: true)
         }else {

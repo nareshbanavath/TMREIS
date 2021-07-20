@@ -8,15 +8,51 @@
 import UIKit
 
 class SplashVC: UIViewController {
+    
+    @IBOutlet weak var neverShowContainerView: UIView!
+    @IBOutlet weak var neverShowBottomAnchor: NSLayoutConstraint!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //  debugPrint("helllo")
        // self.versionCheck()
+        
+        if UserDefaults.standard.value(forKey: "neverShowView") != nil
+        {
+            neverShowBottomAnchor.constant = 80
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
+                self.navigateToSignInVC()
+            }
+           
+        }
+        else{
+            neverShowBottomAnchor.constant = 0
+        }
+   
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.navigationController?.navigationBar.isHidden = false
+    }
+    @IBAction func neverShowClicked(_ sender: UIButton) {
+        UserDefaults.standard.setValue("neverShow", forKey: "neverShowView")
+        navigateToSignInVC()
+    }
+    
+    @IBAction func skipClicked(_ sender: UIButton) {
+        navigateToSignInVC()
+    }
+    func navigateToSignInVC()
+    {
         let vc = storyboards.Login.instance.instantiateViewController(withIdentifier: "SigninSwipeupVC") as! SigninSwipeupVC
         self.navigationController?.pushViewController(vc, animated: true)
     }
-
-func versionCheck() {
+    func versionCheck() {
     guard Reachability.isConnectedToNetwork() else {self.showAlert(message: noInternet);return}
     NetworkRequest.makeRequest(type: VersionCheckModel.self, urlRequest: Router.versionCheck, completion: { [weak self](result) in
         switch result{

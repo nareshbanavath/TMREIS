@@ -34,6 +34,7 @@ class MenuVC: UIViewController {
              TBLViewItem(labelName: "Download Masters", iconName: "dataStore", storyBoardName: "Officer", vcName: "DownloadMastersVC"),
              TBLViewItem(labelName: "Add contact", iconName: "addmember", storyBoardName: "Officer", vcName: "AddmemberVC"),
              TBLViewItem(labelName: "Edit Profile", iconName: "edit", storyBoardName: "Officer", vcName: "UpdateProfileDetailsVC"),
+            TBLViewItem(labelName: "Privacy Policy", iconName: "privacy", storyBoardName: "Officer", vcName: "PrivacySwipeVC"),
              TBLViewItem(labelName: "Broadcast", iconName: "broadcast", storyBoardName: "Officer", vcName: "BroadcastVC"),
              TBLViewItem(labelName: "Logout", iconName: "logout", storyBoardName: "Officer", vcName: "HomeVC")
          ]

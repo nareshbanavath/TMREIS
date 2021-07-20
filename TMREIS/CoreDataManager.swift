@@ -161,10 +161,21 @@ class CoreDataManager
          let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName.rawValue)
   
               do {
-                guard let fetchResult = try context.fetch(fetchRequest) as? [NSManagedObject] else {return nil}
+                guard var fetchResult = try context.fetch(fetchRequest) as? [NSManagedObject] else {return nil}
                // debugPrint(fetchResult.count)
                   guard fetchResult.count > 0 else {return nil}
-                guard let last = fetchResult.last else {return nil}
+                print("fetch Results Count Before : - \(fetchResult.count)")
+                if fetchResult.count > 1
+                {
+                    context.delete(fetchResult.first!)
+                    saveContext()
+                    if let fetchResult1 = try context.fetch(fetchRequest) as? [NSManagedObject]
+                    {
+                        fetchResult = fetchResult1
+                    }
+                }
+                print("fetch Results Count after : - \(fetchResult.count)")
+                guard let last = fetchResult.first else {return nil}
                 var data  : Data!
                 switch last {
                 case is Schools_Entity:
@@ -200,9 +211,6 @@ class CoreDataManager
                 default:
                     return nil
                 }
-             
-
-
                   guard let taskStatusData = try? JSONDecoder().decode(T.self, from: data) else {fatalError()}
                   return taskStatusData
                  // debugPrint(jsonStruct)

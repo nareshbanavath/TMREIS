@@ -13,7 +13,12 @@ class DownloadMastersVC: UIViewController {
         didSet{
             dashContainerViews.forEach { (view) in
                 view.layer.cornerRadius = view.frame.width / 2
-                view.backgroundColor = .systemGray5
+                if #available(iOS 13.0, *) {
+                    view.backgroundColor = .systemGray5
+                } else {
+                    // Fallback on earlier versions
+                    view.backgroundColor = UIColor.lightGray
+                }
             }
         }
     }

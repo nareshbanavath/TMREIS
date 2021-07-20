@@ -61,7 +61,7 @@ enum Router:URLRequestConvertible{
   case loginWithMobileNo(usertype : String ,mobileNumber : String,deviceId: String, IMEI: String, fcmToken: String,deviceType: String)
   case validateMpin(userId:String, mpin:String , fcmToken:String)
   case getContactDetails(schoolTypeId : String)
-  case getDesignationMasterDetails
+  case getDesignationMasterDetails(schoolTypeId : String)
   case getOfficeLocationDetails
   case addEmpContact(parameters : Parameters)
   case updateEmpContact(parameters : Parameters)
@@ -227,13 +227,23 @@ enum Router:URLRequestConvertible{
       urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
       urlRequest.setValue(schoolTypeId, forHTTPHeaderField:"schoolTypeId")
       urlRequest = try JSONEncoding.default.encode(urlRequest)
-    case .getDesignationMasterDetails , .getOfficeLocationDetails:
+    case .getOfficeLocationDetails:
       let pathString = path
       urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
       urlRequest.httpMethod = method.rawValue
       guard let token = UserDefaultVars.loginData?.data?.token else {fatalError("token not availabel")}
      // debugPrint("token :- \(token)")
       urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
+      urlRequest = try JSONEncoding.default.encode(urlRequest)
+        
+    case .getDesignationMasterDetails(let schoolTypeId):
+      let pathString = path
+      urlRequest = URLRequest(url: url.appendingPathComponent(pathString))
+      urlRequest.httpMethod = method.rawValue
+      guard let token = UserDefaultVars.loginData?.data?.token else {fatalError("token not availabel")}
+     // debugPrint("token :- \(token)")
+      urlRequest.setValue(token, forHTTPHeaderField:"Auth_Token")
+        urlRequest.setValue(schoolTypeId, forHTTPHeaderField:"schoolTypeId")
       urlRequest = try JSONEncoding.default.encode(urlRequest)
         
         

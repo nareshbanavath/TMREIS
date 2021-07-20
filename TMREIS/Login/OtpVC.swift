@@ -18,6 +18,7 @@ class OtpVC: UIViewController {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
         self.navigationController?.navigationItem.hidesBackButton = true
+        mobilenoLb.text = "Enter 6 digit OTP sent to ******\(String(describing: self.mobileNumber!.suffix(4)))"
     }
     @IBAction func resendotpBtnClick(_ sender: Any) {
         self.LoginWSwithUserName()

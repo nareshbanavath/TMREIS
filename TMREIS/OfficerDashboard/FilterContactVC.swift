@@ -15,7 +15,8 @@ enum FilterKey : String
 }
 class FilterContactVC: UIViewController {
 
-  var completion : ((FilterKey , _ value : String)->())?
+    @IBOutlet weak var designationBtn: UIButton!
+    var completion : ((FilterKey , _ value : String)->())?
   var designationDataSource : [String]?
   var districtsDataSource : [String]?
   let dropDown = DropDown()

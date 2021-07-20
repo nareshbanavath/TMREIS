@@ -10,6 +10,7 @@ import DropDown
 
 class AddmemberVC: UIViewController {
     
+    //MARK:- Properties
     @IBOutlet weak var txt_EmployeeId: UITextField!
     @IBOutlet weak var txt_LastName: UITextField!
     @IBOutlet weak var txt_FirstName: UITextField!
@@ -37,7 +38,7 @@ class AddmemberVC: UIViewController {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = false
         self.title = "Add Contact"
-        getDesignationOfficeDetails()
+       getOfficeLocationDetails()
         
         setupBackButton()
     }
@@ -50,101 +51,81 @@ class AddmemberVC: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
         
     }
+    
     //MARK:- Service Calls
-    func getDesignationOfficeDetails()
+    func getOfficeLocationDetails()
     {
-        let dispatchGroup = DispatchGroup()
-        
-        dispatchGroup.enter()
-        guard Reachability.isConnectedToNetwork() else {self.showAlert(message: noInternet);return}
-        NetworkRequest.makeRequest(type: DesignationMasterStruct.self, urlRequest: Router.getDesignationMasterDetails) { [weak self](result) in
-            dispatchGroup.leave()
-            switch result
-            {
-            case .success(let data):
-                //debugPrint(data.data?.count)
-                self?.designationArray = data.data ?? []
-            case .failure(let err):
-                debugPrint(err.localizedDescription)
-            }
-        }
-        dispatchGroup.enter()
         guard Reachability.isConnectedToNetwork() else {self.showAlert(message: noInternet);return}
         NetworkRequest.makeRequest(type: OfficeLocationsDetailsStruct.self, urlRequest: Router.getOfficeLocationDetails) { [weak self](result) in
-            dispatchGroup.leave()
+           
             switch result
             {
             case .success(let data):
-                // debugPrint(data.data?.count)
+                guard data.statusCode == 200 else {self?.showAlert(message: data.statusMessage ?? serverNotResponding);return}
+               // debugPrint(data.data?.count)
                 self?.officeLocArray = data.data ?? []
             case .failure(let err):
                 debugPrint(err.localizedDescription)
             }
         }
         
-        dispatchGroup.notify(queue: .main){
-            print("All Tasks Finished")
-        }
     }
     
+    func getDesignationDetails(schoolTypeId : String)
+    {
+        guard Reachability.isConnectedToNetwork() else {self.showAlert(message: noInternet);return}
+        NetworkRequest.makeRequest(type: DesignationMasterStruct.self, urlRequest: Router.getDesignationMasterDetails(schoolTypeId: schoolTypeId)) { [weak self](result) in
+            switch result
+            {
+            case .success(let data):
+                print(data)
+                //debugPrint(data.data?.count)
+                self?.designationArray = data.data ?? []
+            case .failure(let err):
+                debugPrint(err.localizedDescription)
+            }
+        }
+    }
+    //MARK:- Helper Methods
+    
+    func handleDropDown(dataSource : [String] , sender : UIButton , didDropDownHidden : ((_ Index : Int)->())? = nil)
+    {
+        dropDown.dataSource = dataSource
+        dropDown.anchorView = sender
+        dropDown.show()
+        dropDown.selectionAction = { [unowned self](index : Int , item : String) in
+            debugPrint(item)
+            sender.setTitle("  \(item)", for: UIControl.State())
+            if item != "Select"
+            {
+                didDropDownHidden?(index)
+            }
+            dropDown.hide()
+        }
+    }
     //MARK:- IBAction
     
     @IBAction func bloodGroupBtnAction(_ sender: UIButton) {
         let dataSource = ["Select","A+" , "A-" , "B+" , "B-" , "O+" , "O-" , "AB+" , "AB-"]
-        dropDown.dataSource = dataSource
-        dropDown.anchorView = sender
-        dropDown.show()
-        dropDown.selectionAction = { [unowned self](index : Int , item : String) in
-            debugPrint(item)
-            sender.setTitle("  \(item)", for: UIControl.State())
-            
-            dropDown.hide()
-        }
+        handleDropDown(dataSource: dataSource, sender: sender)
     }
     @IBAction func genderBtnAction(_ sender: UIButton) {
         let dataSource = ["Select","Male" , "Female"]
-        dropDown.dataSource = dataSource
-        dropDown.anchorView = sender
-        dropDown.show()
-        dropDown.selectionAction = { [unowned self](index : Int , item : String) in
-         
-            sender.setTitle("  \(item)", for: UIControl.State())
-            
-            dropDown.hide()
-        }
+      handleDropDown(dataSource: dataSource, sender: sender)
     }
     @IBAction func designationBtnAction(_ sender: UIButton) {
         var dataSource = designationArray.map({$0.desgName})
         dataSource.insert("Select", at: 0)
-        dropDown.dataSource = dataSource
-        dropDown.anchorView = sender
-        dropDown.show()
-        dropDown.selectionAction = { [unowned self](index : Int , item : String) in
-            debugPrint(item)
-            sender.setTitle("  \(item)", for: UIControl.State())
-            if item != "Select"
-            {
-                self.designationId = designationArray[index - 1].desgID
-            }
-            
-            dropDown.hide()
+        handleDropDown(dataSource: dataSource, sender: sender){[unowned self] (index) in
+            self.designationId = designationArray[index - 1].desgID
         }
-        
     }
     @IBAction func officeBtnAction(_ sender: UIButton) {
         var dataSource = officeLocArray.map({$0.schoolName ?? ""})
         dataSource.insert("Select", at: 0)
-        dropDown.dataSource = dataSource
-        dropDown.anchorView = sender
-        dropDown.show()
-        dropDown.selectionAction = { [unowned self](index : Int , item : String) in
-            debugPrint(item)
-            sender.setTitle("  \(item)", for: UIControl.State())
-            if item != "Select"
-            {
-                self.officeLoCId = officeLocArray[index - 1].schoolID
-            }
-            dropDown.hide()
+        handleDropDown(dataSource: dataSource, sender: sender){[unowned self] (index) in
+            self.officeLoCId = officeLocArray[index - 1].schoolID
+            self.getDesignationDetails(schoolTypeId: officeLocArray[index - 1].officeTypeID ?? "")
         }
     }
     

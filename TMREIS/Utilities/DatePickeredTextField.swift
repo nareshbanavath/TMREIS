@@ -19,7 +19,11 @@ class DatePickeredTextField : UITextField
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupDatePicker()
-        setupIcon()
+        if #available(iOS 13.0, *) {
+            setupIcon()
+        } else {
+            // Fallback on earlier versions
+        }
     }
     func setupDatePicker()
     {
@@ -39,6 +43,7 @@ class DatePickeredTextField : UITextField
         toolBar.setItems([cancelBtn , flexibleSpace , doneBtn], animated: true)
         inputAccessoryView = toolBar
     }
+    @available(iOS 13.0, *)
     func setupIcon()
     {
         let iconImageView = UIImageView(image: UIImage.init(systemName: "calendar"))

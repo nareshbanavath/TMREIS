@@ -44,10 +44,10 @@ class UpdateProfileDetailsVC: UIViewController {
         super.viewDidLoad()
         title = "Update Profile Details"
         setupBackButton()
-        getDesignationOfficeDetails()
+       
         
         if isCurrentUser
-        {
+        {   txt_EmployeeId.isEnabled = false
             profileImgView.superview?.isHidden = false
             btn_Designation.isEnabled = false
             btn_Office.isEnabled = false
@@ -78,6 +78,7 @@ class UpdateProfileDetailsVC: UIViewController {
             btn_Gender.setTitle(gender == "Select" ? "Select" : (gender == "M" ? "Male" : "Female"), for: UIControl.State())
             btn_Designation.setTitle(currentUsrData?.designation, for: UIControl.State())
             btn_Office.setTitle(currentUsrData?.location, for: UIControl.State())
+           getOfficeLocationDetails()
         }
         else
         {
@@ -97,53 +98,48 @@ class UpdateProfileDetailsVC: UIViewController {
             btn_Gender.setTitle(gender == "Select" ? "Select" : (gender == "M" ? "Male" : "Female"), for: UIControl.State())
             btn_Designation.setTitle(contactDetail?.empDesignation, for: UIControl.State())
             btn_Office.setTitle(contactDetail?.schoolName, for: UIControl.State())
-            
-         
-
+            getOfficeLocationDetails()
         }
 
         
         // Do any additional setup after loading the view.
     }
-    
+    //MARK:- Helper Method
     func settingOfficeDesignationIDs()
     {
-        guard btn_Office.currentTitle != "Select" , btn_Designation.currentTitle != "Select" else {return}
+        guard btn_Office.currentTitle?.lowercased() != "select" , btn_Designation.currentTitle?.lowercased() != "select" else {return}
         let office = btn_Office.currentTitle
-        let designation = btn_Designation.currentTitle
-       
         officeLocArray.forEach { (ofcLoc) in
             if ofcLoc.schoolName == office
             {
                 self.officeLoCId = ofcLoc.schoolID
+                self.getDesignationDetails(schoolTypeId: ofcLoc.officeTypeID ?? "")
             }
         }
-        designationArray.forEach { (desg) in
-            if desg.desgName == designation
-            {
-                self.designationId = desg.desgID
-            }
-        }
+  
        
     }
+    
+    func handleDropDown(dataSource : [String] , sender : UIButton , didDropDownHidden : ((_ Index : Int)->())? = nil)
+    {
+        dropDown.dataSource = dataSource
+        dropDown.anchorView = sender
+        dropDown.show()
+        dropDown.selectionAction = { [unowned self](index : Int , item : String) in
+            debugPrint(item)
+            sender.setTitle("  \(item)", for: UIControl.State())
+            if item != "Select"
+            {
+                didDropDownHidden?(index)
+            }
+            dropDown.hide()
+        }
+    }
     //MARK:- Service Calls
-    func getDesignationOfficeDetails()
+    func getOfficeLocationDetails()
     {
         let dispatchGroup = DispatchGroup()
-        
-        dispatchGroup.enter()
-        guard Reachability.isConnectedToNetwork() else {self.showAlert(message: noInternet);return}
-        NetworkRequest.makeRequest(type: DesignationMasterStruct.self, urlRequest: Router.getDesignationMasterDetails) { [weak self](result) in
-            dispatchGroup.leave()
-            switch result
-            {
-            case .success(let data):
-                //debugPrint(data.data?.count)
-                self?.designationArray = data.data ?? []
-            case .failure(let err):
-                debugPrint(err.localizedDescription)
-            }
-        }
+     
         dispatchGroup.enter()
         guard Reachability.isConnectedToNetwork() else {self.showAlert(message: noInternet);return}
         NetworkRequest.makeRequest(type: OfficeLocationsDetailsStruct.self, urlRequest: Router.getOfficeLocationDetails) { [weak self](result) in
@@ -151,6 +147,7 @@ class UpdateProfileDetailsVC: UIViewController {
             switch result
             {
             case .success(let data):
+               
                // debugPrint(data.data?.count)
                 self?.officeLocArray = data.data ?? []
             case .failure(let err):
@@ -164,60 +161,53 @@ class UpdateProfileDetailsVC: UIViewController {
         }
     }
     
+    func getDesignationDetails(schoolTypeId : String)
+    {
+        guard Reachability.isConnectedToNetwork() else {self.showAlert(message: noInternet);return}
+        NetworkRequest.makeRequest(type: DesignationMasterStruct.self, urlRequest: Router.getDesignationMasterDetails(schoolTypeId: schoolTypeId)) { [weak self](result) in
+            switch result
+            {
+            case .success(let data):
+                print(data)
+                //debugPrint(data.data?.count)
+                self?.designationArray = data.data ?? []
+                let designation = self?.btn_Designation.currentTitle
+                self?.designationArray.forEach { (desg) in
+                    if desg.desgName == designation
+                    {
+                        self?.designationId = desg.desgID
+                    }
+                }
+            case .failure(let err):
+                debugPrint(err.localizedDescription)
+            }
+        }
+    }
+    
     //MARK:- IBAction
     
     @IBAction func bloodGroupBtnAction(_ sender: UIButton) {
         let dataSource = ["Select","A+" , "A-" , "B+" , "B-" , "O+" , "O-" , "AB+" , "AB-"]
-        dropDown.dataSource = dataSource
-        dropDown.anchorView = sender
-        dropDown.show()
-        dropDown.selectionAction = { [unowned self](index : Int , item : String) in
-           // debugPrint(item)
-            sender.setTitle("  \(item)", for: UIControl.State())
-            dropDown.hide()
-        }
+        handleDropDown(dataSource: dataSource, sender: sender)
     }
     @IBAction func genderBtnAction(_ sender: UIButton) {
         let dataSource = ["Select","Male" , "Female"]
-        dropDown.dataSource = dataSource
-        dropDown.anchorView = sender
-        dropDown.show()
-        dropDown.selectionAction = { [unowned self](index : Int , item : String) in
-            debugPrint(item)
-            sender.setTitle("  \(item)", for: UIControl.State())
-            dropDown.hide()
-        }
+        handleDropDown(dataSource: dataSource, sender: sender)
     }
     @IBAction func designationBtnAction(_ sender: UIButton) {
         var dataSource = designationArray.map({$0.desgName})
         dataSource.insert("Select", at: 0)
         dropDown.dataSource = dataSource
-        dropDown.anchorView = sender
-        dropDown.show()
-        dropDown.selectionAction = { [unowned self](index : Int , item : String) in
-            debugPrint(item)
-            sender.setTitle("  \(item)", for: UIControl.State())
-            if index != 0{
-            self.designationId = designationArray[index - 1].desgID
-            }
-            
-            dropDown.hide()
+        handleDropDown(dataSource: dataSource, sender: sender) {[unowned self] (index) in
+            self.designationId = self.designationArray[index - 1].desgID
         }
-        
     }
     @IBAction func officeBtnAction(_ sender: UIButton) {
         var dataSource = officeLocArray.map({$0.schoolName ?? ""})
         dataSource.insert("Select", at: 0)
         dropDown.dataSource = dataSource
-        dropDown.anchorView = sender
-        dropDown.show()
-        dropDown.selectionAction = { [unowned self](index : Int , item : String) in
-            debugPrint(item)
-            sender.setTitle("  \(item)", for: UIControl.State())
-            if index != 0{
+        handleDropDown(dataSource: dataSource, sender: sender){[unowned self] (index) in
             self.officeLoCId = officeLocArray[index - 1].schoolID
-            }
-            dropDown.hide()
         }
     }
     
@@ -230,10 +220,12 @@ class UpdateProfileDetailsVC: UIViewController {
         else {
             updateID = Int(contactDetail?.empID ?? "0")
         }
+        let gender = btn_Gender.currentTitle?.trim() == "Male" ? "M" : "F"
         let parameters : [String : Any] = [
             "employeeName": txt_Name.text ?? "",
+            "employeeSurName" : "",
             "employeeEmail":txt_Email.text ?? "",
-            "gender":btn_Gender.currentTitle == "Male" ? "M" : "F",
+            "gender": gender,
             "phoneNumber":txt_MobileNumber.text ?? "",
             "designation": [
                 "id": Int(designationId ?? "0")!
@@ -243,7 +235,8 @@ class UpdateProfileDetailsVC: UIViewController {
                 "id": Int(officeLoCId ?? "0")!
             ],
             "bloodGroup": btn_BloodGroup.currentTitle ?? "",
-            "photopath": self.photoPath,
+//            "photopath": self.photoPath,
+            "photopath": "" ,
             "id":updateID ?? NSNull(),
             "employeeId":txt_EmployeeId.text ?? ""
         ]
@@ -256,8 +249,9 @@ class UpdateProfileDetailsVC: UIViewController {
                 guard data.statusCode == 200 else {
                     self.showAlert(message: data.statusMessage ?? serverNotResponding);return
                 }
-            
-                UserDefaultVars.loginData = data
+                if self.isCurrentUser == true{
+                    UserDefaultVars.loginData = data
+                }
                 self.showAlert(message: data.statusMessage ?? serverNotResponding)
                 {
                  
