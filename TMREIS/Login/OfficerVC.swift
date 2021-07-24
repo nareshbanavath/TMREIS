@@ -42,7 +42,7 @@ class OfficerVC: UIViewController , UITextFieldDelegate{
         {
         case 200 :
           UserDefaultVars.loginData = data
-          //  print(data)
+            print(data)
           if data.data?.mpin == "00" //mpin not set
           {
             let vc = self?.storyboard?.instantiateViewController(withIdentifier: "OtpVC") as! OtpVC

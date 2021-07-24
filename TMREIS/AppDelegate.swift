@@ -64,10 +64,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SideMenuController.preferences.basic.menuWidth = UIScreen.main.bounds.width * 0.7
         SideMenuController.preferences.basic.defaultCacheKey = "Officer"
         SideMenuController.preferences.basic.enablePanGesture = true
-      
-        
 
     }
+   // func openDashboard()
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         print("application registered for remote notifications")

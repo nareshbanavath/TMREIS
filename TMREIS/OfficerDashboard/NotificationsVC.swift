@@ -27,6 +27,7 @@ class NotificationsVC: UIViewController, UITableViewDataSource,DatePickeredTextF
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
+        tableView.tableFooterView = UIView()
         self.title = "Notifications"
         setupBackButton()
    

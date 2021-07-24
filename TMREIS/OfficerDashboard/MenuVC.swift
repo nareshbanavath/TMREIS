@@ -30,21 +30,21 @@ class MenuVC: UIViewController {
         self.menuArray = [
             //Services
             TBLViewItem(labelName: "Home", iconName: "home", storyBoardName: "Officer", vcName: "HomeVC"),
-             TBLViewItem(labelName: "Notifications", iconName: "comment", storyBoardName: "Officer", vcName: "NotificationsVC"),
-             TBLViewItem(labelName: "Download Masters", iconName: "dataStore", storyBoardName: "Officer", vcName: "DownloadMastersVC"),
-             TBLViewItem(labelName: "Add contact", iconName: "addmember", storyBoardName: "Officer", vcName: "AddmemberVC"),
-             TBLViewItem(labelName: "Edit Profile", iconName: "edit", storyBoardName: "Officer", vcName: "UpdateProfileDetailsVC"),
+            TBLViewItem(labelName: "Notifications", iconName: "comment", storyBoardName: "Officer", vcName: "NotificationsVC"),
+            TBLViewItem(labelName: "Download Masters", iconName: "dataStore", storyBoardName: "Officer", vcName: "DownloadMastersVC"),
+            TBLViewItem(labelName: "Add contact", iconName: "addmember", storyBoardName: "Officer", vcName: "AddmemberVC"),
+            TBLViewItem(labelName: "Edit Profile", iconName: "edit", storyBoardName: "Officer", vcName: "UpdateProfileDetailsVC"),
             TBLViewItem(labelName: "Privacy Policy", iconName: "privacy", storyBoardName: "Officer", vcName: "PrivacySwipeVC"),
-             TBLViewItem(labelName: "Broadcast", iconName: "broadcast", storyBoardName: "Officer", vcName: "BroadcastVC"),
-             TBLViewItem(labelName: "Logout", iconName: "logout", storyBoardName: "Officer", vcName: "HomeVC")
-         ]
+            TBLViewItem(labelName: "Broadcast", iconName: "broadcast", storyBoardName: "Officer", vcName: "BroadcastVC"),
+            TBLViewItem(labelName: "Logout", iconName: "logout", storyBoardName: "Officer", vcName: "HomeVC")
+        ]
         if UserDefaultVars.loginData?.data?.userType != "A" || !UserDefaultVars.RolesArray.contains("ROLE_ADMIN")
         {
             for _ in 0..<3{
-            menuArray.remove(at: 3)
+                menuArray.remove(at: 3)
             }
         }
-        }
+    }
     func pushViewController(item : TBLViewItem)
     {
         let VC = UIStoryboard(name: item.storyBoardName, bundle: nil).instantiateViewController(withIdentifier: item.vcName)
@@ -80,6 +80,14 @@ extension MenuVC : UITableViewDelegate , UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
        let item = menuArray[indexPath.row]
+        if item.labelName == "Home"
+        {
+            if let vc = UIStoryboard(name: "Officer", bundle: nil).instantiateInitialViewController()
+            {
+                self.view.window?.rootViewController = vc
+                self.view.window?.makeKeyAndVisible()
+            }
+        }
         if item.labelName == "Edit Profile"
         {
             let VC = UIStoryboard(name: item.storyBoardName, bundle: nil).instantiateViewController(withIdentifier: item.vcName) as! UpdateProfileDetailsVC
@@ -92,8 +100,9 @@ extension MenuVC : UITableViewDelegate , UITableViewDataSource{
         {
             self.showAlert(message: "Do you want to logout from app?", completion: {
                 self.resetDefaults()
-                guard let vc = storyboards.Login.instance.instantiateInitialViewController() else {debugPrint("unable to instantiate the class");return}
-                self.view.window?.rootViewController  = vc
+                 let vc = storyboards.Login.instance.instantiateViewController(withIdentifier: "SigninSwipeupVC")
+                let navVc = UINavigationController(rootViewController: vc)
+                self.view.window?.rootViewController  = navVc
 //                UserDefaults.standard.set(self.serverVersion,forKey: "serverVersion")
 //                 UserDefaults.standard.set(self.lastUpdatedDate,forKey: "lastUpdateddate")
                 

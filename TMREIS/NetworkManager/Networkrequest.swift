@@ -25,7 +25,7 @@ class NetworkRequest
             if let data = urlRequest.urlRequest?.httpBody {
                 if let jsondata = try? JSONSerialization.jsonObject(with: data, options: .allowFragments)
                 {
-                    print("parameters :- ", jsondata)
+                   // print("parameters :- ", jsondata)
                 }
             }
         }

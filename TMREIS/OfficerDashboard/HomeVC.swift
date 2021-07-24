@@ -170,11 +170,15 @@ extension HomeVC : UITableViewDataSource , UITableViewDelegate
             self.navigationController?.pushViewController(vc, animated: true)
         }
         //    vc.definesPresentationContext = false
-        vc.view.backgroundColor = UIColor.clear
+      
         if #available(iOS 13.0, *) {
+            vc.view.backgroundColor = UIColor.clear
             vc.modalPresentationStyle = .automatic
         } else {
             // Fallback on earlier versions
+          
+            vc.modalPresentationStyle = .fullScreen
+            vc.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         }
         vc.modalTransitionStyle = .coverVertical
         present(vc, animated: true, completion: nil)

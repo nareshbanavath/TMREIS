@@ -39,7 +39,7 @@ class UpdateProfileDetailsVC: UIViewController {
     var officeLoCId : String?
     var updateID : Int!
     lazy var dropDown = DropDown()
-    var photoPath = ""
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Update Profile Details"
@@ -59,11 +59,9 @@ class UpdateProfileDetailsVC: UIViewController {
             if let photoPath = currentUsrData?.photopath , photoPath != ""
             {
                 profileImgView.image = photoPath.convertBase64StringToImage()
-                self.photoPath = photoPath
+                // self.photoPath = photoPath
             }
-            else{
-                photoPath = ""
-            }
+         
            
             txt_Name.text = currentUsrData?.employeeName
             if let empId = currentUsrData?.empID
@@ -127,7 +125,7 @@ class UpdateProfileDetailsVC: UIViewController {
         dropDown.show()
         dropDown.selectionAction = { [unowned self](index : Int , item : String) in
             debugPrint(item)
-            sender.setTitle("  \(item)", for: UIControl.State())
+            sender.setTitle("\(item)", for: UIControl.State())
             if item != "Select"
             {
                 didDropDownHidden?(index)
@@ -220,6 +218,7 @@ class UpdateProfileDetailsVC: UIViewController {
         else {
             updateID = Int(contactDetail?.empID ?? "0")
         }
+        let phototpath : String = isCurrentUser == true ? profileImgView.image?.convertImageToBase64String() ?? "" : ""
         let gender = btn_Gender.currentTitle?.trim() == "Male" ? "M" : "F"
         let parameters : [String : Any] = [
             "employeeName": txt_Name.text ?? "",
@@ -235,8 +234,8 @@ class UpdateProfileDetailsVC: UIViewController {
                 "id": Int(officeLoCId ?? "0")!
             ],
             "bloodGroup": btn_BloodGroup.currentTitle ?? "",
-//            "photopath": self.photoPath,
-            "photopath": "" ,
+            "photopath": phototpath,
+         //   "photopath": "" ,
             "id":updateID ?? NSNull(),
             "employeeId":txt_EmployeeId.text ?? ""
         ]

@@ -30,7 +30,12 @@ class ImagePickeredView: UIImageView , UIImagePickerControllerDelegate , UINavig
     }
     
     func openActionSheet(options:[String],imagePicker:UIImagePickerController) -> Void {
-        let actionSheet = UIAlertController(title: "Please Choose an Option", message: nil, preferredStyle: .actionSheet)
+        var preferredStyle = UIAlertController.Style.actionSheet
+        if UIDevice.current.userInterfaceIdiom == .pad
+        {
+            preferredStyle = .alert
+        }
+        let actionSheet = UIAlertController(title: "Please Choose an Option", message: nil, preferredStyle: preferredStyle)
         let takePhotoAction = UIAlertAction(title: options[0], style: .default) { (takePhotoAction) in
             
             self.openCamera(imagePicker: imagePicker)

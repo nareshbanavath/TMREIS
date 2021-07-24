@@ -95,7 +95,7 @@ class AddmemberVC: UIViewController {
         dropDown.show()
         dropDown.selectionAction = { [unowned self](index : Int , item : String) in
             debugPrint(item)
-            sender.setTitle("  \(item)", for: UIControl.State())
+            sender.setTitle("\(item)", for: UIControl.State())
             if item != "Select"
             {
                 didDropDownHidden?(index)
